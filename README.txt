@@ -1,0 +1,1 @@
+projeto de sistema gerenciador de serviços de reciclagem
