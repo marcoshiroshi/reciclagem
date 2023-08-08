@@ -1,0 +1,47 @@
+{% extends '01_base/base.html' %}
+{% block main %}
+    <div class="row">
+        <div class="col-md-6 offset-3">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">Client</h4>
+                </div>
+                <div class="card-body">
+                    <form method="POST">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="exampleInputIconLeft">Name</label>
+                            <div class="input-group">
+                                <span class="input-group-text" id="basic-addon1"><span class="fas fa-id-card"></span></span>
+                                <input type="text" name="name" class="form-control" id="exampleInputIconLeft" placeholder="Full name">
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleInputIconLeft">Email</label>
+                            <div class="input-group">
+                                <span class="input-group-text" id="basic-addon1"><span class="fas fa-mail-bulk"></span></span>
+                                <input type="text" name="email" class="form-control" id="exampleInputIconLeft" placeholder="Email">
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleInputIconLeft">Fone</label>
+                            <div class="input-group">
+                                <span class="input-group-text" id="basic-addon1"><span class="fas fa-phone"></span></span>
+                                <input type="text" name="fone" class="form-control" id="exampleInputIconLeft" placeholder="Fone">
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleInputIconLeft">Adress</label>
+                            <div class="input-group">
+                                <span class="input-group-text" id="basic-addon1"><span class="fas fa-home"></span></span>
+                                <input type="text" name="adress" class="form-control" id="exampleInputIconLeft" placeholder="Adress">
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary float-right">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock main %}

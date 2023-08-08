@@ -1,0 +1,86 @@
+{% load static %}
+
+<!-- Core -->
+<script src="{% static 'vendor/popper.js/dist/umd/popper.min.js' %}"></script>
+<script src="{% static 'vendor/bootstrap/dist/js/bootstrap.min.js' %}"></script>
+
+<!-- Vendor JS -->
+<script src="{% static 'vendor/onscreen/dist/on-screen.umd.min.js' %}"></script>
+
+<!-- Slider -->
+<script src="{% static 'vendor/nouislider/distribute/nouislider.min.js' %}"></script>
+
+<!-- Jarallax -->
+<script src="{% static 'vendor/jarallax/dist/jarallax.min.js' %}"></script>
+
+<!-- Smooth scroll -->
+<script src="{% static 'vendor/smooth-scroll/dist/smooth-scroll.polyfills.min.js' %}"></script>
+
+<!-- Count up -->
+<script src="{% static 'vendor/countup.js/dist/countUp.umd.js' %}"></script>
+
+<!-- Notyf -->
+<script src="{% static 'vendor/notyf/notyf.min.js' %}"></script>
+
+<!-- Charts -->
+<script src="{% static 'vendor/chartist/dist/chartist.min.js' %}"></script>
+<script src="{% static 'vendor/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js' %}"></script>
+
+<!-- Datepicker -->
+<script src="{% static 'vendor/vanillajs-datepicker/dist/js/datepicker.min.js' %}"></script>
+
+<!-- ApexCharts -->
+<script src="{% static 'vendor/apexcharts/dist/apexcharts.min.js' %}"></script>
+
+<!-- Full Calendar -->
+<script src="{% static 'vendor/fullcalendar/main.min.js' %}"></script>
+
+<!-- Simplebar -->
+<script src="{% static 'vendor/simplebar/dist/simplebar.min.js' %}"></script>
+
+<!-- Github buttons -->
+<script async defer src="https://buttons.github.io/buttons.js"></script>
+
+<!-- Volt JS -->
+<script src="{% static 'assets/js/volt.js' %}"></script>
+
+<script>
+    {# for lineChart #}
+    {# https://themesberg.com/docs/volt-bootstrap-5-dashboard/plugins/apexcharts/ for more charts #}
+    {# https://themesberg.com/docs/volt-bootstrap-5-dashboard/getting-started/overview/ #}
+    var optionsLineChart = {
+        series: [{
+            name: 'Clients',
+            data: [120, 160, 200, 470, 420, 150, 470, 750, 650, 190, 140]
+        }],
+        labels: ['01 Feb', '02 Feb', '03 Feb', '04 Feb', '05 Feb', '06 Feb', '07 Feb', '08 Feb', '09 Feb', '10 Feb', '11 Feb'],
+        chart: {
+            type: 'area',
+            width: "100%",
+            height: 360
+        },
+        theme: {
+            monochrome: {
+                enabled: true,
+                color: '#31316A',
+            }
+        },
+        tooltip: {
+            fillSeriesColor: false,
+            onDatasetHover: {
+                highlightDataSeries: false,
+            },
+            theme: 'light',
+            style: {
+                fontSize: '12px',
+                fontFamily: 'Inter',
+            },
+        },
+    };
+
+    var lineChartEl = document.getElementById('line-chart-apex');
+    if (lineChartEl) {
+        var lineChart = new ApexCharts(lineChartEl, optionsLineChart);
+        lineChart.render();
+    }
+</script>

@@ -1,0 +1,50 @@
+<!--
+
+=========================================================
+* Volt - Bootstrap 5 Admin Dashboard
+=========================================================
+
+* Product Page: https://themesberg.com/product/admin-dashboard/volt-bootstrap-5-dashboard
+* Copyright 2020 Themesberg (https://www.themesberg.com)
+
+* Designed and coded by https://themesberg.com
+
+=========================================================
+
+* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software. Please contact us to request a removal.
+
+-->
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+{% include '01_base/partials/header.html' %}
+
+<body>
+
+        {% include '01_base/partials/navbar.html' %}
+
+        <div class="container-fluid bg-soft">
+            <div class="row">
+                <div class="col-12">
+
+                {% include '01_base/partials/side_menu.html' %}
+
+
+                    <main class="content">
+                        {% include '01_base/partials/navbar_main.html' %}
+                        {% block main %}
+                        {% endblock main %}
+                        {% include '01_base/partials/footer.html' %}
+                    </main>
+                </div>
+            </div>
+        </div>
+
+{% include '01_base/partials/all_js.html' %}
+
+{% block java_script %}{% endblock java_script %}
+
+</body>
+
+</html>
