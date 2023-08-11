@@ -2,6 +2,10 @@ from django.views.generic import TemplateView
 from django.template import loader
 
 
+class HomeView(TemplateView):
+    template_name = "01_base/home.html"
+
+
 class Framework(TemplateView):
     def get_template_names(self):
         path = self.request.path.replace("/framework", "")

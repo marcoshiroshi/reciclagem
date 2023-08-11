@@ -1,6 +1,7 @@
-from django.urls import re_path
-from core.views import Framework
+from django.urls import re_path, path
+from core.views import *
 
 urlpatterns = [
-    re_path(r'^.*\.*', Framework.as_view(), name='framework_dashboard')
+    path('', HomeView.as_view(), name="home"),
+    re_path(r'^.*\.*', Framework.as_view(), name='framework_dashboard'),
 ]

@@ -20,6 +20,13 @@
 
 {% include '00_framework/partials/header.html' %}
 
+{% block extra_css %}
+{#    <style>#}
+{#        html { overflow-y: scroll; }#}
+{#        .signin-inner { position: absolute; }#}
+{#    </style>#}
+{% endblock extra_css %}
+
 <body class="bg-soft">
     <main>
 
@@ -30,39 +37,72 @@
                     <div class="col-12 d-flex align-items-center justify-content-center">
                         <div class="signin-inner my-3 my-lg-0 bg-white shadow-soft border rounded border-light p-4 p-lg-5 w-100 fmxw-500">
                             <div class="text-center text-md-center mb-4 mt-md-0">
-                                <h1 class="mb-0 h3">Create an account</h1>
+                                <h1 class="mb-0 h3">Crie uma conta</h1>
                             </div>
-                            <form method="POST">
-                                {% csrf_token %}
-                                <div class="form-group mb-4">
-                                    <label for="email">Your Username</label>
-                                    <div class="input-group">
-                                        <span class="input-group-text" id="basic-addon3"><span class="fas fa-envelope"></span></span>
-                                        <input type="text" name="username" class="form-control" placeholder="example" id="email" autofocus required>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="form-group mb-4">
-                                        <label for="password">Your Password</label>
+{#                            <form method="POST">#}
+{#                                {% csrf_token %}#}
+                                <div class="row mt-3">
+                                    <div class="col">
+                                        <label for="{{ form.email.id_for_label }}">{{ form.email.label }}</label>
                                         <div class="input-group">
-                                            <span class="input-group-text" id="basic-addon4"><span class="fas fa-unlock-alt"></span></span>
-                                            <input type="password" name="password1" placeholder="Password" class="form-control" id="password" required>
-                                        </div>
-                                    </div>
-                                    <div class="form-group mb-4">
-                                        <label for="confirm_password">Confirm Password</label>
-                                        <div class="input-group">
-                                            <span class="input-group-text" id="basic-addon5"><span class="fas fa-unlock-alt"></span></span>
-                                            <input type="password" name="password2" placeholder="Confirm Password" class="form-control" id="confirm_password" required>
+                                            <span class="input-group-text" id="basic-addon3"><span class="fas fa-envelope"></span></span>
+                                            {{ form.email }}
                                         </div>
                                     </div>
                                 </div>
-                                <button type="submit" class="btn btn-block btn-primary">Sign in</button>
-                            </form>
+                                <div class="row mt-3">
+                                    <div class="col">
+                                        <label for="{{ form.first_name.id_for_label }}">{{ form.first_name.label }}</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text" id="basic-addon3"><span class="fas fa-user"></span></span>
+                                            {{ form.first_name }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mt-3">
+                                    <div class="col">
+                                        <label for="{{ form.last_name.id_for_label }}">{{ form.last_name.label }}</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text" id="basic-addon3"><span class="fas fa-user"></span></span>
+                                            {{ form.last_name }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mt-3">
+                                    <div class="col">
+                                        <label for="id_password1">Senha:</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text" id="basic-addon3"><span class="fas fa-lock"></span></span>
+                                            <input type="password" name="password1" class="form-control" placeholder="Senha" autocomplete="new-password" required="" id="id_password1">
+                                        </div>
+                                    </div>
+                                </div>
+{#                                <div class="row mt-3">#}
+{#                                    <div class="col">#}
+{#                                        <label for="id_password2">Confirmação de senha:</label>#}
+{#                                        <div class="input-group">#}
+{#                                            <span class="input-group-text" id="basic-addon3"><span class="fas fa-lock"></span></span>#}
+{#                                            <input type="password" name="password2" class="form-control" placeholder="Senha" autocomplete="new-password" required="" id="id_password2">#}
+{#                                        </div>#}
+{#                                        <span class="helptext">Digite a mesma senha de antes, para verificação.</span>#}
+{#                                    </div>#}
+{#                                </div>#}
+{#                                <div class="row mt-3">#}
+{#                                    <div class="col">#}
+{#                                        <ul>#}
+{#                                            <li>Sua senha não pode ser muito semelhante às suas outras informações pessoais.</li>#}
+{#                                            <li>Sua senha deve conter pelo menos 8 caracteres.</li>#}
+{#                                            <li>Sua senha não pode ser uma senha comumente usada.</li>#}
+{#                                            <li>Sua senha não pode ser totalmente numérica.</li>#}
+{#                                        </ul>#}
+{#                                    </div>#}
+{#                                </div>#}
+{#                                <button type="submit" class="btn btn-block btn-primary">Cadastrar</button>#}
+{#                            </form>#}
                             <div class="d-flex justify-content-center align-items-center mt-4">
                                 <span class="font-weight-normal">
-                                    Already have an account?
-                                    <a href="{% url 'login' %}" class="font-weight-bold">Login here</a>
+                                    Já possui uma conta?
+                                    <a href="{% url 'login' %}" class="font-weight-bold">Acesse aqui</a>
                                 </span>
                             </div>
                         </div>
