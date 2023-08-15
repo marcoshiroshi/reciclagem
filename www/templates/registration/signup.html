@@ -16,100 +16,147 @@
 -->
 {% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt">
 
 {% include '00_framework/partials/header.html' %}
 
 {% block extra_css %}
-{#    <style>#}
-{#        html { overflow-y: scroll; }#}
-{#        .signin-inner { position: absolute; }#}
-{#    </style>#}
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-image: url({% static 'assets/img/illustrations/signin.svg' %});
+            background-size: auto;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        .card {
+            background-color: rgba(255, 255, 255);
+            border-radius: 10px;
+            {#padding: 20px;#}
+            width: 300px;
+            {#max-width: 80%;#}
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+            overflow-y: auto;
+        }
+    </style>
 {% endblock extra_css %}
 
 <body class="bg-soft">
     <main>
-
-        <!-- Section -->
-        <section class="vh-lg-100 d-flex align-items-center">
-            <div class="container">
-                <div class="row justify-content-center form-bg-image" data-background-lg="{% static 'assets/img/illustrations/signin.svg' %}">
-                    <div class="col-12 d-flex align-items-center justify-content-center">
-                        <div class="signin-inner my-3 my-lg-0 bg-white shadow-soft border rounded border-light p-4 p-lg-5 w-100 fmxw-500">
-                            <div class="text-center text-md-center mb-4 mt-md-0">
-                                <h1 class="mb-0 h3">Crie uma conta</h1>
-                            </div>
-{#                            <form method="POST">#}
-{#                                {% csrf_token %}#}
-                                <div class="row mt-3">
-                                    <div class="col">
-                                        <label for="{{ form.email.id_for_label }}">{{ form.email.label }}</label>
-                                        <div class="input-group">
-                                            <span class="input-group-text" id="basic-addon3"><span class="fas fa-envelope"></span></span>
-                                            {{ form.email }}
+        <div class="container">
+            <div class="card w-auto">
+                <div class="card-body">
+                    <div class="text-center">
+                        <h1 class="mb-0 h3">Crie uma conta</h1>
+                    </div>
+                    {% if form.errors %}
+                        <div class="border border-danger rounded text-danger p-3" style="font-size: small">
+                            <h6>ERRO(S) ENCONTRADO(S)</h6>
+                            {% for field in form %}
+                                {% for erro in field.errors %}
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <b>CAMPO:</b> {{ field.label }}
                                         </div>
+                                        <div class="col-md-8"><b>DESCRIÇÃO DO ERRO:</b> {{ erro|escape }}</div>
                                     </div>
-                                </div>
-                                <div class="row mt-3">
-                                    <div class="col">
-                                        <label for="{{ form.first_name.id_for_label }}">{{ form.first_name.label }}</label>
-                                        <div class="input-group">
-                                            <span class="input-group-text" id="basic-addon3"><span class="fas fa-user"></span></span>
-                                            {{ form.first_name }}
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row mt-3">
-                                    <div class="col">
-                                        <label for="{{ form.last_name.id_for_label }}">{{ form.last_name.label }}</label>
-                                        <div class="input-group">
-                                            <span class="input-group-text" id="basic-addon3"><span class="fas fa-user"></span></span>
-                                            {{ form.last_name }}
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row mt-3">
-                                    <div class="col">
-                                        <label for="id_password1">Senha:</label>
-                                        <div class="input-group">
-                                            <span class="input-group-text" id="basic-addon3"><span class="fas fa-lock"></span></span>
-                                            <input type="password" name="password1" class="form-control" placeholder="Senha" autocomplete="new-password" required="" id="id_password1">
-                                        </div>
-                                    </div>
-                                </div>
-{#                                <div class="row mt-3">#}
-{#                                    <div class="col">#}
-{#                                        <label for="id_password2">Confirmação de senha:</label>#}
-{#                                        <div class="input-group">#}
-{#                                            <span class="input-group-text" id="basic-addon3"><span class="fas fa-lock"></span></span>#}
-{#                                            <input type="password" name="password2" class="form-control" placeholder="Senha" autocomplete="new-password" required="" id="id_password2">#}
-{#                                        </div>#}
-{#                                        <span class="helptext">Digite a mesma senha de antes, para verificação.</span>#}
+                                {% endfor %}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+{#                    {% if form.errors %}#}
+{#                        <div class="alert alert-danger" role="alert">#}
+{#                            <h6 class="text-white">ERRO(S) ENCONTRADO(S)</h6>#}
+{#                        {% for field in form %}#}
+{#                            {% for erro in field.errors %}#}
+{#                                <div class="row fs-10 text-white">#}
+{#                                    <div class="col-md-4">#}
+{#                                        <b>CAMPO:</b> {{ field.label }}#}
 {#                                    </div>#}
+{#                                    <div class="col-md-8"><b>DESCRIÇÃO DO ERRO:</b> {{ erro|escape }}</div>#}
 {#                                </div>#}
-{#                                <div class="row mt-3">#}
-{#                                    <div class="col">#}
-{#                                        <ul>#}
-{#                                            <li>Sua senha não pode ser muito semelhante às suas outras informações pessoais.</li>#}
-{#                                            <li>Sua senha deve conter pelo menos 8 caracteres.</li>#}
-{#                                            <li>Sua senha não pode ser uma senha comumente usada.</li>#}
-{#                                            <li>Sua senha não pode ser totalmente numérica.</li>#}
-{#                                        </ul>#}
-{#                                    </div>#}
-{#                                </div>#}
-{#                                <button type="submit" class="btn btn-block btn-primary">Cadastrar</button>#}
-{#                            </form>#}
-                            <div class="d-flex justify-content-center align-items-center mt-4">
-                                <span class="font-weight-normal">
-                                    Já possui uma conta?
-                                    <a href="{% url 'login' %}" class="font-weight-bold">Acesse aqui</a>
-                                </span>
+{#                            {% endfor %}#}
+{#                        {% endfor %}#}
+{#                        </div>#}
+{#                    {% endif %}#}
+                    <form method="POST">
+                        {% csrf_token %}
+                        <div class="row mt-3">
+                            <div class="col">
+                                <label for="{{ form.email.id_for_label }}">{{ form.email.label }}</label>
+                                <div class="input-group">
+                                    <span class="input-group-text" id="basic-addon3"><span class="fas fa-envelope"></span></span>
+                                    {{ form.email }}
+                                </div>
+                                {% if form.errors.email %}<div class="text-danger">{{ form.errors.email.as_text }}</div>{% endif %}
                             </div>
                         </div>
+                        <div class="row mt-3">
+                            <div class="col">
+                                <label for="{{ form.first_name.id_for_label }}">{{ form.first_name.label }}</label>
+                                <div class="input-group">
+                                    <span class="input-group-text" id="basic-addon3"><span class="fas fa-user"></span></span>
+                                    {{ form.first_name }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col">
+                                <label for="{{ form.last_name.id_for_label }}">{{ form.last_name.label }}</label>
+                                <div class="input-group">
+                                    <span class="input-group-text" id="basic-addon3"><span class="fas fa-user"></span></span>
+                                    {{ form.last_name }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col">
+                                <label for="id_password1">Senha:</label>
+                                <div class="input-group">
+                                    <span class="input-group-text" id="basic-addon3"><span class="fas fa-lock"></span></span>
+                                    <input type="password" name="password1" class="form-control" placeholder="Senha" autocomplete="new-password" required="" id="id_password1">
+                                </div>
+                                {% if form.errors.password1 %}<div class="text-danger">{{ form.errors.password1.as_text }}</div>{% endif %}
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col">
+                                <label for="id_password2">Confirmação de senha:</label>
+                                <div class="input-group">
+                                    <span class="input-group-text" id="basic-addon3"><span class="fas fa-lock"></span></span>
+                                    <input type="password" name="password2" class="form-control" placeholder="Senha" autocomplete="new-password" required="" id="id_password2">
+                                </div>
+                                {% if form.errors.password2 %}<div class="text-danger">{{ form.errors.password2.as_text }}</div>{% endif %}
+                                <span class="helptext">Digite a mesma senha de antes, para verificação.</span>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col">
+                                <ul>
+                                    <li>Sua senha não pode ser muito semelhante às suas outras informações pessoais.</li>
+                                    <li>Sua senha deve conter pelo menos 8 caracteres.</li>
+                                    <li>Sua senha não pode ser uma senha comumente usada.</li>
+                                    <li>Sua senha não pode ser totalmente numérica.</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-block btn-primary">Cadastrar</button>
+                    </form>
+                    <div class="d-flex justify-content-center align-items-center mt-4">
+                        <span class="font-weight-normal">
+                            Já possui uma conta?
+                            <a href="{% url 'login' %}" class="font-weight-bold">Acesse aqui</a>
+                        </span>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
     </main>
 
 {% include '00_framework/partials/all_js.html' %}

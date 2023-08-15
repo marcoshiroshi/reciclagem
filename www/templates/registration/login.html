@@ -16,7 +16,7 @@
 -->
 {% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt">
 
 {% include '00_framework/partials/header.html' %}
 
@@ -32,6 +32,7 @@
                             <div class="text-center text-md-center mb-4 mt-md-0">
                                 <h1 class="mb-0 h3">Inscreva-se no nosso sistema</h1>
                             </div>
+                            {{ form.errors }}
                             <form method="POST" class="mt-4">
                                 {% csrf_token %}
                                 <!-- Form -->
@@ -64,8 +65,8 @@
                             <div class="d-flex justify-content-center align-items-center mt-4">
                                 <span class="font-weight-normal">
                                     Não está cadastrado?
-                                    <a href="" class="font-weight-bold">Crie uma conta</a>
-{#                                    <a href="{% url 'signup' %}" class="font-weight-bold">Crie uma conta</a>#}
+{#                                    <a href="" class="font-weight-bold">Crie uma conta</a>#}
+                                    <a href="{% url 'signup' %}" class="font-weight-bold">Crie uma conta</a>
                                 </span>
                             </div>
                         </div>
