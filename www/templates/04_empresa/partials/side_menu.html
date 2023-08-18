@@ -1,0 +1,59 @@
+{% load static %}
+<nav id="sidebarMenu" class="sidebar d-md-block bg-primary text-white collapse" data-simplebar>
+    <div class="sidebar-inner px-4 pt-3">
+        <div class="user-card d-flex d-md-none align-items-center justify-content-between justify-content-md-center pb-4">
+            <div class="d-flex align-items-center">
+                <div class="user-avatar lg-avatar mr-4">
+                    <i class="fa fa-user" style="color:white; font-size: 18px"></i>
+                </div>
+                <div class="d-block">
+                    <h2 class="h6">Olá, {{ user|title }}</h2>
+                    <a href="{% url 'logout' %}" class="btn btn-secondary text-dark btn-xs">
+                        <span class="mr-2"><span class="fas fa-sign-out-alt"></span></span>Sair do sistema
+                    </a>
+                </div>
+            </div>
+            <div class="collapse-close d-md-none">
+                <a href="#sidebarMenu" class="fas fa-times" data-toggle="collapse" data-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="true" aria-label="Toggle navigation"></a>
+            </div>
+        </div>
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                <a href="/" class="nav-link text-center">
+                    <span class="sidebar-icon">
+                        <span class="fas fa-recycle" style="font-size: 30px"></span>
+                    </span> <br>
+                    Reciclagem Mori
+                </a>
+            </li>
+
+{#            <li class="nav-item">#}
+{#                <a href="{% url 'morador_home' %}" class="nav-link">#}
+{#                    <span class="sidebar-icon"><span class="fas fa-home"></span></span>#}
+{#                    <span>Home</span>#}
+{#                </a>#}
+{#            </li>#}
+{##}
+{#            <li class="nav-item">#}
+{#                <a href="{% url 'morador_home' %}" class="nav-link disabled">#}
+{#                    <span class="sidebar-icon"><span class="fas fa-file"></span></span>#}
+{#                    <span>Meus Dados</span>#}
+{#                </a>#}
+{#            </li>#}
+{#            <li class="nav-item">#}
+{#                <a href="{% url 'morador_home' %}" class="nav-link disabled">#}
+{#                    <span class="sidebar-icon"><span class="fa fa-trash-alt"></span></span>#}
+{#                    <span>Pedidos</span>#}
+{#                </a>#}
+{#            </li>#}
+{#            <li role="separator" class="dropdown-divider mt-2 mb-2 border-black"></li>#}
+{#            <li class="nav-item">#}
+{#                <a href="https://themesberg.com/docs/volt-bootstrap-5-dashboard/getting-started/quick-start/"#}
+{#                   target="_blank" class="nav-link d-flex align-items-center">#}
+{#                    <span class="sidebar-icon"><span class="fas fa-book"></span></span>#}
+{#                    <span>Framework</span>#}
+{#                </a>#}
+{#            </li>#}
+        </ul>
+    </div>
+</nav>

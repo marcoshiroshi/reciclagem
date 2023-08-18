@@ -4,7 +4,7 @@ from django.utils.translation import gettext_lazy as _
 from django.db import models
 from django.contrib.auth.models import PermissionsMixin
 from django.contrib.auth.base_user import AbstractBaseUser
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import AbstractUser, Group
 
 
 class UserManager(BaseUserManager):
@@ -46,6 +46,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     date_joined = models.DateTimeField(_('date joined'), auto_now_add=True)
     is_active = models.BooleanField(_('active'), default=False)
     is_staff = models.BooleanField(_('staff'), default=False)
+    profile_active = models.ForeignKey(Group, models.DO_NOTHING, related_name='profile_active', blank=True, null=True)
 
     objects = UserManager()
 
@@ -61,6 +62,9 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def get_short_name(self):
         return self.first_name
+
+    def __str__(self):
+        return self.get_full_name()
 
 
 # class Morador(models.Model):

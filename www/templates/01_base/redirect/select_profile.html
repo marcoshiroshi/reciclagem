@@ -1,0 +1,96 @@
+<!--
+
+=========================================================
+* Volt - Bootstrap 5 Admin Dashboard
+=========================================================
+
+* Product Page: https://themesberg.com/product/admin-dashboard/volt-bootstrap-5-dashboard
+* Copyright 2020 Themesberg (https://www.themesberg.com)
+
+* Designed and coded by https://themesberg.com
+
+=========================================================
+
+* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software. Please contact us to request a removal.
+
+-->
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt">
+
+{% include '00_framework/partials/header.html' %}
+
+<body class="bg-soft">
+    <main>
+        <section class="vh-lg-100 d-flex align-items-center">
+            <div class="container">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="text-center text-md-center mb-4 mt-md-0">
+                            <h3 class="">Escolha um perfil de acesso</h3>
+                            <div class="alert alert-info text-white mt-4" role="alert">
+                                Caso você ainda não esteja cadastrado como o perfil seleconado, basta fazer o cadastro das informações complementa para ter acesso as funcionalidades
+                            </div>
+                        </div>
+                        {{ form.errors }}
+                        <form method="POST" class="mt-4">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <button class="btn btn-pill btn-outline-primary btn-block mt-2" value="1" name="profile_active" type="submit">
+                                        <div class="row">
+                                            <div class="col text-right">
+                                                <i class="fa fa-info-circle" data-toggle="tooltip" data-placement="top" title="Perfil destinado para empresas que queiram participar do projeto como centro de coleta de materiais recicáveis"></i>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col" style="font-size: 50px"><i class="fa fa-building"></i></div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col">EMPRESA</div>
+                                        </div>
+                                    </button>
+                                </div>
+                                <div class="col-md-4">
+                                    <button class="btn btn-pill btn-outline-primary btn-block mt-2" value="2" name="profile_active" type="submit">
+                                        <div class="row">
+                                            <div class="col text-right">
+                                                <i class="fa fa-info-circle" data-toggle="tooltip" data-placement="top" title="Perfil destinado para catadores que queiram trabalhar no projeto"></i>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col" style="font-size: 50px"><i class="fa fa-user"></i></div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col">COLETOR</div>
+                                        </div>
+                                    </button>
+                                </div>
+                                <div class="col-md-4">
+                                    <button class="btn btn-pill btn-outline-primary btn-block mt-2" value="3" name="profile_active" type="submit">
+                                        <div class="row">
+                                            <div class="col text-right">
+                                                <i class="fa fa-info-circle" data-toggle="tooltip" data-placement="top" title="Perfil destinado para moradores que queiram participar como doadores do projeto"></i>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col" style="font-size: 50px"><i class="fa fa-home"></i></div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col">MORADOR</div>
+                                        </div>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+{% include '00_framework/partials/all_js.html' %}
+
+</body>
+
+</html>

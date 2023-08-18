@@ -41,7 +41,8 @@ INSTALLED_PLUGINS = []
 
 INSTALLED_APPS_PROJECT = [
     'core',
-    'usuario'
+    'usuario',
+    'morador'
 ]
 
 INSTALLED_APPS = INSTALLED_DJANGO + INSTALLED_PLUGINS + INSTALLED_APPS_PROJECT
@@ -121,7 +122,9 @@ USE_I18N = True
 
 USE_TZ = True
 
-LOGIN_REDIRECT_URL = "home"
+LOGIN_URL = 'login'
+LOGIN_REDIRECT_URL = 'redirect_profile'
+LOGOUT_REDIRECT_URL = 'redirect_profile'
 
 
 # Static files (CSS, JavaScript, Images)

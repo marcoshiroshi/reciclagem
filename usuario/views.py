@@ -1,8 +1,7 @@
-from django.core.mail import send_mail
 from django.http import HttpResponseRedirect
-from django.views.generic import CreateView
+from django.views.generic import CreateView, UpdateView
 from django.urls import reverse_lazy
-from core.utils import envio_email
+from django.contrib.auth.views import LogoutView
 from .forms import SignUpForm
 
 
@@ -15,6 +14,15 @@ class SignUpView(CreateView):
         self.object = form.save(commit=False)
         self.object.is_active = True
         self.object.save()
-
-        envio_email(self.object, self.object.email)
         return HttpResponseRedirect(self.get_success_url())
+
+
+class LogOut(LogoutView):
+    def post(self, request, *args, **kwargs):
+        """Logout may be done via POST."""
+        auth_logout(request)
+        redirect_to = self.get_success_url()
+        if redirect_to != request.get_full_path():
+            # Redirect to target page once the session has been cleared.
+            return HttpResponseRedirect(redirect_to)
+        return super().get(request, *args, **kwargs)
