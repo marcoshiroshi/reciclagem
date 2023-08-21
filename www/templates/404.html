@@ -1,9 +1,27 @@
+<!--
+
+=========================================================
+* Volt - Bootstrap 5 Admin Dashboard
+=========================================================
+
+* Product Page: https://themesberg.com/product/admin-dashboard/volt-bootstrap-5-dashboard
+* Copyright 2020 Themesberg (https://www.themesberg.com)
+
+* Designed and coded by https://themesberg.com
+
+=========================================================
+
+* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software. Please contact us to request a removal.
+
+-->
 {% load static %}
+<!DOCTYPE html>
+<html lang="en">
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <!-- Primary Meta Tags -->
-    <title>Volt - Free Bootstrap 5 Dashboard</title>
+    <title>Reciclagem</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="title" content="Volt - Free Bootstrap 5 Dashboard">
     <meta name="author" content="Themesberg">
@@ -15,6 +33,8 @@
     <link rel="apple-touch-icon" sizes="120x120" href="{% static 'assets/img/favicon/apple-touch-icon.png' %}">
     <link rel="icon" type="image/png" sizes="32x32" href="{% static 'assets/img/favicon/favicon-32x32.png' %}">
     <link rel="icon" type="image/png" sizes="16x16" href="{% static 'assets/img/favicon/favicon-16x16.png' %}">
+
+
     <link rel="manifest" href="{% static 'assets/img/favicon/site.webmanifest' %}">
     <link rel="mask-icon" href="{% static 'assets/img/favicon/safari-pinned-tab.svg' %}" color=#ffffff>
     <meta name="msapplication-TileColor" content="#ffffff">
@@ -36,8 +56,28 @@
     <!-- Volt CSS -->
     <link type="text/css" href="{% static 'css/volt.css' %}" rel="stylesheet">
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
-    {% block java_script %}{% endblock java_script %}
-
 </head>
+
+<body>
+    <main>
+        <section class="vh-100 d-flex align-items-center justify-content-center">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 text-center d-flex align-items-center justify-content-center">
+                        <div>
+                            <img class="img-fluid w-75" src="{% static 'assets/img/illustrations/404.svg' %}" alt="404 not found">
+                            <h1 class="mt-5">Página não <span class="font-weight-bolder text-primary">encontrada</span></h1>
+                            <p class="lead my-4">"Oops! Parece que você seguiu um link incorreto. Se você acredita que isso é um problema com o nosso site, por favor nos avise.</p>
+                            <a class="btn btn-primary animate-hover" href="/"><i class="fas fa-chevron-left mr-3 pl-2 animate-left-3"></i>Voltar para o início</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+{% include '00_framework/partials/all_js.html' %}
+    
+</body>
+
+</html>

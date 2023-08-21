@@ -1,0 +1,91 @@
+{% extends '02_morador/base.html' %}
+{% load static %}
+{% block main %}
+
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card border-light shadow-sm">
+                <div class="card-body">
+                     <div class="row mt-4">
+                        <div class="col-md-6">
+                            <label>NOME</label>
+                            <input class="form-control" type="text" value="{{ user.get_full_name|upper }}" disabled>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="{{ form.cpf.id_for_label }}">{{ form.cpf.label|upper }} <b style="color: red">*</b></label>
+                            {{ form.cpf }}
+                            {% if form.errors.cpf %}<div class="erro-form">{{ form.errors.cpf.as_text }}</div>{% endif %}
+                        </div>
+                        <div class="col-md-3">
+                            <label for="{{ form.dt_nascimento.id_for_label }}">{{ form.data_nascimento.label|upper }} <b style="color: red">*</b></label>
+                            {{ form.data_nascimento }}
+                            {% if form.errors.data_nascimento %}<div class="erro-form">{{ form.errors.data_nascimento.as_text }}</div>{% endif %}
+                        </div>
+                    </div>
+                    <div class="row mt-4">
+                        <div class="col-md-4">
+                            <label for="{{ form.genero.id_for_label }}">{{ form.genero.label|upper }} <b style="color: red">*</b></label>
+                            {{ form.genero }}
+                        </div>
+                        <div class="col-md-4">
+                            <label for="{{ form.telefone_1.id_for_label }}">{{ form.telefone_1.label|upper }}
+                                <small>{{ form.telefone_1.help_text }}</small>
+                                <b style="color: red">*</b>
+                            </label>
+                            {{ form.telefone_1 }}
+                            {% if form.errors.telefone_1 %}<div class="erro-form">{{ form.errors.telefone_1.as_text }}</div>{% endif %}
+                        </div>
+                        <div class="col-md-4">
+                            <label for="{{ form.telefone_2.id_for_label }}">{{ form.telefone_2.label|upper }}</label>
+                            {{ form.telefone_2 }}
+                        </div>
+                    </div>
+                    <div class="row mt-4">
+                        <div class="col-md-4">
+                            <label for="{{ form.cep.id_for_label }}">{{ form.cep.label|upper }} <b style="color: red">*</b></label>
+                            {{ form.cep }}
+                        </div>
+{#                        <div class="col-md-4" id="js-ajax-municipio" data-municipio-url="{% url 'ajax_municipios_data_ativos' %}">#}
+{#                            <label for="{{ form.estado.id_for_label }}">ESTADO/UF <b style="color: red">*</b></label>#}
+{#                            {{ form.estado }}#}
+{#                        </div>#}
+                        <div class="col-md-4">
+                            <label for="{{ form.municipio.id_for_label }}">{{ form.municipio.label|upper }} <b style="color: red">*</b></label>
+                            {{ form.municipio }}
+                            {% if form.municipio.errors %}<div class="erro-form-label">{{ form.municipio.errors.as_text }}</div>{% endif %}
+                        </div>
+                    </div>
+                    <div class="row mt-4">
+                        <div class="col-md-6">
+                            <label for="{{ form.logradouro.id_for_label }}">{{ form.logradouro.label|upper }} <b style="color: red">*</b></label>
+                            {{ form.logradouro }}
+                            {% if form.logradouro.errors %}<div class="erro-form-label">{{ form.logradouro.errors.as_text }}</div>{% endif %}
+                        </div>
+                        <div class="col-md-6">
+                            <label for="{{ form.complemento.id_for_label }}">{{ form.complemento.label|upper }}</label>
+                            {{ form.complemento }}
+                        </div>
+                    </div>
+                    <div class="row mt-4">
+                        <div class="col-md-6">
+                            <label for="{{ form.latitude.id_for_label }}">{{ form.latitude.label|upper }} ({{ form.latitude.help_text }})</label>
+                            {{ form.latitude }}
+                            {% if form.latitude.errors %}<div class="erro-form-label">{{ form.latitude.errors.as_text }}</div>{% endif %}
+                        </div>
+                        <div class="col-md-6">
+                            <label for="{{ form.longitude.id_for_label }}">{{ form.longitude.label|upper }} ({{ form.longitude.help_text }})</label>
+                            {{ form.longitude }}
+                            {% if form.longitude.errors %}<div class="erro-form-label">{{ form.longitude.errors.as_text }}</div>{% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock main %}
+{% block java_script %}
+    <script src="{% static 'assets/js/plugins/jquery-mask/jquery.mask.min.js' %}"></script>
+    <script src="{% static 'assets/js/mask.js' %}"></script>
+{% endblock java_script %}
