@@ -1,5 +1,5 @@
 INSERT INTO auth_group (id, name) VALUES (1, 'EMPRESA');
-INSERT INTO auth_group (id, name) VALUES (2, 'COLETOR');
+INSERT INTO auth_group (id, name) VALUES (2, 'CATADOR');
 INSERT INTO auth_group (id, name) VALUES (3, 'MORADOR');
 
 INSERT INTO core_genero (id, nome) VALUES (1, 'MASCULINO');

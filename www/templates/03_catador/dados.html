@@ -1,4 +1,4 @@
-{% extends '02_morador/base.html' %}
+{% extends '03_catador/base.html' %}
 {% load static %}
 {% block extra_css %}
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
@@ -16,15 +16,15 @@
         }
     </style>
 {% endblock extra_css %}
-
 {% block main %}
+
     <div class="row">
         <div class="col-md-12">
             <div class="card border-light shadow-sm">
                 <div class="card-body">
                     <div class="row mt-4">
                         <div class="col-12 text-center">
-                            {% if user.morador_usuario %}
+                            {% if user.catador_usuario %}
                                 <h5>Mantenha suas informações sempre atualizadas</h5>
                                 <p>Insira as suas informações abaixo</p>
                             {% else %}
@@ -113,6 +113,7 @@
                                 {% if form.longitude.errors %}<div class="text-danger">{{ form.longitude.errors.as_text }}</div>{% endif %}
                             </div>
                         </div>
+
                         <div class="row mt-4">
                             <div class="col-12">
                                 <div id="map-container">
@@ -138,6 +139,7 @@
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script src="{% static 'assets/js/plugins/jquery-mask/jquery.mask.min.js' %}"></script>
     <script src="{% static 'assets/js/mask.js' %}"></script>
+
     <script>
         $(document).ready(function () {
             {#$('.js-select2').select2();#}
@@ -210,8 +212,9 @@
             }
         });
     </script>
+
     <script>
-        const map = L.map('map').setView([-15.770581215880800000, -47.783767163645700000], 5);
+        const map = L.map('map').setView([-15.770581215880800000, -47.783767163645700000], 10);
         const latitudeInput = document.getElementById('latitude');
         const longitudeInput = document.getElementById('longitude');// Define a visão inicial do mapa e o nível de zoom
 

@@ -41,19 +41,18 @@
                 </a>
             </li>
 
-
             <li class="nav-item">
-{#            {% if user.morador_usuario %}#}
-{#                <a href="" class="nav-link">#}
-{#                    <span class="sidebar-icon"><span class="fa fa-trash-alt"></span></span>#}
-{#                    <span>Pedidos</span>#}
-{#                </a>#}
-{#            {% else %}#}
-{#                <a href="" class="nav-link disabled">#}
+            {% if user.morador_usuario %}
+                <a href="" class="nav-link">
                     <span class="sidebar-icon"><span class="fa fa-trash-alt"></span></span>
                     <span>Pedidos</span>
-{#                </a>#}
-{#            {% endif %}#}
+                </a>
+            {% else %}
+                <a href="" class="nav-link disabled">
+                    <span class="sidebar-icon"><span class="fa fa-trash-alt"></span></span>
+                    <span>Pedidos</span>
+                </a>
+            {% endif %}
             </li>
 
             <li role="separator" class="dropdown-divider mt-2 mb-2 border-black"></li>

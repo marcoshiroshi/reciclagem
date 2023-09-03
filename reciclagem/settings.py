@@ -42,7 +42,9 @@ INSTALLED_PLUGINS = []
 INSTALLED_APPS_PROJECT = [
     'core',
     'usuario',
-    'morador'
+    'morador',
+    'catador',
+    'empresa'
 ]
 
 INSTALLED_APPS = INSTALLED_DJANGO + INSTALLED_PLUGINS + INSTALLED_APPS_PROJECT

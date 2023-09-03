@@ -13,11 +13,9 @@ class ProfileRedirect(RedirectView):
         url = reverse_lazy('select_profile')
         if self.request.user.profile_active:
             if self.request.user.profile_active.name == 'EMPRESA':
-                # url = reverse_lazy('osp_home')
-                url = None
+                url = reverse_lazy('empresa_home')
             elif self.request.user.profile_active.name == 'CATADOR':
-                # url = reverse_lazy('gestor_home')
-                url = None
+                url = reverse_lazy('catador_home')
             elif self.request.user.profile_active.name == 'MORADOR':
                 url = reverse_lazy('morador_home')
         return url

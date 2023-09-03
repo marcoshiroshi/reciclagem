@@ -16,8 +16,8 @@ class Morador(models.Model):
     logradouro = models.CharField(max_length=255, verbose_name='Endereço')
     complemento = models.CharField(max_length=255, verbose_name='Complemento', null=True, blank=True)
     municipio = models.ForeignKey(Municipio, models.DO_NOTHING, verbose_name='Município')
-    longitude = models.DecimalField(max_length=255, max_digits=20, decimal_places=18, verbose_name='longitude', help_text='Coordenada geográfica')
-    latitude = models.DecimalField(max_length=255, max_digits=20, decimal_places=18, verbose_name='latitude', help_text='Coordenada geográfica')
+    longitude = models.DecimalField(max_length=255, max_digits=20, decimal_places=18, verbose_name='longitude', help_text='Coordenada geográfica da sua residência')
+    latitude = models.DecimalField(max_length=255, max_digits=20, decimal_places=18, verbose_name='latitude', help_text='Coordenada geográfica da sua residência')
 
     def __str__(self):
         return self.user.get_full_name()
