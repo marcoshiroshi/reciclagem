@@ -1,9 +1,11 @@
 from django.http import HttpResponseRedirect
 from django.views.generic import TemplateView, RedirectView, UpdateView
 from django.template import loader
+from django.shortcuts import render
 from django.contrib.auth.mixins import UserPassesTestMixin
 from django.urls import reverse_lazy
 from usuario.models import User
+from core.models import Municipio
 
 
 class ProfileRedirect(RedirectView):
@@ -45,8 +47,6 @@ class SelectProfile(UserPassesTestMixin, UpdateView):
         return True
 
 
-
-
 # class HomeView(TemplateView):
 #     template_name = "01_base/home.html"
 #
@@ -64,3 +64,14 @@ class SelectProfile(UserPassesTestMixin, UpdateView):
 #         self.template_name = template
 #
 #         return self.template_name
+
+
+def municipios_data_todos(request):
+    if request.GET.getlist('estados[]'):
+        estados_marcados = request.GET.getlist('estados[]')
+        lista = Municipio.objects.filter(estado__id__in=estados_marcados).order_by('nome')
+    else:
+        estados_marcados = request.GET.get('estados')
+        lista = Municipio.objects.filter(estado__id=int(estados_marcados)).order_by('nome')
+
+    return render(request, '01_base/ajax/municipios_dropdown_list_options.html', {'lista': lista})

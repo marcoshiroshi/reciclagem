@@ -7,6 +7,8 @@ urlpatterns = [
     path('', login_required(ProfileRedirect.as_view()), name='redirect_profile'),
     path('seletor/perfil/', login_required(SelectProfile.as_view()), name='select_profile'),
 
+    path('ajax/load-municipios_todos/', municipios_data_todos, name='ajax_municipios_data_todos'),
+
     # path('', HomeView.as_view(), name="home"),
     # re_path(r'^.*\.*', Framework.as_view(), name='framework_dashboard'),
 ]

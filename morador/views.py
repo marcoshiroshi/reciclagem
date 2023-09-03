@@ -1,10 +1,8 @@
 from django.http import HttpResponseRedirect
 from django.views.generic import TemplateView, RedirectView, UpdateView, CreateView
-from django.template import loader
 from django.contrib.auth.mixins import UserPassesTestMixin, PermissionRequiredMixin
-from django.urls import reverse_lazy
-from usuario.models import User
-from django.shortcuts import render
+from django.urls import reverse_lazy, reverse
+from django.contrib.auth.models import Group
 from morador.models import Morador
 from morador.forms import MoradorDadosForm
 
@@ -30,17 +28,29 @@ class MoradorDadosAddView(UserPassesTestMixin, CreateView):
     model = Morador
     template_name = '02_morador/dados.html'
     form_class = MoradorDadosForm
-    # permission_required = 'morador.view_morador'
+    permission_required = 'morador.view_morador'
+    success_url = reverse_lazy('morador_home')
 
     def test_func(self):
         return True if self.request.user.is_authenticated and self.request.user.profile_active.name == 'MORADOR' else False
 
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.user = self.request.user
+        self.object.user.groups.add(Group.objects.filter(name='MORADOR').first())
+        self.object.save()
+        return HttpResponseRedirect(self.success_url)
 
-class MoradorDadosAttView(PermissionRequiredMixin, UserPassesTestMixin, CreateView):
+
+class MoradorDadosAttView(PermissionRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Morador
     template_name = '02_morador/dados.html'
-    fields = '__all__'
+    form_class = MoradorDadosForm
     permission_required = 'morador.view_morador'
+    success_url = reverse_lazy('morador_home')
+
+    def get_object(self, queryset=None):
+        return self.request.user.morador_usuario
 
     def test_func(self):
-        pass
+        return True if self.request.user.is_authenticated and self.request.user.profile_active.name == 'MORADOR' else False

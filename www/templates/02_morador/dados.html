@@ -7,78 +7,105 @@
         <div class="col-md-12">
             <div class="card border-light shadow-sm">
                 <div class="card-body">
-                     <div class="row mt-4">
-                        <div class="col-md-6">
-                            <label>NOME</label>
-                            <input class="form-control" type="text" value="{{ user.get_full_name|upper }}" disabled>
-                        </div>
-                        <div class="col-md-3">
-                            <label for="{{ form.cpf.id_for_label }}">{{ form.cpf.label|upper }} <b style="color: red">*</b></label>
-                            {{ form.cpf }}
-                            {% if form.errors.cpf %}<div class="erro-form">{{ form.errors.cpf.as_text }}</div>{% endif %}
-                        </div>
-                        <div class="col-md-3">
-                            <label for="{{ form.dt_nascimento.id_for_label }}">{{ form.data_nascimento.label|upper }} <b style="color: red">*</b></label>
-                            {{ form.data_nascimento }}
-                            {% if form.errors.data_nascimento %}<div class="erro-form">{{ form.errors.data_nascimento.as_text }}</div>{% endif %}
-                        </div>
-                    </div>
                     <div class="row mt-4">
-                        <div class="col-md-4">
-                            <label for="{{ form.genero.id_for_label }}">{{ form.genero.label|upper }} <b style="color: red">*</b></label>
-                            {{ form.genero }}
-                        </div>
-                        <div class="col-md-4">
-                            <label for="{{ form.telefone_1.id_for_label }}">{{ form.telefone_1.label|upper }}
-                                <small>{{ form.telefone_1.help_text }}</small>
-                                <b style="color: red">*</b>
-                            </label>
-                            {{ form.telefone_1 }}
-                            {% if form.errors.telefone_1 %}<div class="erro-form">{{ form.errors.telefone_1.as_text }}</div>{% endif %}
-                        </div>
-                        <div class="col-md-4">
-                            <label for="{{ form.telefone_2.id_for_label }}">{{ form.telefone_2.label|upper }}</label>
-                            {{ form.telefone_2 }}
+                        <div class="col-12 text-center">
+                            {% if user.morador_usuario %}
+                                <h5>Mantenha suas informações sempre atualizadas</h5>
+                                <p>Insira as suas informações abaixo</p>
+                            {% else %}
+                                <h5>Faça o seu cadastro para participar do projeto</h5>
+                                <p>Insira as suas informações abaixo</p>
+                            {% endif %}
                         </div>
                     </div>
-                    <div class="row mt-4">
-                        <div class="col-md-4">
-                            <label for="{{ form.cep.id_for_label }}">{{ form.cep.label|upper }} <b style="color: red">*</b></label>
-                            {{ form.cep }}
+                    <form method="POST">
+                        {% csrf_token %}
+                        {{ form.errors }}
+                        <div class="row mt-4">
+                            <div class="col-md-6">
+                                <label>NOME</label>
+                                <input class="form-control" type="text" value="{{ user.get_full_name|upper }}" disabled>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="{{ form.cpf.id_for_label }}">{{ form.cpf.label|upper }} <b style="color: red">*</b></label>
+                                {{ form.cpf }}
+                                {% if form.errors.cpf %}<div class="text-danger">{{ form.errors.cpf.as_text }}</div>{% endif %}
+                            </div>
+                            <div class="col-md-3">
+                                <label for="{{ form.dt_nascimento.id_for_label }}">{{ form.data_nascimento.label|upper }} <b style="color: red">*</b></label>
+                                {{ form.data_nascimento }}
+                                {% if form.errors.data_nascimento %}<div class="text-danger">{{ form.errors.data_nascimento.as_text }}</div>{% endif %}
+                            </div>
                         </div>
-{#                        <div class="col-md-4" id="js-ajax-municipio" data-municipio-url="{% url 'ajax_municipios_data_ativos' %}">#}
-{#                            <label for="{{ form.estado.id_for_label }}">ESTADO/UF <b style="color: red">*</b></label>#}
-{#                            {{ form.estado }}#}
-{#                        </div>#}
-                        <div class="col-md-4">
-                            <label for="{{ form.municipio.id_for_label }}">{{ form.municipio.label|upper }} <b style="color: red">*</b></label>
-                            {{ form.municipio }}
-                            {% if form.municipio.errors %}<div class="erro-form-label">{{ form.municipio.errors.as_text }}</div>{% endif %}
+                        <div class="row mt-4">
+                            <div class="col-md-4">
+                                <label for="{{ form.genero.id_for_label }}">{{ form.genero.label|upper }} <b style="color: red">*</b></label>
+                                {{ form.genero }}
+                            </div>
+                            <div class="col-md-4">
+                                <label for="{{ form.telefone_1.id_for_label }}">{{ form.telefone_1.label|upper }}
+                                    <small>{{ form.telefone_1.help_text }}</small>
+                                    <b style="color: red">*</b>
+                                </label>
+                                {{ form.telefone_1 }}
+                                {% if form.errors.telefone_1 %}<div class="text-danger">{{ form.errors.telefone_1.as_text }}</div>{% endif %}
+                            </div>
+                            <div class="col-md-4">
+                                <label for="{{ form.telefone_2.id_for_label }}">{{ form.telefone_2.label|upper }}</label>
+                                {{ form.telefone_2 }}
+                                {% if form.errors.telefone_2 %}<div class="text-danger">{{ form.errors.telefone_2.as_text }}</div>{% endif %}
+                            </div>
                         </div>
-                    </div>
-                    <div class="row mt-4">
-                        <div class="col-md-6">
-                            <label for="{{ form.logradouro.id_for_label }}">{{ form.logradouro.label|upper }} <b style="color: red">*</b></label>
-                            {{ form.logradouro }}
-                            {% if form.logradouro.errors %}<div class="erro-form-label">{{ form.logradouro.errors.as_text }}</div>{% endif %}
+                        <div class="row mt-4">
+                            <div class="col-md-4">
+                                <label for="{{ form.cep.id_for_label }}">{{ form.cep.label|upper }} <b style="color: red">*</b></label>
+                                {{ form.cep }}
+                            </div>
+                            <div class="col-md-4" id="js-ajax-municipio" data-municipio-url="{% url 'ajax_municipios_data_todos' %}">
+                                <label for="{{ form.estado.id_for_label }}">ESTADO/UF <b style="color: red">*</b></label>
+                                {{ form.estado }}
+                            </div>
+                            <div class="col-md-4">
+                                <label for="{{ form.municipio.id_for_label }}">{{ form.municipio.label|upper }} <b style="color: red">*</b></label>
+                                <div>
+                                    <select class="form-control" id="id_municipio" name="municipio" required>
+                                        <option>Selecione uma opção</option>
+                                    </select>
+                                </div>
+                                {% if form.municipio.errors %}<div class="text-danger">{{ form.municipio.errors.as_text }}</div>{% endif %}
+                            </div>
                         </div>
-                        <div class="col-md-6">
-                            <label for="{{ form.complemento.id_for_label }}">{{ form.complemento.label|upper }}</label>
-                            {{ form.complemento }}
+                        <div class="row mt-4">
+                            <div class="col-md-6">
+                                <label for="{{ form.logradouro.id_for_label }}">{{ form.logradouro.label|upper }} <b style="color: red">*</b></label>
+                                {{ form.logradouro }}
+                                {% if form.logradouro.errors %}<div class="text-danger">{{ form.logradouro.errors.as_text }}</div>{% endif %}
+                            </div>
+                            <div class="col-md-6">
+                                <label for="{{ form.complemento.id_for_label }}">{{ form.complemento.label|upper }}</label>
+                                {{ form.complemento }}
+                            </div>
                         </div>
-                    </div>
-                    <div class="row mt-4">
-                        <div class="col-md-6">
-                            <label for="{{ form.latitude.id_for_label }}">{{ form.latitude.label|upper }} ({{ form.latitude.help_text }})</label>
-                            {{ form.latitude }}
-                            {% if form.latitude.errors %}<div class="erro-form-label">{{ form.latitude.errors.as_text }}</div>{% endif %}
+                        <div class="row mt-4">
+                            <div class="col-md-6">
+                                <label for="{{ form.latitude.id_for_label }}">{{ form.latitude.label|upper }} ({{ form.latitude.help_text }}) <b style="color: red">*</b></label>
+                                {{ form.latitude }}
+                                {% if form.latitude.errors %}<div class="text-danger">{{ form.latitude.errors.as_text }}</div>{% endif %}
+                            </div>
+                            <div class="col-md-6">
+                                <label for="{{ form.longitude.id_for_label }}">{{ form.longitude.label|upper }} ({{ form.longitude.help_text }}) <b style="color: red">*</b></label>
+                                {{ form.longitude }}
+                                {% if form.longitude.errors %}<div class="text-danger">{{ form.longitude.errors.as_text }}</div>{% endif %}
+                            </div>
                         </div>
-                        <div class="col-md-6">
-                            <label for="{{ form.longitude.id_for_label }}">{{ form.longitude.label|upper }} ({{ form.longitude.help_text }})</label>
-                            {{ form.longitude }}
-                            {% if form.longitude.errors %}<div class="erro-form-label">{{ form.longitude.errors.as_text }}</div>{% endif %}
+                        <div class="row mt-4">
+                            <div class="col-12">
+                                <button class="btn btn-primary float-right">
+                                    <i class="fa fa-save"></i> SALVAR DADOS
+                                </button>
+                            </div>
                         </div>
-                    </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -88,4 +115,76 @@
 {% block java_script %}
     <script src="{% static 'assets/js/plugins/jquery-mask/jquery.mask.min.js' %}"></script>
     <script src="{% static 'assets/js/mask.js' %}"></script>
+    <script>
+        $(document).ready(function () {
+            {#$('.js-select2').select2();#}
+
+            var municipio = $('#id_municipio');
+
+            {% if not form.errors %}municipio.prop( 'disabled', true );{% endif %}
+
+            $( "#id_cep" ).keyup(function() {
+                if (this.value.length >= 8) {
+                    const url = `https://viacep.com.br/ws/${this.value}/json/`;
+                    recupera_dados_via_cep(url)
+                }
+            });
+
+            if ($('#id_cep').val().length >= 8) {
+                const url = `https://viacep.com.br/ws/${$('#id_cep').val()}/json/`;
+                recupera_dados_via_cep(url)
+            }
+
+            function recupera_dados_via_cep(url) {
+                fetch(url)
+                    .then(response => response.json())
+                    .then(data => {
+                        if ('erro' in data) {
+                            alert('Erro ao buscar CEP');
+                            document.getElementById('id_estado').removeAttribute('readonly', true);
+                            document.getElementById('id_logradouro').removeAttribute('readonly', true);
+                            document.getElementById('id_complemento').removeAttribute('readonly', true);
+                        } else {
+                            id_uf = data.ibge.substr(0, 2)
+                            document.getElementById('id_estado').value = id_uf;
+                            document.getElementById('id_logradouro').value = data.bairro + ', ' + data.logradouro;
+                            document.getElementById('id_complemento').value = data.complemento;
+                            recupera_municipios(id_uf, function () {
+                                document.getElementById('id_municipio').value = data.ibge;
+                            });
+                        }
+                    })
+                    .catch(error => {
+                        console.error(`Erro ao buscar CEP: ${error}`);
+                    });
+            }
+
+            $(document).on('change', '#id_estado', function() {
+                id_estado = $(this).val();
+                recupera_municipios(id_estado, function() {});
+            });
+
+            function recupera_municipios(estados, callback) {
+                var url = $("#js-ajax-municipio").attr("data-municipio-url");
+                $.ajax({
+                    url: url,
+                    data: {
+                        'estados': estados
+                    },
+                    beforeSend: function () {
+                        {#console.log('buscando');#}
+                        municipio.prop('disabled', true);
+                    },
+                    success: function (data) {
+                        {#console.log('acahdo');#}
+                        municipio.html(data);
+                        {#console.log('inserido');#}
+                        municipio.prop('disabled', false);
+                        municipio.removeAttr('readonly');
+                        callback();
+                    }
+                });
+            }
+        });
+    </script>
 {% endblock java_script %}

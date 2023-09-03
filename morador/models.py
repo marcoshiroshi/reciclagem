@@ -12,7 +12,7 @@ class Morador(models.Model):
     genero = models.ForeignKey(Genero, models.DO_NOTHING, verbose_name='Gênero')
     telefone_1 = models.CharField(max_length=18, verbose_name='Telefone 1', help_text='(WHATSAPP)')
     telefone_2 = models.CharField(max_length=18, verbose_name='Telefone 2', null=True, blank=True)
-    cep = models.CharField(max_length=8, verbose_name='CEP')
+    cep = models.CharField(max_length=9, verbose_name='CEP')
     logradouro = models.CharField(max_length=255, verbose_name='Endereço')
     complemento = models.CharField(max_length=255, verbose_name='Complemento', null=True, blank=True)
     municipio = models.ForeignKey(Municipio, models.DO_NOTHING, verbose_name='Município')

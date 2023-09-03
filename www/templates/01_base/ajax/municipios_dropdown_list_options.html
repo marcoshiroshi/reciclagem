@@ -1,0 +1,6 @@
+<option>Selecione uma opção</option>
+{% for item in lista %}
+<option value="{{ item.id }}">
+    [{{ item.estado.uf }}] - {{ item.nome }}
+</option>
+{% endfor %}
