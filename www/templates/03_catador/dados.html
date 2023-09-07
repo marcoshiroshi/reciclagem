@@ -35,7 +35,7 @@
                     </div>
                     <form method="POST">
                         {% csrf_token %}
-                        {{ form.errors }}
+                        {% include '01_base/partials/erros.html' with errors=form.errors %}
                         <div class="row mt-4">
                             <div class="col-md-6">
                                 <label>NOME</label>
@@ -173,7 +173,9 @@
                             id_uf = data.ibge.substr(0, 2)
                             document.getElementById('id_estado').value = id_uf;
                             document.getElementById('id_logradouro').value = data.bairro + ', ' + data.logradouro;
-                            document.getElementById('id_complemento').value = data.complemento;
+                            if (!document.getElementById('id_complemento').value){
+                                document.getElementById('id_complemento').value = data.complemento;
+                            }
                             recupera_municipios(id_uf, function () {
                                 document.getElementById('id_municipio').value = data.ibge;
                             });

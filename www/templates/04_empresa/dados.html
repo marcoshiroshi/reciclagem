@@ -1,4 +1,4 @@
-{% extends '02_morador/base.html' %}
+{% extends '04_empresa/base.html' %}
 {% load static %}
 {% block extra_css %}
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
@@ -37,27 +37,19 @@
                         {% csrf_token %}
                         {% include '01_base/partials/erros.html' with errors=form.errors %}
                         <div class="row mt-4">
-                            <div class="col-md-6">
-                                <label>NOME</label>
-                                <input class="form-control" type="text" value="{{ user.get_full_name|upper }}" disabled>
+                            <div class="col-md-8">
+                                <label for="{{ form.nome.id_for_label }}">{{ form.nome.label|upper }} <b style="color: red">*</b></label>
+                                {{ form.nome }}
+                                {% if form.errors.nome %}<div class="text-danger">{{ form.errors.nome.as_text }}</div>{% endif %}
                             </div>
-                            <div class="col-md-3">
-                                <label for="{{ form.cpf.id_for_label }}">{{ form.cpf.label|upper }} <b style="color: red">*</b></label>
-                                {{ form.cpf }}
-                                {% if form.errors.cpf %}<div class="text-danger">{{ form.errors.cpf.as_text }}</div>{% endif %}
-                            </div>
-                            <div class="col-md-3">
-                                <label for="{{ form.dt_nascimento.id_for_label }}">{{ form.data_nascimento.label|upper }} <b style="color: red">*</b></label>
-                                {{ form.data_nascimento }}
-                                {% if form.errors.data_nascimento %}<div class="text-danger">{{ form.errors.data_nascimento.as_text }}</div>{% endif %}
+                            <div class="col-md-4">
+                                <label for="{{ form.cnpj.id_for_label }}">{{ form.cnpj.label|upper }} <b style="color: red">*</b></label>
+                                {{ form.cnpj }}
+                                {% if form.errors.cnpj %}<div class="text-danger">{{ form.errors.cnpj.as_text }}</div>{% endif %}
                             </div>
                         </div>
                         <div class="row mt-4">
-                            <div class="col-md-4">
-                                <label for="{{ form.genero.id_for_label }}">{{ form.genero.label|upper }} <b style="color: red">*</b></label>
-                                {{ form.genero }}
-                            </div>
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <label for="{{ form.telefone_1.id_for_label }}">{{ form.telefone_1.label|upper }}
                                     <small>{{ form.telefone_1.help_text }}</small>
                                     <b style="color: red">*</b>
@@ -65,7 +57,7 @@
                                 {{ form.telefone_1 }}
                                 {% if form.errors.telefone_1 %}<div class="text-danger">{{ form.errors.telefone_1.as_text }}</div>{% endif %}
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <label for="{{ form.telefone_2.id_for_label }}">{{ form.telefone_2.label|upper }}</label>
                                 {{ form.telefone_2 }}
                                 {% if form.errors.telefone_2 %}<div class="text-danger">{{ form.errors.telefone_2.as_text }}</div>{% endif %}

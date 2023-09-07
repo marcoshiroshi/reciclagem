@@ -1,0 +1,15 @@
+{% if errors %}
+    <div class="border border-danger rounded text-danger p-3" style="font-size: small">
+        <h6>ERRO(S) ENCONTRADO(S)</h6>
+        {% for field in form %}
+            {% for erro in field.errors %}
+                <div class="row">
+                    <div class="col-md-4">
+                        <b>CAMPO:</b> {{ field.label }}
+                    </div>
+                    <div class="col-md-8"><b>DESCRIÇÃO DO ERRO:</b> {{ erro|escape }}</div>
+                </div>
+            {% endfor %}
+        {% endfor %}
+    </div>
+{% endif %}

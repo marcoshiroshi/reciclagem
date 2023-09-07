@@ -32,7 +32,7 @@
                             <div class="text-center text-md-center mb-4 mt-md-0">
                                 <h1 class="mb-0 h3">Inscreva-se no nosso sistema</h1>
                             </div>
-                            {{ form.errors }}
+                            {% include '01_base/partials/erros.html' with errors=form.errors %}
                             <form method="POST" class="mt-4">
                                 {% csrf_token %}
                                 <!-- Form -->

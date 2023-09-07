@@ -56,21 +56,7 @@
                     <div class="text-center">
                         <h1 class="mb-0 h3">Crie uma conta</h1>
                     </div>
-                    {% if form.errors %}
-                        <div class="border border-danger rounded text-danger p-3" style="font-size: small">
-                            <h6>ERRO(S) ENCONTRADO(S)</h6>
-                            {% for field in form %}
-                                {% for erro in field.errors %}
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            <b>CAMPO:</b> {{ field.label }}
-                                        </div>
-                                        <div class="col-md-8"><b>DESCRIÇÃO DO ERRO:</b> {{ erro|escape }}</div>
-                                    </div>
-                                {% endfor %}
-                            {% endfor %}
-                        </div>
-                    {% endif %}
+                    {% include '01_base/partials/erros.html' with errors=form.errors %}
                     <form method="POST">
                         {% csrf_token %}
                         <div class="row mt-3">
