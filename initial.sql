@@ -5612,3 +5612,18 @@ INSERT INTO core_municipio (id, nome, estado_id) VALUES
 	(5107925, 'SORRISO', 51),
 	(5107958, 'TANGARÁ DA SERRA', 51),
 	(5204250, 'CACHOEIRA DOURADA', 52);
+
+
+
+INSERT INTO auth_group_permissions (id, group_id, permission_id) VALUES (1, 3, 41);
+INSERT INTO auth_group_permissions (id, group_id, permission_id) VALUES (2, 3, 42);
+INSERT INTO auth_group_permissions (id, group_id, permission_id) VALUES (3, 3, 43);
+INSERT INTO auth_group_permissions (id, group_id, permission_id) VALUES (4, 3, 44);
+INSERT INTO auth_group_permissions (id, group_id, permission_id) VALUES (5, 2, 45);
+INSERT INTO auth_group_permissions (id, group_id, permission_id) VALUES (6, 2, 46);
+INSERT INTO auth_group_permissions (id, group_id, permission_id) VALUES (7, 2, 47);
+INSERT INTO auth_group_permissions (id, group_id, permission_id) VALUES (8, 2, 48);
+INSERT INTO auth_group_permissions (id, group_id, permission_id) VALUES (9, 1, 49);
+INSERT INTO auth_group_permissions (id, group_id, permission_id) VALUES (10, 1, 50);
+INSERT INTO auth_group_permissions (id, group_id, permission_id) VALUES (11, 1, 51);
+INSERT INTO auth_group_permissions (id, group_id, permission_id) VALUES (12, 1, 52);
