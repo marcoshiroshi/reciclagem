@@ -1,4 +1,4 @@
-from django.urls import re_path, path
+from django.urls import path
 from core.views import *
 from django.contrib.auth.decorators import login_required
 
@@ -9,6 +9,4 @@ urlpatterns = [
 
     path('ajax/load-municipios_todos/', municipios_data_todos, name='ajax_municipios_data_todos'),
 
-    # path('', HomeView.as_view(), name="home"),
-    # re_path(r'^.*\.*', Framework.as_view(), name='framework_dashboard'),
 ]

@@ -1,0 +1,64 @@
+{% extends '02_morador/base.html' %}
+{% load static %}
+{% block extra_css %}
+
+{% endblock extra_css %}
+
+{% block main %}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card border-light shadow-sm">
+                <div class="card-body">
+                    <div class="row mt-4">
+                        <div class="col-12 text-center">
+                            <h5>Pedido de Serviço de Reciclagem</h5>
+                            <p>Preencha os dados dos materiais recicláveis que você juntou e solicite que um <strong>Catador</strong> leve a um centro de reciclagem para você</p>
+                        </div>
+                    </div>
+                    <div class="row mt-4">
+                        <div class="col-12">
+                            <div class="table-responsive">
+                                <table class="table table-centered table-nowrap m-0 rounded">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th class="border-0">#</th>
+                                            <th class="border-0">Item</th>
+                                            <th class="border-0">Tipo</th>
+                                            <th class="border-0">Quantidade</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td colspan="4" class="table-secondary">
+                                                <h5 class="text-center text-muted mt-2">NENHUM ITEM CADASTRADO</h5>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <form method="POST">
+                        {% csrf_token %}
+                        
+                        {% include '01_base/partials/erros.html' with errors=form.errors %}
+                        <input type="hidden" name="status" value="1">
+                        <div class="row mt-4">
+                            <div class="col-12">
+                                <button type="submit" class="btn btn-primary float-right">
+                                    <i class="fa fa-plus"></i> CONFIRMAR E CADASTRAR ITENS
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock main %}
+{% block java_script %}
+    <script src="{% static 'assets/js/plugins/jquery-mask/jquery.mask.min.js' %}"></script>
+    <script src="{% static 'assets/js/mask.js' %}"></script>
+
+{% endblock java_script %}

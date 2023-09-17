@@ -1,6 +1,5 @@
 from django.http import HttpResponseRedirect
-from django.views.generic import TemplateView, RedirectView, UpdateView
-from django.template import loader
+from django.views.generic import RedirectView, UpdateView
 from django.shortcuts import render
 from django.contrib.auth.mixins import UserPassesTestMixin
 from django.urls import reverse_lazy
@@ -43,25 +42,6 @@ class SelectProfile(UserPassesTestMixin, UpdateView):
 
     def test_func(self):
         return True
-
-
-# class HomeView(TemplateView):
-#     template_name = "01_base/home.html"
-#
-#
-# class Framework(TemplateView):
-#     def get_template_names(self):
-#         path = self.request.path.replace("/framework", "")
-#
-#         if path == "/":
-#             load_template = "/dashboard.html"
-#         else:
-#             load_template = path
-#
-#         template = loader.get_template('00_framework' + load_template)
-#         self.template_name = template
-#
-#         return self.template_name
 
 
 def municipios_data_todos(request):

@@ -2,8 +2,8 @@ from django import forms
 from django.core.exceptions import ValidationError
 from datetime import datetime
 from core.utils import tools
-from core.models import Estado
 from morador.models import Morador
+from core.models import Estado, OrdemServico, ItemServico
 
 
 class MoradorDadosForm(forms.ModelForm):
@@ -77,3 +77,24 @@ class MoradorDadosForm(forms.ModelForm):
             attrs={'class': 'form-control'}
         )
     )
+
+
+class MoradorItemServicoForm(forms.ModelForm):
+
+    def clean_qtd(self):
+        if self.cleaned_data.get('qtd') == 0:
+            raise ValidationError('Quantidade inválida!')
+        return self.cleaned_data.get('qtd')
+
+    class Meta:
+        model = ItemServico
+
+        widgets = {
+            'item': forms.Select(attrs={'class': 'form-control js-select2'}),
+            'qtd': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Quantidade do mesmo item'}),
+        }
+
+        fields = [
+            'item',
+            'qtd',
+        ]
