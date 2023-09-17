@@ -1,3 +1,5 @@
+Trabalho de conclusão de curso, agradecimentos especialemente a nossa orientadora, Kadidja Valeria, a todo apoio do Centro Universitário do Distrito Fedeal e a todos os apoios de terceiros.
+
 RecicloDelivery: Transformando a Reciclagem em Conveniência
 
 RecicloDelivery Logo
