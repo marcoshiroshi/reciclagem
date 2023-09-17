@@ -1,0 +1,123 @@
+{% extends '02_morador/base.html' %}
+{% load static %}
+{% block extra_css %}
+
+    <style>
+        .select2-selection__rendered {
+        line-height: 31px !important;
+        }
+        .select2-container .select2-selection--single {
+            height: 40px !important;
+        }
+        .select2-selection__arrow {
+            height: 35px !important;
+        }
+    </style>
+
+{% endblock extra_css %}
+
+{% block main %}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card border-light shadow-sm">
+                <div class="card-body">
+                    <div class="row mt-4">
+                        <div class="col-12 text-center">
+                            <h5>Pedido de Serviço de Reciclagem</h5>
+                            <p>Preencha os dados dos materiais recicláveis que você juntou e solicite que um <strong>Catador</strong> leve a um centro de reciclagem para você</p>
+                        </div>
+                    </div>
+
+                    {% include '02_morador/partials/dados_pedido.html' with pedido=pedido %}
+
+                    <form method="POST">
+                        {% csrf_token %}
+                        <div class="row mt-4">
+                            <div class="col">
+                                {% include '01_base/partials/erros.html' with errors=form.errors %}
+                            </div>
+                        </div>
+                        <div class="row mt-4">
+                            <div class="col-md-5">
+                                <label for="{{ form.item.id_for_label }}">{{ form.item.label|upper }} <b style="color: red">*</b></label>
+                                {{ form.item }}
+                            </div>
+                            <div class="col-md-5">
+                                <label for="{{ form.qtd.id_for_label }}">{{ form.qtd.label|upper }} <b style="color: red">*</b></label>
+                                {{ form.qtd }}
+                            </div>
+                            <div class="col-md-2">
+                                <button class="btn btn-primary btn-block mt-4" type="submit">
+                                    Cadastrar Item
+                                    <span class="far fa-save mr-2"></span>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+
+                    <div class="row mt-4">
+                        <div class="col-12">
+                            <div class="table-responsive">
+                                <table class="table table-centered table-nowrap m-0 rounded">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th class="border-0">#</th>
+                                            <th class="border-0">Item</th>
+                                            <th class="border-0">Tipo</th>
+                                            <th class="border-0">Quantidade</th>
+                                            <th class="border-0">Peso Por Und</th>
+                                            <th class="border-0">Peso Total</th>
+                                            <th class="text-center">Excluír</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for item in pedido.itens_ordem_servico.all %}
+                                            <tr>
+                                                <td>{{ forloop.counter }}</td>
+                                                <td>{{ item.item.nome }}</td>
+                                                <td>{{ item.item.tipo.nome }}</td>
+                                                <td>{{ item.qtd }}</td>
+                                                <td>{{ item.item.peso }} g</td>
+                                                <td>{{ item.peso_total }} Kg</td>
+                                                <td class="text-center">
+                                                    <a href="{%  url 'morador_servico_item_del' item.id %}" type="button" class="btn btn-sm btn-danger">
+                                                        <span class="fa fa-trash-alt"></span>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        {% empty %}
+                                            <tr>
+                                                <td colspan="7" class="table-secondary">
+                                                    <h5 class="text-center text-muted mt-2">NENHUM ITEM CADASTRADO</h5>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mt-4">
+                        <div class="col-12">
+                            <a href="{% url 'morador_servico_finalizar' pedido.id %}" type="button" class="btn btn-primary float-right">
+                                <span class="fa fa-save"></span> Finalizar Pedido e Solicitar um Catador
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock main %}
+{% block java_script %}
+    <script src="{% static 'assets/js/plugins/jquery-mask/jquery.mask.min.js' %}"></script>
+    <script src="{% static 'assets/js/mask.js' %}"></script>
+    <script>
+        $(document).ready( function () {
+            $('.js-select2').select2();
+        });
+    </script>
+
+{% endblock java_script %}

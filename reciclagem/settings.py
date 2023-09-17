@@ -41,6 +41,7 @@ INSTALLED_PLUGINS = []
 
 INSTALLED_APPS_PROJECT = [
     'core',
+    'framework',
     'usuario',
     'morador',
     'catador',

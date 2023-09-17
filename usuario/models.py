@@ -64,11 +64,4 @@ class User(AbstractBaseUser, PermissionsMixin):
         return self.first_name
 
     def __str__(self):
-        return self.get_full_name()
-
-
-# class Morador(models.Model):
-#
-#     user = models.ForeignKey(User, models.DO_NOTHING, related_name='morador_user')
-#     telefone = models.CharField(max_length=255)
-#     email = models.EmailField(max_length=255)
+        return self.get_full_name().title()

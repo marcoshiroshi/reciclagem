@@ -1,0 +1,11 @@
+<div class="row mt-4 border border-black rounded ml-1 mr-1">
+    <div class="col-12">
+        <h5 class="text-center mt-2">Dados do Pedido</h5>
+        <ul>
+            <li>Morador: {{ pedido.morador }}</li>
+            <li>Endereço: {{ pedido.morador.endereco }}</li>
+            <li>Peso Total: {{ pedido.peso_total_servico }} Kg</li>
+            <li>Tipos de Materiais: {% for tipo in pedido.materiais_servico %}<span class="badge badge-md bg-primary">{{ tipo }}</span> {% endfor %}</li>
+        </ul>
+    </div>
+</div>

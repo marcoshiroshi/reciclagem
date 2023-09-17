@@ -20,4 +20,13 @@ class Morador(models.Model):
     latitude = models.DecimalField(max_length=255, max_digits=20, decimal_places=18, verbose_name='latitude', help_text='Coordenada geográfica da sua residência')
 
     def __str__(self):
-        return self.user.get_full_name()
+        return self.user.get_full_name().title()
+
+    def endereco(self):
+        endereco = '%s - %s, %s %s' % (
+            self.municipio.estado.nome,
+            self.municipio.nome,
+            self.logradouro,
+            self.complemento if self.complemento else ''
+        )
+        return endereco.title()
