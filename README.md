@@ -62,17 +62,15 @@ Este é um projeto de conclusão de curso, desenvolvido por Marcos Hiroshi Souza
 
 ## Como Executar o Projeto
 
-1. Clone o repositório para o seu ambiente local:
-    ```git clone https://github.com/marcoshiroshi/reciclagem.git```
+1. Clone o repositório para o seu ambiente local: ```git clone https://github.com/marcoshiroshi/reciclagem.git```
 
-2. Crie um ambiente virtual Python e instale as dependências:
+2. Crie um ambiente virtual Python e instale as dependências: ```pip install -r "requirements.txt"```
 
-3. Configure as variáveis de ambiente necessárias, como chaves de API, se aplicável.
+3. Execute as migrações do banco de dados e inicie o servidor: 
+```python manage.py migrate```
+```python manage.py runserver```
 
-4. Execute as migrações do banco de dados e inicie o servidor:
-
-
-5. Acesse o aplicativo em seu navegador: `http://localhost:8000`
+4. Acesse o aplicativo em seu navegador: `http://127.0.0.1:8000`
 
 ## Contribuições
 
