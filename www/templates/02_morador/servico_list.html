@@ -16,9 +16,19 @@
                     </div>
                     <div class="row">
                         <div class="col-12">
-                            <a href="{% url 'morador_servico_add' %}" type="button" class="btn btn-primary float-right">
-                                <span class="fa fa-plus"></span> Novo Pedido
-                            </a>
+                            {% if botao_cadastro %}
+                                <a href="{% url 'morador_servico_add' %}" type="button" class="btn btn-primary float-right">
+                                    <span class="fa fa-plus"></span> Novo Pedido
+                                </a>
+                            {% else %}
+
+                                <span class="float-right" tabindex="0" data-toggle="tooltip" data-placement="left" title="Você já tem um pedido em andamento. Espere o pedido ser finalizado para iniciar um novo.">
+                                    <button class="btn btn-secondary" style="pointer-events: none;" type="button" disabled>
+                                        <span class="fa fa-ban"></span> Novo Pedido
+                                    </button>
+                                </span>
+                            {% endif %}
+
                         </div>
                     </div>
                     <div class="row mt-4">
@@ -28,7 +38,7 @@
                                     <thead class="thead-light">
                                         <tr>
                                             <th class="border-0">Pedido Nº</th>
-                                            <th class="border-0">Peso</th>
+                                            <th class="border-0">Peso (Kg)</th>
                                             <th class="border-0">Data Inicio</th>
                                             <th class="border-0 text-center">Status</th>
                                             <th class="border-0 text-center">Ação</th>
@@ -37,20 +47,20 @@
                                     <tbody>
                                         {% for pedido in object_list %}
                                             <tr>
-                                                <td>{{ pedido.id }}</td>
-                                                <td>{{ pedido.itens_ordem_servico.count }}</td>
+                                                <td>{{ pedido.numero }}</td>
+                                                <td>{{ pedido.peso_total_servico }} Kg</td>
                                                 <td>{{ pedido.data_criada }}</td>
                                                 <td class="text-center"><span class="badge badge-md bg-secondary">{{ pedido.status.nome }}</span></td>
                                                 <td class="text-center">
-                                                    <a href="{% url 'morador_servico_item_add' pedido.id %}" class="btn btn-sm btn-primary" type="button">
+                                                    <a href="{% url 'morador_servico_redirect' pedido.id %}" class="btn btn-sm btn-primary" type="button">
                                                         <span class="far fa-paper-plane mr-2"></span>Ver Mais
                                                     </a>
                                                 </td>
                                             </tr>
                                         {% empty %}
                                             <tr>
-                                                <td colspan="4" class="table-secondary">
-                                                    <h5 class="text-center text-muted mt-2">Nenhum pedido Realizado</h5>
+                                                <td colspan="5" class="table-secondary">
+                                                    <h5 class="text-center text-muted mt-2">Nenhum Pedido Realizado</h5>
                                                 </td>
                                             </tr>
                                         {% endfor %}
