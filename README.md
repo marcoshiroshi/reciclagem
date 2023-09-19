@@ -63,6 +63,7 @@ Este é um projeto de conclusão de curso, desenvolvido por Marcos Hiroshi Souza
 ## Como Executar o Projeto
 
 1. Clone o repositório para o seu ambiente local:
+    '''git clone https://github.com/marcoshiroshi/reciclagem.git'''
 
 2. Crie um ambiente virtual Python e instale as dependências:
 
