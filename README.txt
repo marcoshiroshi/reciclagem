@@ -1,52 +1,95 @@
-Projeto de Reciclagem Sustentável - "RecicloDelivery"
-RecicloDelivery Logo
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Sistema Gerenciador de Serviços de Reciclagem</title>
+</head>
+<body>
+    <h1>Sistema Gerenciador de Serviços de Reciclagem</h1>
 
-Bem-vindo ao projeto RecicloDelivery! Este é um sistema inovador que visa promover a reciclagem de forma eficiente, semelhante a um serviço de entrega, mas para resíduos recicláveis. Aqui, os moradores podem solicitar a coleta de lixo reciclável em suas casas e, em seguida, os catadores locais recolherão o material e o entregarão a um centro de reciclagem. Além disso, o sistema promove a sustentabilidade por meio de um sistema de pontuação, métricas e recompensas para os melhores catadores e moradores que mais reciclam.
+    <h2>Descrição do Projeto</h2>
 
-Como Funciona
-Cadastro de Moradores:
+    <p>Este é um projeto de Trabalho de Conclusão de Curso (TCC) desenvolvido por Marcos Hiroshi Souza Mori e Gabriel Dias, sob a orientação da Professora Kadidja Valéria. O projeto consiste em um sistema de gerenciamento de serviços de reciclagem que envolve três atores principais: moradores, catadores e centros de coleta. O sistema é projetado para facilitar a coleta eficiente de materiais recicláveis.</p>
 
-Os moradores se cadastram na plataforma RecicloDelivery, fornecendo suas informações e endereço.
-Solicitação de Coleta:
+    <h2>Funcionalidades Principais</h2>
 
-Os moradores podem solicitar a coleta de lixo reciclável através do aplicativo ou site, selecionando a data e horário convenientes.
-Catadores Locais:
+    <h3>Para Moradores:</h3>
+    <ul>
+        <li>Os moradores podem separar materiais recicláveis em suas residências.</li>
+        <li>Quando tiverem uma quantidade significativa de materiais recicláveis, podem utilizar o aplicativo para solicitar a coleta pelos catadores.</li>
+    </ul>
 
-Catadores locais cadastrados recebem notificações das solicitações de coleta em sua área.
-Coleta e Entrega:
+    <h3>Para Catadores:</h3>
+    <ul>
+        <li>Os catadores recebem solicitações de coleta de materiais recicláveis através do aplicativo.</li>
+        <li>Eles podem visualizar as solicitações, aceitá-las e organizar suas rotas de coleta.</li>
+        <li>O sistema calcula automaticamente as rotas e distâncias a serem percorridas pelos catadores, utilizando a tecnologia JavaScript e a biblioteca Leaflet.</li>
+    </ul>
 
-Os catadores coletam o lixo reciclável na residência do morador e o entregam em um centro de reciclagem parceiro.
-Pontuação e Recompensas:
+    <h3>Para Centros de Coleta:</h3>
+    <ul>
+        <li>Os centros de coleta recebem os materiais recicláveis coletados pelos catadores.</li>
+        <li>O sistema registra e monitora os materiais recebidos, garantindo uma destinação adequada para a reciclagem.</li>
+    </ul>
 
-Tanto moradores quanto catadores acumulam pontos por suas ações sustentáveis.
-Os melhores catadores e moradores que mais reciclam recebem recompensas e reconhecimento.
-Benefícios do RecicloDelivery
-Sustentabilidade: Contribuímos para a preservação do meio ambiente, reduzindo resíduos e promovendo a reciclagem.
+    <h2>Tecnologias Utilizadas</h2>
 
-Facilidade: Oferecemos uma maneira conveniente de descartar resíduos recicláveis sem sair de casa.
+    <ul>
+        <li>Linguagem de Programação: Python</li>
+        <li>Framework Backend: Django</li>
+        <li>Framework Frontend: Bootstrap</li>
+        <li>Banco de Dados: SQLite</li>
+        <li>Tecnologia de Rota e Distância: JavaScript com a biblioteca Leaflet</li>
+    </ul>
 
-Geração de Renda: O sistema ajuda a criar oportunidades de emprego para catadores locais.
+    <h2>Como Executar o Projeto</h2>
 
-Recompensas: Incentivamos a participação ativa com prêmios e reconhecimento para os melhores participantes.
+    <ol>
+        <li>Clone o repositório para o seu ambiente local:</li>
+    </ol>
 
-Métricas e Sustentabilidade
-Estamos comprometidos com a transparência e a sustentabilidade. Aqui estão algumas métricas que acompanhamos e promovemos:
+    <pre>
+        <code>git clone https://github.com/seu-usuario/seu-repositorio.git</code>
+    </pre>
 
-Redução de Resíduos: Acompanhamos a quantidade de resíduos recicláveis coletados em comparação com o descarte inadequado.
+    <ol start="2">
+        <li>Crie um ambiente virtual Python e instale as dependências:</li>
+    </ol>
 
-Pontuação: Mantemos um sistema de pontuação que recompensa a reciclagem constante.
+    <pre>
+        <code>cd seu-repositorio
+python -m venv venv
+source venv/bin/activate   # No Windows, use "venv\Scripts\activate"
+pip install -r requirements.txt</code>
+    </pre>
 
-Emprego Local: Avaliamos o impacto positivo na criação de empregos para catadores locais.
+    <ol start="4">
+        <li>Configure as variáveis de ambiente necessárias, como chaves de API, se aplicável.</li>
+    </ol>
 
-Parcerias com Centros de Reciclagem: Trabalhamos com centros de reciclagem parceiros para garantir que o material seja reciclado de forma eficiente.
+    <ol start="5">
+        <li>Execute as migrações do banco de dados e inicie o servidor:</li>
+    </ol>
 
-Contribua para um Futuro Sustentável
-Participe do RecicloDelivery e faça parte da mudança para um mundo mais sustentável. Junte-se a nós na jornada da reciclagem consciente, onde cada ação conta!
+    <pre>
+        <code>python manage.py migrate
+python manage.py runserver</code>
+    </pre>
 
-Para mais informações, visite nosso site em www.reciclodelivery.com ou entre em contato conosco em contato@reciclodelivery.com.
+    <ol start="6">
+        <li>Acesse o aplicativo em seu navegador: <a href="http://localhost:8000">http://localhost:8000</a></li>
+    </ol>
 
-Siga-nos nas redes sociais: Facebook | Instagram | Twitter
+    <h2>Contribuições</h2>
 
-Juntos, podemos fazer a diferença! 🌱🌍
+    <p>Contribuições são bem-vindas! Sinta-se à vontade para abrir issues ou enviar pull requests.</p>
 
-Nota: Este é um exemplo fictício de um "README" para um projeto de reciclagem. Lembre-se de personalizar as informações de acordo com o seu projeto real, incluindo logotipos, links, detalhes específicos e informações de contato reais
+    <h2>Licença</h2>
+
+    <p>Este projeto é licenciado sob a <a href="LICENSE">Licença MIT</a>.</p>
+
+    <hr>
+
+    <p>Certifique-se de adaptar este README com informações específicas do seu projeto, como o nome do repositório, o link do repositório real e quaisquer instruções adicionais relevantes para a execução e uso do sistema. Boa sorte com o seu TCC!</p>
+</body>
+</html>

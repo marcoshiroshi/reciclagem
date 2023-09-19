@@ -7,4 +7,6 @@ urlpatterns = [
     path('dados/redirect/', CatadorDadosRedirectView.as_view(), name='catador_dados_redirect'),
     path('dados/add/', CatadorDadosAddView.as_view(), name='catador_dados_add'),
     path('dados/att/', CatadorDadosAttView.as_view(), name='catador_dados_att'),
+
+    path('pedidos/list/', CatadorPedidosListView.as_view(), name='catador_pedidos_list'),
 ]
