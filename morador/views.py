@@ -1,3 +1,5 @@
+import datetime
+
 from django.http import HttpResponseRedirect
 from django.views.generic import TemplateView, RedirectView, UpdateView, CreateView, ListView, DetailView, DeleteView
 from django.contrib.auth.mixins import UserPassesTestMixin, PermissionRequiredMixin
@@ -123,6 +125,12 @@ class MoradorServicoFinalizadoView(PermissionRequiredMixin, UserPassesTestMixin,
 
     def test_func(self):
         return True if self.request.user.is_authenticated and self.request.user.profile_active.name == 'MORADOR' else False
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.data_solicitada = datetime.datetime.now()
+        self.object.save()
+        return HttpResponseRedirect(self.success_url)
 
 
 class MoradorServicoItemAddView(PermissionRequiredMixin, UserPassesTestMixin, CreateView):

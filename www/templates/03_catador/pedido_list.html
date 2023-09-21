@@ -92,11 +92,13 @@
                     <ul class="nav nav-tabs mb-4" id="myTab" role="tablist">
                         <li class="nav-item">
                             <a class="nav-link active pb-2 pt-2" id="meus-pedidos-tab" data-toggle="tab" href="#meus-pedidos" role="tab" aria-controls="meus-pedidos" aria-selected="true">
-                                Meus Pedidos ({{ object_list.count }})
+                                Meus Pedidos ({{ meus_pedidos.count }})
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link pb-2 pt-2" id="novos-pedidos-tab" data-toggle="tab" href="#novos-pedidos" role="tab" aria-controls="novos-pedidos" aria-selected="false">Novos Pedidos</a>
+                            <a class="nav-link pb-2 pt-2" id="novos-pedidos-tab" data-toggle="tab" href="#novos-pedidos" role="tab" aria-controls="novos-pedidos" aria-selected="false">
+                                Novos Pedidos ({{ novos_pedidos.count }})
+                            </a>
                         </li>
                     </ul>
                     <div class="tab-content" id="myTabContent">
@@ -114,7 +116,7 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    {% for pedido in object_list %}
+                                    {% for pedido in meus_pedidos %}
                                         <tr>
                                             <td>{{ pedido.numero }}</td>
                                             <td>{{ pedido.morador.endereco|truncatechars:'50' }}</td>
@@ -153,7 +155,7 @@
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        {% for pedido in object_list %}
+                                        {% for pedido in novos_pedidos %}
                                         <tr>
                                             <td>{{ pedido.numero }}</td>
                                             <td>{{ pedido.morador.endereco|truncatechars:'50' }}</td>
@@ -161,7 +163,7 @@
                                             <td>{% for tipo in pedido.materiais_servico %}<span class="badge badge-md bg-primary">{{ tipo }}</span> {% empty %} SEM INFORMAÇÃO {% endfor %}</td>
                                             <td>34 km</td>
                                             <td>
-                                                <a href="" class="btn btn-sm btn-primary">
+                                                <a href="{% url 'catador_pedido_add' pedido.id %}" class="btn btn-sm btn-primary">
                                                     <span class="fa fa-eye"></span> Ver Mais
                                                 </a>
                                             </td>

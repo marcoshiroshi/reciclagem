@@ -59,12 +59,25 @@ class CatadorDadosAttView(PermissionRequiredMixin, UserPassesTestMixin, UpdateVi
 class CatadorPedidosListView(PermissionRequiredMixin, UserPassesTestMixin, ListView):
     model = OrdemServico
     template_name = '03_catador/pedido_list.html'
-    # form_class = CatadorDadosForm
     permission_required = 'catador.view_catador'
-    success_url = reverse_lazy('catador_home')
-
-    def get_object(self, queryset=None):
-        return self.request.user.catador_usuario
 
     def test_func(self):
         return True if self.request.user.is_authenticated and self.request.user.profile_active.name == 'CATADOR' else False
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        return dict(
+            super().get_context_data(**kwargs),
+            meus_pedidos=self.object_list.filter(catador=self.request.user.catador_usuario),
+            novos_pedidos=self.object_list.filter(catador=None)
+        )
+
+
+class CatadorPedidoAddView(PermissionRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = OrdemServico
+    template_name = '03_catador/pedido_add.html'
+    fields = '__all__'
+    permission_required = 'catador.view_catador'
+
+    def test_func(self):
+        return True if self.request.user.is_authenticated and self.request.user.profile_active.name == 'CATADOR' else False
+

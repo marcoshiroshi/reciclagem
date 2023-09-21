@@ -59,6 +59,10 @@ Este é um projeto de conclusão de curso, desenvolvido por Marcos Hiroshi Souza
 - 📢 Implementação de banners de notificações.
 - 📢📚 Avisos, dicas e instruções para os usuários.
 
+## Etapas a Fazer
+
+- consertar localizacao do mapa iterativo no pedido de catador
+
 
 ## Como Executar o Projeto
 
