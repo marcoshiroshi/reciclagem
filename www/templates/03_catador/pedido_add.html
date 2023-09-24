@@ -3,10 +3,8 @@
 {% block extra_css %}
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
 <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
-<!-- Inclua o plugin de roteamento Leaflet Routing Machine -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.css" />
 <script src="https://cdn.jsdelivr.net/npm/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.js"></script>
-{#<script src="https://cdn.jsdelivr.net/npm/leaflet-routing-machine-i18n/dist/leaflet-routing-machine.js"></script>#}
 
 
 <style>
@@ -43,6 +41,42 @@
                             </div>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col">
+                            <form method="POST">
+                                {% csrf_token %}
+                                <div class="modal fade" id="modal-notification" tabindex="-1" role="dialog" aria-labelledby="modal-notification" aria-hidden="true">
+                                    <div class="modal-dialog modal-info modal-dialog-centered" role="document">
+                                        <div class="modal-content bg-gradient-cyan">
+                                            <div class="modal-header">
+                                                <p class="modal-title text-white" id="modal-title-notification">Confirmação do Pedido</p>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">×</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="py-3 text-center text-white">
+                                                    <span class="modal-icon display-1-lg"><span class="far fa-plus-square"></span></span>
+                                                    <h2 class="h4 modal-title my-3">Tem certeza que deseja pegar esse pedido?</h2>
+                                                    <p class="text-white"><strong>Atenção!</strong> Ao clicar em <strong>Confirmar</strong> você será responsável por buscar esse pedido na casa do morador e entregar em um centro de coleta.</p>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <form method="POST">
+                                                    {% csrf_token %}
+                                                    <button type="button" class="btn btn-sm btn-danger" data-dismiss="modal" aria-label="Close">Cancelar</button>
+                                                    <button type="submit" value="{{ user.catador_usuario.id }}" name="catador" class="btn btn-sm btn-white">Confirmar</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button type="button" class="btn btn-primary float-right mt-4" data-toggle="modal" data-target="#modal-notification">
+                                    <span class="fa fa-plus-square"></span> Finalizar Pedido e Solicitar um Catador
+                                </button>
+                            </form>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -51,34 +85,34 @@
 {% endblock main %}
 {% block java_script %}
 <script>
-    const latitudePedido = parseFloat({{ object.morador.latitude }});
-    const longitudePedido = parseFloat({{ object.morador.longitude }});
-    const map = L.map('map').setView([latitudePedido, longitudePedido], 5);
+    const latitudePedido = parseFloat({{ object.morador.localizacao.0 }});
+    const longitudePedido = parseFloat({{ object.morador.localizacao.1}});
 
-    console.log(latitudePedido);
-    console.log(longitudePedido);
-
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-    }).addTo(map);
-
-    var origem = L.latLng(-23.55052322222222222232311, -46.55052322222222222232311);
-    {#var destino = L.latLng(latitudePedido, longitudePedido);#}
-    var destino = L.latLng(latitudePedido, longitudePedido);
+    if ('geolocation' in navigator){
+        navigator.geolocation.getCurrentPosition( function (position){
 
 
-    console.log(origem);
-    console.log(destino);
+            const map = L.map('map').setView([latitudePedido, longitudePedido], 5);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
 
-    L.marker(origem).addTo(map).bindPopup('Origem');
-    L.marker(destino).addTo(map).bindPopup('Destino');
+            var origem = L.latLng(position.coords.latitude, position.coords.longitude);
+            var destino = L.latLng(latitudePedido, longitudePedido);
 
-    var router = L.Routing.control({
-        waypoints: [origem, destino],
+            L.marker(origem).addTo(map).bindPopup('Origem');
+            L.marker(destino).addTo(map).bindPopup('Destino');
 
-    }).addTo(map);
+            var router = L.Routing.control({
+                waypoints: [origem, destino]
+            }).addTo(map)
 
-
+        }, function (erro){
+            console.log(erro)
+        })
+    } else{
+        console.log('Não foi possível buscar sua localização')
+    }
 
 </script>
 {% endblock java_script %}

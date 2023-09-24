@@ -30,3 +30,6 @@ class Morador(models.Model):
             self.complemento if self.complemento else ''
         )
         return endereco.title()
+
+    def localizacao(self):
+        return [str(self.latitude), str(self.longitude)]

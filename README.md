@@ -46,12 +46,12 @@ Este é um projeto de conclusão de curso, desenvolvido por Marcos Hiroshi Souza
 - 👤 Perfis de atores: Moradores, Catadores, Centros de Coleta.
 - 📝 Cadastro de atores.
 - 📦 Cadastro de pedido pelo morador.
-
-## Próximas Etapas
-
 - 🚛 Recebimento de pedidos pelo catador.
 - 📋 Controle de pedidos pelo catador.
 - 🗺️ Sistema de cálculo de rota.
+
+## Próximas Etapas
+
 - 📦 Módulo de pedidos do centro de coleta.
 - 📊 Módulo gerenciador de pedidos do centro de coleta.
 - 📦 Controle de estoque no centro de coleta.

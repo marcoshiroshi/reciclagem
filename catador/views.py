@@ -1,11 +1,11 @@
 from django.http import HttpResponseRedirect
-from django.views.generic import TemplateView, RedirectView, UpdateView, CreateView, ListView
+from django.views.generic import TemplateView, RedirectView, UpdateView, CreateView, ListView, DetailView
 from django.contrib.auth.mixins import UserPassesTestMixin, PermissionRequiredMixin
 from django.urls import reverse_lazy, reverse
 from django.contrib.auth.models import Group
 from catador.models import Catador
 from catador.forms import CatadorDadosForm
-from core.models import OrdemServico
+from core.models import OrdemServico, StatusServico
 
 
 class CatadorHomeView(UserPassesTestMixin, TemplateView):
@@ -75,9 +75,23 @@ class CatadorPedidosListView(PermissionRequiredMixin, UserPassesTestMixin, ListV
 class CatadorPedidoAddView(PermissionRequiredMixin, UserPassesTestMixin, UpdateView):
     model = OrdemServico
     template_name = '03_catador/pedido_add.html'
-    fields = '__all__'
+    fields = ['catador']
     permission_required = 'catador.view_catador'
 
     def test_func(self):
         return True if self.request.user.is_authenticated and self.request.user.profile_active.name == 'CATADOR' else False
 
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.status = StatusServico.objects.filter(id=3).first()
+        self.object.save()
+        return HttpResponseRedirect(reverse_lazy('catador_pedidos_list'))
+
+
+class CatadorPedidoVerView(PermissionRequiredMixin, UserPassesTestMixin, DetailView):
+    model = OrdemServico
+    template_name = '03_catador/pedido_ver.html'
+    permission_required = 'catador.view_catador'
+
+    def test_func(self):
+        return True if self.request.user.is_authenticated and self.request.user.profile_active.name == 'CATADOR' else False

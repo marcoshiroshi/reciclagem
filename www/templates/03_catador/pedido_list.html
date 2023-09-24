@@ -124,7 +124,7 @@
                                             <td>{% for tipo in pedido.materiais_servico %}<span class="badge badge-md bg-primary">{{ tipo }}</span> {% empty %} SEM INFORMAÇÃO {% endfor %}</td>
                                             <td>34 km</td>
                                             <td>
-                                                <a href="" class="btn btn-sm btn-primary">
+                                                <a href="{% url 'catador_pedido_ver' pedido.id %}" class="btn btn-sm btn-primary">
                                                     <span class="fa fa-eye"></span> Ver Mais
                                                 </a>
                                             </td>
@@ -156,25 +156,25 @@
                                         </thead>
                                         <tbody>
                                         {% for pedido in novos_pedidos %}
-                                        <tr>
-                                            <td>{{ pedido.numero }}</td>
-                                            <td>{{ pedido.morador.endereco|truncatechars:'50' }}</td>
-                                            <td>{{ pedido.peso_total_servico }} Kg</td>
-                                            <td>{% for tipo in pedido.materiais_servico %}<span class="badge badge-md bg-primary">{{ tipo }}</span> {% empty %} SEM INFORMAÇÃO {% endfor %}</td>
-                                            <td>34 km</td>
-                                            <td>
-                                                <a href="{% url 'catador_pedido_add' pedido.id %}" class="btn btn-sm btn-primary">
-                                                    <span class="fa fa-eye"></span> Ver Mais
-                                                </a>
-                                            </td>
-                                        </tr>
-                                    {% empty %}
-                                        <tr>
-                                            <td colspan="6" class="table-secondary">
-                                                <h4 class="text-center text-uppercase text-muted pt-2">NENHUM NOVO PEDIDO</h4>
-                                            </td>
-                                        </tr>
-                                    {% endfor %}
+                                            <tr>
+                                                <td>{{ pedido.numero }}</td>
+                                                <td>{{ pedido.morador.endereco|truncatechars:'50' }}</td>
+                                                <td>{{ pedido.peso_total_servico }} Kg</td>
+                                                <td>{% for tipo in pedido.materiais_servico %}<span class="badge badge-md bg-primary">{{ tipo }}</span> {% empty %} SEM INFORMAÇÃO {% endfor %}</td>
+                                                <td>34 km</td>
+                                                <td>
+                                                    <a href="{% url 'catador_pedido_add' pedido.id %}" class="btn btn-sm btn-primary">
+                                                        <span class="fa fa-eye"></span> Ver Mais
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        {% empty %}
+                                            <tr>
+                                                <td colspan="6" class="table-secondary">
+                                                    <h4 class="text-center text-uppercase text-muted pt-2">NENHUM NOVO PEDIDO</h4>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
                                         </tbody>
                                     </table>
                                 </div>
@@ -187,5 +187,7 @@
     </div>
 
 {% endblock main %}
+
 {% block java_script %}
+
 {% endblock java_script %}
