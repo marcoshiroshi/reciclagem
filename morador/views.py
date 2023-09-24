@@ -1,3 +1,5 @@
+import datetime
+
 from django.http import HttpResponseRedirect
 from django.views.generic import TemplateView, RedirectView, UpdateView, CreateView, ListView, DetailView, DeleteView
 from django.contrib.auth.mixins import UserPassesTestMixin, PermissionRequiredMixin
@@ -60,7 +62,6 @@ class MoradorServicoAddView(PermissionRequiredMixin, UserPassesTestMixin, Create
     template_name = '02_morador/servico_add.html'
     fields = ['status']
     permission_required = 'morador.view_morador'
-    success_url = reverse_lazy('morador_home')
 
     def test_func(self):
         return True if self.request.user.is_authenticated and self.request.user.profile_active.name == 'MORADOR' else False
@@ -69,7 +70,10 @@ class MoradorServicoAddView(PermissionRequiredMixin, UserPassesTestMixin, Create
         self.object = form.save(commit=False)
         self.object.morador = self.request.user.morador_usuario
         self.object.save()
-        return HttpResponseRedirect(self.success_url)
+        return HttpResponseRedirect(self.get_success_url())
+
+    def get_success_url(self):
+        return reverse('morador_servico_item_add', args=[self.object.id])
 
 
 class MoradorServicoListView(PermissionRequiredMixin, UserPassesTestMixin, ListView):
@@ -81,6 +85,36 @@ class MoradorServicoListView(PermissionRequiredMixin, UserPassesTestMixin, ListV
     def test_func(self):
         return True if self.request.user.is_authenticated and self.request.user.profile_active.name == 'MORADOR' else False
 
+    def get_context_data(self, *, object_list=None, **kwargs):
+        botao_cadastro = True
+        for status in self.object_list.values_list('status__nome', flat=True):
+            if status != 'ENTREGUE NO CENTRO DE COLETA':
+                botao_cadastro = False
+        return dict(
+            super().get_context_data(**kwargs),
+            botao_cadastro=botao_cadastro
+        )
+
+
+class MoradorServicoDetailView(PermissionRequiredMixin, UserPassesTestMixin, DetailView):
+    model = OrdemServico
+    template_name = '02_morador/servico_ver.html'
+    permission_required = 'morador.view_morador'
+    success_url = reverse_lazy('morador_home')
+
+    def test_func(self):
+        return True if self.request.user.is_authenticated and self.request.user.profile_active.name == 'MORADOR' else False
+
+
+class MoradorServicoRedirectView(RedirectView):
+
+    def get_redirect_url(self, *args, **kwargs):
+        object = OrdemServico.objects.filter(id=self.kwargs.get('pk')).first()
+        url = reverse('morador_servico_item_add', args=[object.id])
+        if object.status.nome != 'CADASTRANDO PEDIDO':
+            url = reverse('morador_servico_ver', args=[object.id])
+        return url
+
 
 class MoradorServicoFinalizadoView(PermissionRequiredMixin, UserPassesTestMixin, UpdateView):
     model = OrdemServico
@@ -91,6 +125,12 @@ class MoradorServicoFinalizadoView(PermissionRequiredMixin, UserPassesTestMixin,
 
     def test_func(self):
         return True if self.request.user.is_authenticated and self.request.user.profile_active.name == 'MORADOR' else False
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.data_solicitada = datetime.datetime.now()
+        self.object.save()
+        return HttpResponseRedirect(self.success_url)
 
 
 class MoradorServicoItemAddView(PermissionRequiredMixin, UserPassesTestMixin, CreateView):

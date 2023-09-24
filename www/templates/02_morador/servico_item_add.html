@@ -100,9 +100,16 @@
 
                     <div class="row mt-4">
                         <div class="col-12">
+                            {% if pedido.itens_ordem_servico.count > 0 %}
                             <a href="{% url 'morador_servico_finalizar' pedido.id %}" type="button" class="btn btn-primary float-right">
                                 <span class="fa fa-save"></span> Finalizar Pedido e Solicitar um Catador
                             </a>
+                            {% else %}
+                            <button class="btn btn-secondary float-right disabled">
+                                <span class="fa fa-ban"></span> Cadastre ao menos 1 (um) item
+                            </button>
+                            {%  endif %}
+
                         </div>
                     </div>
                 </div>

@@ -15,6 +15,34 @@
                             <p>Preencha os dados dos materiais recicláveis que você juntou e solicite que um <strong>Catador</strong> leve a um centro de reciclagem para você</p>
                         </div>
                     </div>
+
+                    <div class="row mt-4 border border-black rounded ml-1 mr-1">
+                        <div class="col-12">
+                            <h5 class="text-center mt-2">Dados do Pedido</h5>
+                            <div class="row">
+                                <div class="col">
+                                    <ul>
+                                        <li>Morador: {{ user }}</li>
+                                        <li>Telefone 1: {{ user.morador_usuario.telefone_1 }}</li>
+                                        <li>Telefone 2: {{ user.morador_usuario.telefone_2|default_if_none:'Sem Informação' }}</li>
+                                        <li>Endereço: {{ user.morador_usuario.endereco }}</li>
+                                        <li>Peso Total: 0 Kg</li>
+                                        <li>Tipos de Materiais: Sem Informação</li>
+                                    </ul>
+                                </div>
+                                <div class="col">
+                                    <ul>
+                                        <li>Início do Cadastro: {% now 'd/m/y - g:i:s' %}</li>
+                                        <li>Pedido Solicitado: Sem Informação</li>
+                                        <li>Pedido Recebido: Sem Informação</li>
+                                        <li>Pedido Entregue: Sem Informação</li>
+                                        <li>Status: <span class="badge badge-md bg-primary">CADASTRANDO PEDIDO</span></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="row mt-4">
                         <div class="col-12">
                             <div class="table-responsive">
@@ -45,9 +73,36 @@
                         <input type="hidden" name="status" value="1">
                         <div class="row mt-4">
                             <div class="col-12">
-                                <button type="submit" class="btn btn-primary float-right">
-                                    <i class="fa fa-plus"></i> CONFIRMAR E CADASTRAR ITENS
-                                </button>
+
+                                <div class="modal fade" id="modal-notification" tabindex="-1" role="dialog" aria-labelledby="modal-notification" aria-hidden="true">
+                                <div class="modal-dialog modal-info modal-dialog-centered" role="document">
+                                    <div class="modal-content bg-gradient-cyan">
+                                        <div class="modal-header">
+                                            <p class="modal-title text-white" id="modal-title-notification">Iniciar Cadastro de Pedido</p>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">×</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="py-3 text-center text-white">
+                                                <span class="modal-icon display-1-lg"><span class="far fa-check-square"></span></span>
+                                                <h2 class="h4 modal-title my-3">Deseja iniciar o cadastro de um pedido?</h2>
+                                                <p class="text-white">Preencha os dados dos itens na proxima etapa e solicite que um catador.</p>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <form method="POST">
+                                                {% csrf_token %}
+                                                <button type="button" class="btn btn-sm btn-danger" data-dismiss="modal" aria-label="Close">Cancelar</button>
+                                                <button type="submit" value="1" name="status" class="btn btn-sm btn-white">Confirmar</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="button" class="btn btn-primary float-right" data-toggle="modal" data-target="#modal-notification">
+                                <i class="fa fa-plus"></i> CONFIRMAR E CADASTRAR ITENS
+                            </button>
                             </div>
                         </div>
                     </form>

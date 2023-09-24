@@ -8,6 +8,9 @@ from empresa.models import Empresa
 class StatusServico(models.Model):
     nome = models.CharField(max_length=100)
 
+    def __str__(self):
+        return self.nome
+
 
 class OrdemServico(models.Model):
     status = models.ForeignKey(StatusServico, models.DO_NOTHING, related_name='ordem_servico_status')
@@ -24,7 +27,7 @@ class OrdemServico(models.Model):
         if hasattr(self, 'itens_ordem_servico'):
             for item in self.itens_ordem_servico.all():
                 total += item.peso_total()
-        return total
+        return '%.2f' % total
 
     def materiais_servico(self):
         lista = []
@@ -33,6 +36,9 @@ class OrdemServico(models.Model):
                 if item.item.tipo.nome not in lista:
                     lista.append(item.item.tipo.nome)
         return lista
+
+    def numero(self):
+        return '{:0>5}'.format(self.id)
 
 
 class ItemServico(models.Model):

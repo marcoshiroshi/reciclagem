@@ -1,13 +1,13 @@
 from django.http import HttpResponseRedirect
-from django.views.generic import TemplateView, RedirectView, UpdateView, CreateView
+from django.views.generic import TemplateView, RedirectView, UpdateView, CreateView, ListView
 from django.contrib.auth.mixins import UserPassesTestMixin, PermissionRequiredMixin
 from django.urls import reverse_lazy, reverse
 from django.contrib.auth.models import Group
 from catador.models import Catador
 from catador.forms import CatadorDadosForm
+from core.models import OrdemServico
 
 
-# class MoradorHomeView(PermissionRequiredMixin, UserPassesTestMixin, TemplateView):
 class CatadorHomeView(UserPassesTestMixin, TemplateView):
     template_name = "03_catador/home.html"
     # permission_required = ''
@@ -54,3 +54,30 @@ class CatadorDadosAttView(PermissionRequiredMixin, UserPassesTestMixin, UpdateVi
 
     def test_func(self):
         return True if self.request.user.is_authenticated and self.request.user.profile_active.name == 'CATADOR' else False
+
+
+class CatadorPedidosListView(PermissionRequiredMixin, UserPassesTestMixin, ListView):
+    model = OrdemServico
+    template_name = '03_catador/pedido_list.html'
+    permission_required = 'catador.view_catador'
+
+    def test_func(self):
+        return True if self.request.user.is_authenticated and self.request.user.profile_active.name == 'CATADOR' else False
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        return dict(
+            super().get_context_data(**kwargs),
+            meus_pedidos=self.object_list.filter(catador=self.request.user.catador_usuario),
+            novos_pedidos=self.object_list.filter(catador=None)
+        )
+
+
+class CatadorPedidoAddView(PermissionRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = OrdemServico
+    template_name = '03_catador/pedido_add.html'
+    fields = '__all__'
+    permission_required = 'catador.view_catador'
+
+    def test_func(self):
+        return True if self.request.user.is_authenticated and self.request.user.profile_active.name == 'CATADOR' else False
+
