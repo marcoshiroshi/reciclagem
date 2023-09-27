@@ -33,15 +33,7 @@
                             </h4>
                         </div>
                     </div>
-                    {% include '02_morador/partials/dados_pedido.html' with pedido=object %}
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div id="map-container">
-                                <div id="map"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
+                    <div class="row mt-4">
                         <div class="col">
                             <form method="POST">
                                 {% csrf_token %}
@@ -72,9 +64,23 @@
                                     </div>
                                 </div>
                                 <button type="button" class="btn btn-primary float-right mt-4" data-toggle="modal" data-target="#modal-notification">
-                                    <span class="fa fa-plus-square"></span> Finalizar Pedido e Solicitar um Catador
+                                    <span class="fa fa-plus-square"></span> Aceitar Pedido
                                 </button>
                             </form>
+                        </div>
+                    </div>
+
+                    {% include '02_morador/partials/dados_pedido.html' with pedido=object %}
+                    <div class="row mt-4">
+                        <div class="col-12">
+                            {% include '02_morador/partials/itens_pedido.html' with itens=object.itens_ordem_servico.all status=object.status.nome %}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div id="map-container">
+                                <div id="map"></div>
+                            </div>
                         </div>
                     </div>
                 </div>

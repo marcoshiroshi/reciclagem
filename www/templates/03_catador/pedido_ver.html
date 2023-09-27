@@ -34,11 +34,9 @@
                         </div>
                     </div>
                     {% include '02_morador/partials/dados_pedido.html' with pedido=object %}
-                    <div class="row">
+                    <div class="row mt-4">
                         <div class="col-md-12">
-                            <div id="map-container">
-                                <div id="map"></div>
-                            </div>
+                            {% include '02_morador/partials/itens_pedido.html' with itens=object.itens_ordem_servico.all %}
                         </div>
                     </div>
                     <div class="row">
@@ -60,10 +58,14 @@
     const longitudePedido = parseFloat({{ object.morador.localizacao.1}});
 
     if ('geolocation' in navigator){
-        navigator.geolocation.getCurrentPosition( function (position){
 
+        navigator.geolocation.watchPosition( function (position){
 
-            const map = L.map('map').setView([latitudePedido, longitudePedido], 5);
+            if (map) {
+                map.remove();
+            }
+
+            var map = L.map('map').setView([latitudePedido, longitudePedido], 5);
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             }).addTo(map);
@@ -80,7 +82,9 @@
 
         }, function (erro){
             console.log(erro)
-        })
+        },{enableHighAccuracy: true, maximumAge:5000, timeout: 5000}
+        )
+
     } else{
         console.log('Não foi possível buscar sua localização')
     }
