@@ -51,6 +51,12 @@
     {# for lineChart #}
     {# https://themesberg.com/docs/volt-bootstrap-5-dashboard/plugins/apexcharts/ for more charts #}
     {# https://themesberg.com/docs/volt-bootstrap-5-dashboard/getting-started/overview/ #}
+
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+      return new bootstrap.Tooltip(tooltipTriggerEl)
+    })
+
     var optionsLineChart = {
         series: [{
             name: 'Clients',
