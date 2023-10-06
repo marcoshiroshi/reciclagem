@@ -32,7 +32,14 @@
                             <div class="text-center text-md-center mb-4 mt-md-0">
                                 <h1 class="mb-0 h3">Inscreva-se no nosso sistema</h1>
                             </div>
-                            {% include '01_base/partials/erros.html' with errors=form.errors %}
+
+                            {% if form.errors %}
+                            <div class="border border-danger rounded text-danger p-3" style="font-size: small">
+                                <h6>ERRO(S) ENCONTRADO(S)</h6>
+                                {{ form.errors }}
+                            </div>
+                            {% endif %}
+
                             <form method="POST" class="mt-4">
                                 {% csrf_token %}
                                 <!-- Form -->
@@ -69,6 +76,21 @@
                                     <a href="{% url 'signup' %}" class="font-weight-bold">Crie uma conta</a>
                                 </span>
                             </div>
+
+{#                            {% if messages %}#}
+{#                                <template id="my-template">#}
+{#                                  <swal-title>#}
+{#                                    {% for message in messages %}#}
+{#                                        {{ message }}#}
+{#                                    {% endfor %}#}
+{#                                  </swal-title>#}
+{#                                  <swal-icon type="warning" color="red"></swal-icon>#}
+{#                                  <swal-button type="cancel"> Ok</swal-button>#}
+{#                                  <swal-param name="allowEscapeKey" value="false" />#}
+{#                                  <swal-param name="customClass" value='{ "popup": "my-popup" }' />#}
+{#                                    <swal-function-param name="didOpen" value="popup => console.log(popup)" />#}
+{#                                </template>#}
+{#                            {% endif %}#}
                         </div>
                     </div>
                 </div>
@@ -77,6 +99,22 @@
     </main>
 
 {% include '00_framework/partials/all_js.html' %}
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+{% if messages %}
+<script>
+    $(document).ready(function() {
+        $('.toast-right').toast('show');
+        $('.js-example-basic-single').select2();
+
+
+        {#Swal.fire(#}
+        {#  template: '#my-template'#}
+        {#)#}
+    });
+
+</script>
+{% endif %}
 
 </body>
 

@@ -26,13 +26,6 @@
         <div class="col-md-12">
             <div class="card border-light shadow-sm">
                 <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <h4 class="text-center">
-                                Deseja Pegar Esse Pedido?
-                            </h4>
-                        </div>
-                    </div>
                     {% include '02_morador/partials/dados_pedido.html' with pedido=object %}
                     <div class="row mt-4">
                         <div class="col-md-12">
@@ -46,6 +39,29 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="modal fade" id="modal-notification" tabindex="-1" role="dialog" aria-labelledby="modal-notification" aria-hidden="true">
+                        <div class="modal-dialog modal-info modal-dialog-centered" role="document">
+                            <div class="modal-content bg-gradient-soft-green">
+                                <div class="modal-header">
+                                    <p class="modal-title text-white" id="modal-title-notification">Pedido Aceito</p>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">×</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="py-3 text-center text-white">
+                                        <span class="modal-icon display-1-lg"><span class="far fa-check-circle"></span></span>
+                                        <h2 class="h4 modal-title my-3">O pedido foi aceito</h2>
+                                        <p class="text-white">
+                                            Dirija-se a residência do morador para recolher os itens recicláveis.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -57,37 +73,64 @@
     const latitudePedido = parseFloat({{ object.morador.localizacao.0 }});
     const longitudePedido = parseFloat({{ object.morador.localizacao.1}});
 
-    if ('geolocation' in navigator){
 
-        navigator.geolocation.watchPosition( function (position){
 
-            if (map) {
-                map.remove();
+
+    function atualiza_posicao() {
+        var url = $("#js-ajax-municipio").attr("data-municipio-url");
+        $.ajax({
+            url: url,
+            data: {
+                'estados': estados
+            },
+            beforeSend: function () {
+                municipio.prop('disabled', true);
+            },
+            success: function (data) {
+                municipio.html(data);
+                municipio.prop('disabled', false);
+                municipio.removeAttr('readonly');
+                callback();
             }
+        });
+    }
 
-            var map = L.map('map').setView([latitudePedido, longitudePedido], 5);
+
+
+
+    if ('geolocation' in navigator){
+        navigator.geolocation.getCurrentPosition( function (position){
+
+            const map = L.map('map').setView([latitudePedido, longitudePedido], 5);
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             }).addTo(map);
 
-            var origem = L.latLng(position.coords.latitude, position.coords.longitude);
+            var voce = L.latLng(position.coords.latitude, position.coords.longitude);
             var destino = L.latLng(latitudePedido, longitudePedido);
 
-            L.marker(origem).addTo(map).bindPopup('Origem');
-            L.marker(destino).addTo(map).bindPopup('Destino');
+            L.marker(voce).addTo(map).bindTooltip('Você', { permanent: true, className: 'custom-tooltip' });
+            L.marker(destino).addTo(map).bindTooltip('Morador', { permanent: true, className: 'custom-tooltip' });
 
             var router = L.Routing.control({
-                waypoints: [origem, destino]
+                waypoints: [voce, destino],
+                lineOptions: {
+                    styles: [{ color: 'blue', opacity: 0.6, weight: 6 }]
+                },
+                addWaypoints: false,
+                draggableWaypoints: false,
             }).addTo(map)
 
         }, function (erro){
             console.log(erro)
-        },{enableHighAccuracy: true, maximumAge:5000, timeout: 5000}
-        )
-
+        })
     } else{
         console.log('Não foi possível buscar sua localização')
     }
+
+    {% if object.status.nome == 'PEDIDO ACEITO' %}
+        $('#modal-notification').modal('show');
+    {% endif %}
 
 </script>
 {% endblock java_script %}

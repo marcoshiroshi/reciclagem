@@ -21,3 +21,6 @@ class Catador(models.Model):
 
     def __str__(self):
         return self.user.get_full_name()
+
+    def localizacao(self):
+        return [str(self.latitude), str(self.longitude)]

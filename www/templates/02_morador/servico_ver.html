@@ -1,11 +1,11 @@
 {% extends '02_morador/base.html' %}
 {% load static %}
 {% block extra_css %}
+    <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.css" />
     <script src="https://cdn.jsdelivr.net/npm/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.js"></script>
-
 
     <style>
         #map-container {
@@ -47,6 +47,28 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="modal fade" id="modal-notification" tabindex="-1" role="dialog" aria-labelledby="modal-notification" aria-hidden="true">
+                        <div class="modal-dialog modal-info modal-dialog-centered" role="document">
+                            <div class="modal-content bg-gradient-soft-green">
+                                <div class="modal-header">
+                                    <p class="modal-title text-white" id="modal-title-notification">Pedido Aceito</p>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">×</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="py-3 text-center text-white">
+                                        <span class="modal-icon display-1-lg"><span class="far fa-check-circle"></span></span>
+                                        <h2 class="h4 modal-title my-3">Seu pedido foi aceito </h2>
+                                        <p class="text-white">
+                                            O seu pedido foi aceito pelo Catador! Espere na sua residência até ele chegar e entregue os itens combinados.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -78,7 +100,7 @@
                     styles: [{ color: 'blue', opacity: 0.6, weight: 6 }]
                 },
                 addWaypoints: false,
-                draggableWaypoints: false
+                draggableWaypoints: false,
             }).addTo(map)
 
         }, function (erro){
@@ -88,6 +110,14 @@
         console.log('Não foi possível buscar sua localização')
     }
 
+    setTimeout(
+        function() {
+            $('.leaflet-routing-alt').find('table').slideUp();
+    }, 450)
+
+    {% if object.status.nome == 'PEDIDO ACEITO' %}
+        $('#modal-notification').modal('show');
+    {% endif %}
 </script>
 
 {% endblock java_script %}

@@ -1,7 +1,9 @@
 from django.http import HttpResponseRedirect
-from django.views.generic import CreateView, UpdateView
+from django.views.generic import CreateView
+from django.contrib.auth import logout as auth_logout
 from django.urls import reverse_lazy
 from django.contrib.auth.views import LogoutView
+from django.contrib import messages
 from .forms import SignUpForm
 
 
@@ -14,6 +16,7 @@ class SignUpView(CreateView):
         self.object = form.save(commit=False)
         self.object.is_active = True
         self.object.save()
+        messages.success(self.request, 'Cadastro realizado com sucesso! Faça login com os seus dados.')
         return HttpResponseRedirect(self.get_success_url())
 
 
@@ -22,6 +25,7 @@ class LogOut(LogoutView):
         """Logout may be done via POST."""
         auth_logout(request)
         redirect_to = self.get_success_url()
+        # messages.success(self.request, 'Você saiu do sistema.')
         if redirect_to != request.get_full_path():
             # Redirect to target page once the session has been cleared.
             return HttpResponseRedirect(redirect_to)

@@ -16,6 +16,17 @@ class MoradorHomeView(UserPassesTestMixin, TemplateView):
     def test_func(self):
         return True if self.request.user.is_authenticated and self.request.user.profile_active.name == 'MORADOR' else False
 
+    def get_context_data(self, **kwargs):
+        botao_cadastro = True
+
+        for status in self.request.user.morador_usuario.ordem_servico_morador.all().values_list('status__nome', flat=True):
+            if status != 'ENTREGUE NO CENTRO DE COLETA':
+                botao_cadastro = False
+
+        kwargs.setdefault("view", self)
+        kwargs.update({'botao_cadastro': botao_cadastro})
+        return kwargs
+
 
 class MoradorDadosRedirectView(RedirectView):
     def get_redirect_url(self, *args, **kwargs):
@@ -84,6 +95,9 @@ class MoradorServicoListView(PermissionRequiredMixin, UserPassesTestMixin, ListV
 
     def test_func(self):
         return True if self.request.user.is_authenticated and self.request.user.profile_active.name == 'MORADOR' else False
+
+    def get_queryset(self):
+        return OrdemServico.objects.filter(morador=self.request.user.morador_usuario)
 
     def get_context_data(self, *, object_list=None, **kwargs):
         botao_cadastro = True

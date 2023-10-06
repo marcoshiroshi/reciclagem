@@ -25,14 +25,18 @@
                         <div class="col-12">
                             <div class="btn-group float-right">
 
-                                {% if botao_cadastro %}
-                                    <a href="{% url 'morador_servico_add' %}" type="button" class="btn btn-primary btn-sm">
-                                        <span class="fa fa-plus mr-2"></span> Novo Pedido
-                                    </a>
+                                {% if user.morador_usuario %}
+                                    {% if botao_cadastro %}
+                                        <a href="{% url 'morador_servico_add' %}" type="button" class="btn btn-primary btn-sm">
+                                            <span class="fa fa-plus mr-2"></span> Novo Pedido
+                                        </a>
+                                    {% else %}
+                                        <a class="btn btn-secondary btn-sm me-2" type="button" data-bs-toggle="tooltip" data-placement="left" title="Você já tem um pedido em andamento. Espere o pedido ser finalizado para iniciar um novo.">
+                                            <span class="fa fa-ban mr-2"></span> Novo Pedido
+                                        </a>
+                                    {% endif %}
                                 {% else %}
-
-{#                                    <button class="btn btn-secondary btn-sm me-2" style="pointer-events: none;" type="button" data-bs-toggle="tooltip" data-bs-placement="left" title="Tooltip on left">#}
-                                    <a class="btn btn-secondary btn-sm me-2" type="button" data-bs-toggle="tooltip" data-placement="left" title="Você já tem um pedido em andamento. Espere o pedido ser finalizado para iniciar um novo.">
+                                    <a class="btn btn-secondary btn-sm me-2" type="button" data-bs-toggle="tooltip" data-placement="left" title="Faça o cadastro dos seus dados primeiro.">
                                         <span class="fa fa-ban mr-2"></span> Novo Pedido
                                     </a>
                                 {% endif %}
