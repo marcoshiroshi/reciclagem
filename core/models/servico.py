@@ -12,6 +12,13 @@ class StatusServico(models.Model):
         return self.nome
 
 
+class StatusItem(models.Model):
+    nome = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.nome
+
+
 class OrdemServico(models.Model):
     status = models.ForeignKey(StatusServico, models.DO_NOTHING, related_name='ordem_servico_status')
     morador = models.ForeignKey(Morador, models.DO_NOTHING, related_name='ordem_servico_morador')
@@ -43,6 +50,7 @@ class OrdemServico(models.Model):
 
 class ItemServico(models.Model):
     ordem = models.ForeignKey(OrdemServico, models.DO_NOTHING, related_name='itens_ordem_servico')
+    status = models.ForeignKey(StatusItem, models.DO_NOTHING, related_name='itens_status', default=1)
     item = models.ForeignKey(Item, models.DO_NOTHING, related_name='ordem_servico_item', verbose_name='Item para ser reciclado')
     qtd = models.PositiveIntegerField(verbose_name='Quantidade do mesmo item')
 

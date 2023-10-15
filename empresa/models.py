@@ -1,5 +1,5 @@
 from django.db import models
-from core.models import Municipio
+from core.models import Municipio, Tipo
 from usuario.models import User
 
 
@@ -20,3 +20,10 @@ class Empresa(models.Model):
 
     def __str__(self):
         return self.nome
+
+
+class PontoColeta(models.Model):
+    empresa = models.ForeignKey(Empresa, models.DO_NOTHING)
+    tipo_aceito = models.ManyToManyField(Tipo, verbose_name="Tipos de Itens Aceitos")
+    longitude = models.DecimalField(max_length=255, max_digits=20, decimal_places=18, verbose_name='longitude', help_text='Coordenada geográfica do ponto de coleta')
+    latitude = models.DecimalField(max_length=255, max_digits=20, decimal_places=18, verbose_name='latitude', help_text='Coordenada geográfica do ponto de coleta')

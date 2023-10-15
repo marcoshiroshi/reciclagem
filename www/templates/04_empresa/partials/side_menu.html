@@ -41,19 +41,12 @@
                 </a>
             </li>
             <li class="nav-item">
-{#                <a href="{% url 'empresa_home' %}" class="nav-link disabled">#}
+                {%  if user.empresa_usuario %}
                 <a href="" class="nav-link disabled">
-                    <span class="sidebar-icon"><span class="fa fa-trash-alt"></span></span>
-                    <span>Pedidos</span>
+                    <span class="sidebar-icon"><span class="fa fa-map-pin"></span></span>
+                    <span>Pontos de Coleta</span>
                 </a>
-            </li>
-            <li role="separator" class="dropdown-divider mt-2 mb-2 border-black"></li>
-            <li class="nav-item">
-                <a href="https://themesberg.com/docs/volt-bootstrap-5-dashboard/getting-started/quick-start/"
-                   target="_blank" class="nav-link d-flex align-items-center">
-                    <span class="sidebar-icon"><span class="fas fa-book"></span></span>
-                    <span>Framework</span>
-                </a>
+                {% endif %}
             </li>
         </ul>
     </div>

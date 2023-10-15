@@ -100,7 +100,7 @@
         }).addTo(map);
 
         {% if not possui_morador %}
-            {#$('#modal-notification-morador').modal('show');#}
+            $('#modal-notification-morador').modal('show');
         {% else %}
             const latitudeCasa = parseFloat({{ user.morador_usuario.localizacao.0 }});
             const longitudeCasa = parseFloat({{ user.morador_usuario.localizacao.1}});
