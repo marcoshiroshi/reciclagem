@@ -18,13 +18,19 @@ class MoradorHomeView(UserPassesTestMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         botao_cadastro = True
+        morador = False
 
-        for status in self.request.user.morador_usuario.ordem_servico_morador.all().values_list('status__nome', flat=True):
-            if status != 'ENTREGUE NO CENTRO DE COLETA':
-                botao_cadastro = False
+        if hasattr(self.request.user, "morador_usuario"):
+            morador = True
+            for status in self.request.user.morador_usuario.ordem_servico_morador.all().values_list('status__nome', flat=True):
+                if status != 'ENTREGUE NO CENTRO DE COLETA':
+                    botao_cadastro = False
+        else:
+            botao_cadastro = False
 
         kwargs.setdefault("view", self)
         kwargs.update({'botao_cadastro': botao_cadastro})
+        kwargs.update({'possui_morador': morador})
         return kwargs
 
 

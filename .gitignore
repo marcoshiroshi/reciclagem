@@ -24,3 +24,5 @@ workspace.code-workspace
 
 latest.*
 *.sh
+
+db.sqlite3

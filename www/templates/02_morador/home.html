@@ -21,6 +21,30 @@
         <div class="col-md-12">
             <div class="card border-light shadow-sm">
                 <div class="card-body">
+
+                    <div class="modal fade" id="modal-notification-morador" tabindex="-1" role="dialog" aria-labelledby="modal-notification-morador" aria-hidden="true">
+                        <div class="modal-dialog modal-info modal-dialog-centered" role="document">
+                            <div class="modal-content bg-gradient-cyan">
+                                <div class="modal-header">
+                                    <p class="modal-title text-white" id="modal-title-notification">Complete o seu cadastro</p>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">×</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="py-3 text-center text-white">
+                                        <span class="modal-icon display-1-lg"><span class="fa fa-id-card"></span></span>
+                                        <h2 class="h4 modal-title my-3">Finalize o cadastro das suas informações</h2>
+                                        <p class="text-white">
+                                            Para ter acesso ao sistema e poder fazer os seus pedidos, complete suas informações no menu "Meus Dados".
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
                     <div class="row">
                         <div class="col-12">
                             <div class="btn-group float-right">
@@ -39,92 +63,20 @@
                                     <a class="btn btn-secondary btn-sm me-2" type="button" data-bs-toggle="tooltip" data-placement="left" title="Faça o cadastro dos seus dados primeiro.">
                                         <span class="fa fa-ban mr-2"></span> Novo Pedido
                                     </a>
+                                    <a class="btn btn-outline-primary btn-sm me-2" type="button" data-bs-toggle="tooltip" data-placement="left" title="Faça o cadastro dos seus dados primeiro.">
+                                        <span class="fa fa-ban mr-2"></span> Meus Pedidos
+                                    </a>
                                 {% endif %}
-                                <a href="{% url 'morador_servico_list' %}" type="button" class="btn btn-sm btn-outline-primary">Meus Pedidos</a>
                             </div>
                         </div>
                     </div>
                     <div class="row mt-4">
-                        <div class="col-md-4">
-                            <div class="card border-light shadow-sm">
-                                <div class="card-body">
-                                    <div class="row align-items-center">
-                                        <div class="col-4 text-center">
-                                            <div class="icon icon-shape icon-md icon-shape-blue rounded">
-                                                <span class="fas fa-chart-line"></span>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-8">
-                                            <div class="d-none d-sm-block">
-                                                <h2 class="h5">Lixo Reciclado</h2>
-                                                <h3 class="mb-1">345k</h3>
-                                            </div>
-                                            <small>{{ user.morador_usuario.date_create|date:"M Y" }} - {% now "M Y" %}</small>
-                                            <div class="small mt-2">
-                                                <span class="fas fa-angle-up text-success"></span>
-                                                <span class="text-success font-weight-bold">18.2%</span> Desde o início
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="card border-light shadow-sm">
-                                <div class="card-body">
-                                    <div class="row align-items-center">
-                                        <div class="col-4 text-center">
-                                            <div class="icon icon-shape icon-md icon-shape-blue rounded">
-                                                <span class="fas fa-chart-line"></span>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-8">
-                                            <div class="d-none d-sm-block">
-                                                <h2 class="h5">Pedidos</h2>
-                                                <h3 class="mb-1">345k</h3>
-                                            </div>
-                                            <small>{{ user.morador_usuario.date_create|date:"M Y" }} - {% now "M Y" %}</small>
-                                            <div class="small mt-2">
-                                                <span class="fas fa-angle-up text-success"></span>
-                                                <span class="text-success font-weight-bold">18.2%</span> Desde o início
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="card border-light shadow-sm">
-                                <div class="card-body">
-                                    <div class="row align-items-center">
-                                        <div class="col-4 text-center">
-                                            <div class="icon icon-shape icon-md icon-shape-blue rounded">
-                                                <span class="fas fa-chart-line"></span>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-8">
-                                            <div class="d-none d-sm-block">
-                                                <h2 class="h5">Reputação</h2>
-                                                <h3 class="mb-1">345k</h3>
-                                            </div>
-                                            <small>{{ user.morador_usuario.date_create|date:"M Y" }} - {% now "M Y" %}</small>
-                                            <div class="small mt-2">
-                                                <span class="fas fa-angle-up text-success"></span>
-                                                <span class="text-success font-weight-bold">18.2%</span> Desde o início
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-12">
-                                <div id="map-container">
-                                    <div id="map"></div>
-                                </div>
+                        {% include '02_morador/partials/card_lixo.html' %}
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div id="map-container">
+                                <div id="map"></div>
                             </div>
                         </div>
                     </div>
@@ -140,29 +92,33 @@
     <script src="{% static 'assets/js/mask.js' %}"></script>
 
     <script>
-        const latitudeCasa = parseFloat({{ user.morador_usuario.localizacao.0 }});
-        const longitudeCasa = parseFloat({{ user.morador_usuario.localizacao.1}});
 
-        if ('geolocation' in navigator){
-            navigator.geolocation.getCurrentPosition( function (position){
+        var map = L.map('map').setView([-15.793981618599044, -47.882763814475666], 13);
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        }).addTo(map);
 
-                const map = L.map('map').setView([latitudeCasa, longitudeCasa], 15);
-                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                }).addTo(map);
+        {% if not possui_morador %}
+            {#$('#modal-notification-morador').modal('show');#}
+        {% else %}
+            const latitudeCasa = parseFloat({{ user.morador_usuario.localizacao.0 }});
+            const longitudeCasa = parseFloat({{ user.morador_usuario.localizacao.1}});
 
-                var casa = L.latLng(latitudeCasa, longitudeCasa);
-                var voce = L.latLng(position.coords.latitude, position.coords.longitude);
+            if ('geolocation' in navigator){
+                navigator.geolocation.getCurrentPosition( function (position){
+                    var voce = L.latLng(position.coords.latitude, position.coords.longitude);
 
-                L.marker(casa).addTo(map).bindPopup('Sua Residência');
-                L.marker(voce).addTo(map).bindPopup('Você');
+                    L.marker(casa).addTo(map).bindPopup('Sua Residência');
+                    L.marker(voce).addTo(map).bindPopup('Você');
 
-            }, function (erro){
-                console.log(erro)
-            })
-        } else{
-            console.log('Não foi possível buscar sua localização')
-        }
+                }, function (erro){
+                    console.log(erro)
+                })
+            } else{
+                console.log('Não foi possível buscar sua localização')
+            }
+        {% endif %}
 
     </script>
 {% endblock java_script %}
