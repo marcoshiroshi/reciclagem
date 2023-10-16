@@ -1,0 +1,100 @@
+{% extends '03_catador/base.html' %}
+{% load static %}
+{% block extra_css %}
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.css" />
+<script src="https://cdn.jsdelivr.net/npm/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.js"></script>
+
+
+<style>
+    #map-container {
+        height: 600px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        margin-top: 20px;
+    }
+
+    #map {
+        width: 100%;
+        height: 100%;
+    }
+</style>
+{% endblock extra_css %}
+{% block main %}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card border-light shadow-sm">
+                <div class="card-body">
+                    {% include '02_morador/partials/dados_pedido.html' with pedido=object %}
+                    <div class="row mt-4">
+                        <div class="col">
+                            <span class="badge bg-warning text-dark d-block pt-2 pb-2" style="font-size: large">
+                                Selecione os itens que foram separados de forma correta e que estão prontos para serem reciclados.
+                            </span>
+                        </div>
+                    </div>
+                    {% include '01_base/partials/erros.html' with errors=form.errors %}
+                    <form method="POST">
+                        {% csrf_token %}
+                        <div class="row mt-4">
+                            <div class="col-md-12">
+                                <div class="table-responsive">
+                                    <table class="table table-centered table-nowrap m-0 rounded">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th class="border-0">#</th>
+                                                <th class="border-0">Item</th>
+                                                <th class="border-0">Tipo</th>
+                                                <th class="border-0">Quantidade</th>
+                                                <th class="border-0">Peso Por Und</th>
+                                                <th class="border-0">Peso Total</th>
+                                                <th class="border-0">Receber</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for item in object.itens_ordem_servico.all %}
+                                                <tr>
+                                                    <td>{{ forloop.counter }}</td>
+                                                    <td>{{ item.item.nome }}</td>
+                                                    <td>{{ item.item.tipo.nome }}</td>
+                                                    <td>{{ item.qtd }}</td>
+                                                    <td>{{ item.item.peso }} g</td>
+                                                    <td>{{ item.peso_total }} Kg</td>
+                                                    <td>
+                                                        {% if item.status.nome == 'CADASTRADO' %}
+                                                        <a class="btn btn-sm btn-primary" href="{% url 'catador_pedido_receber_item' object.id item.id %}">
+                                                            Receber
+                                                        </a>
+                                                        {% else %}
+                                                        <button class="btn btn-sm btn-success disabled" type="button">
+                                                            Recebido
+                                                        </button>
+                                                        {% endif %}
+                                                    </td>
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+{#                        <div class="row mt-4">#}
+{#                            <div class="col">#}
+{#                                <button type="submit" class="btn btn-success float-right">#}
+{#                                    <span class="fa fa-check-circle"></span> Receber Itens#}
+{#                                </button>#}
+{#                            </div>#}
+{#                        </div>#}
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+{% endblock main %}
+{% block java_script %}
+
+{% endblock java_script %}

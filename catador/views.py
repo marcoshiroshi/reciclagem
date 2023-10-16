@@ -1,11 +1,11 @@
 from django.http import HttpResponseRedirect
-from django.views.generic import TemplateView, RedirectView, UpdateView, CreateView, ListView, DetailView
+from django.views.generic import TemplateView, RedirectView, UpdateView, CreateView, ListView, DetailView, FormView
 from django.contrib.auth.mixins import UserPassesTestMixin, PermissionRequiredMixin
 from django.urls import reverse_lazy, reverse
 from django.contrib.auth.models import Group
 from catador.models import Catador
-from catador.forms import CatadorDadosForm
-from core.models import OrdemServico, StatusServico
+from catador.forms import CatadorDadosForm, CatadorPedidoReceberForm
+from core.models import OrdemServico, StatusServico, ItemServico, StatusItem
 
 
 class CatadorHomeView(UserPassesTestMixin, TemplateView):
@@ -14,6 +14,16 @@ class CatadorHomeView(UserPassesTestMixin, TemplateView):
 
     def test_func(self):
         return True if self.request.user.is_authenticated and self.request.user.profile_active.name == 'CATADOR' else False
+
+    def get_context_data(self, **kwargs):
+        catador = False
+
+        if hasattr(self.request.user, "catador_usuario"):
+            catador = True
+
+        kwargs.setdefault("view", self)
+        kwargs.update({'possui_catador': catador})
+        return kwargs
 
 
 class CatadorDadosRedirectView(RedirectView):
@@ -95,3 +105,32 @@ class CatadorPedidoVerView(PermissionRequiredMixin, UserPassesTestMixin, DetailV
 
     def test_func(self):
         return True if self.request.user.is_authenticated and self.request.user.profile_active.name == 'CATADOR' else False
+
+
+class CatadorPedidoReceberView(PermissionRequiredMixin, UserPassesTestMixin, DetailView):
+    model = OrdemServico
+    template_name = '03_catador/pedido_receber.html'
+    permission_required = 'catador.view_catador'
+
+    def test_func(self):
+        return True if self.request.user.is_authenticated and self.request.user.profile_active.name == 'CATADOR' else False
+
+
+class CatadorPedidoReceberItemView(PermissionRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = ItemServico
+    template_name = '03_catador/pedido_receber_item.html'
+    fields = ['id']
+    permission_required = 'catador.view_catador'
+    pk_url_kwarg = 'pk_item'
+
+    def test_func(self):
+        return True if self.request.user.is_authenticated and self.request.user.profile_active.name == 'CATADOR' else False
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.status = StatusItem.objects.filter(nome='ACEITO').first()
+        self.object.save()
+        return HttpResponseRedirect(self.get_success_url())
+
+    def get_success_url(self):
+        return reverse('catador_pedido_receber', args=[self.kwargs.get('pk')])

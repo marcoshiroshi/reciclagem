@@ -20,6 +20,7 @@
             height: 100%;
         }
     </style>
+    <link rel="stylesheet" href="{% static 'css/custom_marker.css' %}">
 
 {% endblock extra_css %}
 
@@ -50,6 +51,7 @@
 
                     <div class="modal fade" id="modal-notification" tabindex="-1" role="dialog" aria-labelledby="modal-notification" aria-hidden="true">
                         <div class="modal-dialog modal-info modal-dialog-centered" role="document">
+                            {% if object.status.nome == 'PEDIDO ACEITO' %}
                             <div class="modal-content bg-gradient-soft-green">
                                 <div class="modal-header">
                                     <p class="modal-title text-white" id="modal-title-notification">Pedido Aceito</p>
@@ -67,8 +69,28 @@
                                     </div>
                                 </div>
                             </div>
+                            {% elif object.status.nome == 'SOLICITANDO CATADOR' %}
+                            <div class="modal-content bg-warning">
+                                <div class="modal-header">
+                                    <p class="modal-title text-white" id="modal-title-notification">Solicitando Catador</p>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">×</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="py-3 text-center text-white">
+                                        <span class="modal-icon display-1-lg"><span class="fa fa-search"></span></span>
+                                        <h2 class="h4 modal-title my-3">Solicitando um Catador</h2>
+                                        <p class="text-white">
+                                            Seu pedido foi registrado e estamos solicitando um catador. Aguarde em sua casa pare entregar os itens separados.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endif %}
                         </div>
                     </div>
+
                 </div>
             </div>
         </div>
@@ -76,48 +98,40 @@
 
 {% endblock main %}
 {% block java_script %}
+    <script src="{% static 'assets/js/custom_marker.js' %}"></script>
+
+    <script>
+        var map = L.map('map').setView([-15.793981618599044, -47.882763814475666], 13);
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        }).addTo(map);
+
+        const latitudeCasa = parseFloat({{ user.morador_usuario.localizacao.0 }});
+        const longitudeCasa = parseFloat({{ user.morador_usuario.localizacao.1}});
+
+        if ('geolocation' in navigator){
+            navigator.geolocation.getCurrentPosition( function (position){
+                var voce = L.latLng(position.coords.latitude, position.coords.longitude);
+                var casa = L.latLng(latitudeCasa, longitudeCasa);
+
+                L.marker(casa, {icon: iconHome}).addTo(map).bindPopup('Sua Residência');
+                var markervoce = L.marker(voce, {icon: iconVoce}).addTo(map).bindPopup('Você');
+
+                var latLngs = [ markervoce.getLatLng() ];
+                var markerBounds = L.latLngBounds(latLngs);
+                map.flyToBounds(markerBounds, { duration: 10 });
+
+            }, function (erro){
+                console.log(erro)
+            })
+        } else{
+            console.log('Não foi possível buscar sua localização')
+        }
+    </script>
+
 <script>
-    const latitudePedido = parseFloat({{ object.morador.localizacao.0 }});
-    const longitudePedido = parseFloat({{ object.morador.localizacao.1}});
-
-    if ('geolocation' in navigator){
-        navigator.geolocation.getCurrentPosition( function (position){
-
-            const map = L.map('map').setView([latitudePedido, longitudePedido], 5);
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            }).addTo(map);
-
-            var voce = L.latLng(position.coords.latitude, position.coords.longitude);
-            var destino = L.latLng(latitudePedido, longitudePedido);
-
-            L.marker(voce).addTo(map).bindTooltip('Você', { permanent: true, className: 'custom-tooltip' });
-            L.marker(destino).addTo(map).bindTooltip('Sua Casa', { permanent: true, className: 'custom-tooltip' });
-
-            var router = L.Routing.control({
-                waypoints: [voce, destino],
-                lineOptions: {
-                    styles: [{ color: 'blue', opacity: 0.6, weight: 6 }]
-                },
-                addWaypoints: false,
-                draggableWaypoints: false,
-            }).addTo(map)
-
-        }, function (erro){
-            console.log(erro)
-        })
-    } else{
-        console.log('Não foi possível buscar sua localização')
-    }
-
-    setTimeout(
-        function() {
-            $('.leaflet-routing-alt').find('table').slideUp();
-    }, 450)
-
-    {% if object.status.nome == 'PEDIDO ACEITO' %}
-        $('#modal-notification').modal('show');
-    {% endif %}
+    $('#modal-notification').modal('show');
 </script>
 
 {% endblock java_script %}

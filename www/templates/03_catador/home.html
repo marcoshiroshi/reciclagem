@@ -15,98 +15,130 @@
         height: 100%;
     }
 </style>
+<link rel="stylesheet" href="{% static 'css/custom_marker.css' %}">
 {% endblock extra_css %}
 {% block main %}
     <div class="row">
         <div class="col-md-12">
             <div class="card border-light shadow-sm">
                 <div class="card-body">
-                    <div class="row">
-                        <div class="col-12">
-                            <a href="{% url 'catador_pedidos_list' %}" type="button" class="btn btn-outline-primary float-right">Meus Pedidos</a>
+
+                    <div class="modal fade" id="modal-notification-catador" tabindex="-1" role="dialog" aria-labelledby="modal-notification-catador" aria-hidden="true">
+                        <div class="modal-dialog modal-info modal-dialog-centered" role="document">
+                            <div class="modal-content bg-gradient-cyan">
+                                <div class="modal-header">
+                                    <p class="modal-title text-white" id="modal-title-notification">Complete o seu cadastro</p>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">×</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="py-3 text-center text-white">
+                                        <span class="modal-icon display-1-lg"><span class="fa fa-id-card"></span></span>
+                                        <h2 class="h4 modal-title my-3">Finalize o cadastro das suas informações</h2>
+                                        <p class="text-white">
+                                            Para ter acesso ao sistema e poder fazer os seus pedidos, complete suas informações no menu "Meus Dados".
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="row mt-4">
-                        <div class="col-md-4">
-                            <div class="card border-light shadow-sm">
-                                <div class="card-body">
-                                    <div class="row align-items-center">
-                                        <div class="col-4 text-center">
-                                            <div class="icon icon-shape icon-md icon-shape-blue rounded">
-                                                <span class="fas fa-chart-line"></span>
-                                            </div>
-                                        </div>
 
-                                        <div class="col-8">
-                                            <div class="d-none d-sm-block">
-                                                <h2 class="h5">Lixo Reciclado</h2>
-                                                <h3 class="mb-1">345k</h3>
-                                            </div>
-                                            <small>{{ user.morador_usuario.date_create|date:"M Y" }} - {% now "M Y" %}</small>
-                                            <div class="small mt-2">
-                                                <span class="fas fa-angle-up text-success"></span>
-                                                <span class="text-success font-weight-bold">18.2%</span> Desde o início
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                    <div class="row">
+                        <div class="col-12">
+                            {% if possui_catador %}
+                                <a href="{% url 'catador_pedidos_list' %}" type="button" class="btn btn-outline-primary float-right">
+                                    <span class="fa fa-list mr-2"></span> Meus Pedidos
+                                </a>
+                            {% else %}
+                                <a class="btn btn-secondary float-right" type="button" data-bs-toggle="tooltip" data-placement="left" title="Finalize o cadastro dos seus dados.">
+                                    <span class="fa fa-ban mr-2"></span> Meus Pedidos
+                                </a>
+                            {% endif %}
                         </div>
-                        <div class="col-md-4">
-                            <div class="card border-light shadow-sm">
-                                <div class="card-body">
-                                    <div class="row align-items-center">
-                                        <div class="col-4 text-center">
-                                            <div class="icon icon-shape icon-md icon-shape-blue rounded">
-                                                <span class="fas fa-chart-line"></span>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-8">
-                                            <div class="d-none d-sm-block">
-                                                <h2 class="h5">Pedidos</h2>
-                                                <h3 class="mb-1">345k</h3>
-                                            </div>
-                                            <small>{{ user.morador_usuario.date_create|date:"M Y" }} - {% now "M Y" %}</small>
-                                            <div class="small mt-2">
-                                                <span class="fas fa-angle-up text-success"></span>
-                                                <span class="text-success font-weight-bold">18.2%</span> Desde o início
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="card border-light shadow-sm">
-                                <div class="card-body">
-                                    <div class="row align-items-center">
-                                        <div class="col-4 text-center">
-                                            <div class="icon icon-shape icon-md icon-shape-blue rounded">
-                                                <span class="fas fa-chart-line"></span>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-8">
-                                            <div class="d-none d-sm-block">
-                                                <h2 class="h5">Reputação</h2>
-                                                <h3 class="mb-1">345k</h3>
-                                            </div>
-                                            <small>{{ user.morador_usuario.date_create|date:"M Y" }} - {% now "M Y" %}</small>
-                                            <div class="small mt-2">
-                                                <span class="fas fa-angle-up text-success"></span>
-                                                <span class="text-success font-weight-bold">18.2%</span> Desde o início
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-12">
-                                <div id="map-container">
-                                    <div id="map"></div>
-                                </div>
+                    </div>
+{#                    <div class="row mt-4">#}
+{#                        <div class="col-md-4">#}
+{#                            <div class="card border-light shadow-sm">#}
+{#                                <div class="card-body">#}
+{#                                    <div class="row align-items-center">#}
+{#                                        <div class="col-4 text-center">#}
+{#                                            <div class="icon icon-shape icon-md icon-shape-blue rounded">#}
+{#                                                <span class="fas fa-chart-line"></span>#}
+{#                                            </div>#}
+{#                                        </div>#}
+{##}
+{#                                        <div class="col-8">#}
+{#                                            <div class="d-none d-sm-block">#}
+{#                                                <h2 class="h5">Lixo Reciclado</h2>#}
+{#                                                <h3 class="mb-1">345k</h3>#}
+{#                                            </div>#}
+{#                                            <small>{{ user.morador_usuario.date_create|date:"M Y" }} - {% now "M Y" %}</small>#}
+{#                                            <div class="small mt-2">#}
+{#                                                <span class="fas fa-angle-up text-success"></span>#}
+{#                                                <span class="text-success font-weight-bold">18.2%</span> Desde o início#}
+{#                                            </div>#}
+{#                                        </div>#}
+{#                                    </div>#}
+{#                                </div>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                        <div class="col-md-4">#}
+{#                            <div class="card border-light shadow-sm">#}
+{#                                <div class="card-body">#}
+{#                                    <div class="row align-items-center">#}
+{#                                        <div class="col-4 text-center">#}
+{#                                            <div class="icon icon-shape icon-md icon-shape-blue rounded">#}
+{#                                                <span class="fas fa-chart-line"></span>#}
+{#                                            </div>#}
+{#                                        </div>#}
+{##}
+{#                                        <div class="col-8">#}
+{#                                            <div class="d-none d-sm-block">#}
+{#                                                <h2 class="h5">Pedidos</h2>#}
+{#                                                <h3 class="mb-1">345k</h3>#}
+{#                                            </div>#}
+{#                                            <small>{{ user.morador_usuario.date_create|date:"M Y" }} - {% now "M Y" %}</small>#}
+{#                                            <div class="small mt-2">#}
+{#                                                <span class="fas fa-angle-up text-success"></span>#}
+{#                                                <span class="text-success font-weight-bold">18.2%</span> Desde o início#}
+{#                                            </div>#}
+{#                                        </div>#}
+{#                                    </div>#}
+{#                                </div>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                        <div class="col-md-4">#}
+{#                            <div class="card border-light shadow-sm">#}
+{#                                <div class="card-body">#}
+{#                                    <div class="row align-items-center">#}
+{#                                        <div class="col-4 text-center">#}
+{#                                            <div class="icon icon-shape icon-md icon-shape-blue rounded">#}
+{#                                                <span class="fas fa-chart-line"></span>#}
+{#                                            </div>#}
+{#                                        </div>#}
+{##}
+{#                                        <div class="col-8">#}
+{#                                            <div class="d-none d-sm-block">#}
+{#                                                <h2 class="h5">Reputação</h2>#}
+{#                                                <h3 class="mb-1">345k</h3>#}
+{#                                            </div>#}
+{#                                            <small>{{ user.morador_usuario.date_create|date:"M Y" }} - {% now "M Y" %}</small>#}
+{#                                            <div class="small mt-2">#}
+{#                                                <span class="fas fa-angle-up text-success"></span>#}
+{#                                                <span class="text-success font-weight-bold">18.2%</span> Desde o início#}
+{#                                            </div>#}
+{#                                        </div>#}
+{#                                    </div>#}
+{#                                </div>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    </div>#}
+                    <div class="row">
+                        <div class="col-12">
+                            <div id="map-container">
+                                <div id="map"></div>
                             </div>
                         </div>
                     </div>
@@ -118,30 +150,68 @@
 {% endblock main %}
 {% block java_script %}
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+{#    <script>#}
+{#        const latitudeCasa = parseFloat({{ user.catador_usuario.localizacao.0 }});#}
+{#        const longitudeCasa = parseFloat({{ user.catador_usuario.localizacao.1}});#}
+{##}
+{#        if ('geolocation' in navigator){#}
+{#            navigator.geolocation.getCurrentPosition( function (position){#}
+{##}
+{#                const map = L.map('map').setView([position.coords.latitude, position.coords.longitude], 15);#}
+{#                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {#}
+{#                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'#}
+{#                }).addTo(map);#}
+{##}
+{#                var casa = L.latLng(latitudeCasa, longitudeCasa);#}
+{#                var voce = L.latLng(position.coords.latitude, position.coords.longitude);#}
+{##}
+{#                L.marker(casa).addTo(map).bindPopup('Sua Residência');#}
+{#                L.marker(voce).addTo(map).bindPopup('Você');#}
+{##}
+{#            }, function (erro){#}
+{#                console.log(erro)#}
+{#            })#}
+{#        } else{#}
+{#            console.log('Não foi possível buscar sua localização')#}
+{#        }#}
+{##}
+{#    </script>#}
+
+    <script src="{% static 'assets/js/custom_marker.js' %}"></script>
+
     <script>
-        const latitudeCasa = parseFloat({{ user.catador_usuario.localizacao.0 }});
-        const longitudeCasa = parseFloat({{ user.catador_usuario.localizacao.1}});
+        var map = L.map('map').setView([-15.793981618599044, -47.882763814475666], 13);
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        }).addTo(map);
 
-        if ('geolocation' in navigator){
-            navigator.geolocation.getCurrentPosition( function (position){
+        {% if not possui_catador %}
+            $('#modal-notification-catador').modal('show');
+        {% else %}
+            const latitudeCasa = parseFloat({{ user.catador_usuario.localizacao.0 }});
+            const longitudeCasa = parseFloat({{ user.catador_usuario.localizacao.1}});
 
-                const map = L.map('map').setView([position.coords.latitude, position.coords.longitude], 15);
-                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                }).addTo(map);
+            if ('geolocation' in navigator){
+                navigator.geolocation.getCurrentPosition( function (position){
+                    var voce = L.latLng(position.coords.latitude, position.coords.longitude);
+                    var casa = L.latLng(latitudeCasa, longitudeCasa);
 
-                var casa = L.latLng(latitudeCasa, longitudeCasa);
-                var voce = L.latLng(position.coords.latitude, position.coords.longitude);
+                    L.marker(casa, {icon: iconHome}).addTo(map).bindPopup('Sua Residência');
+                    var markervoce = L.marker(voce, {icon: iconVoce}).addTo(map).bindPopup('Você');
 
-                L.marker(casa).addTo(map).bindPopup('Sua Residência');
-                L.marker(voce).addTo(map).bindPopup('Você');
+                    var latLngs = [ markervoce.getLatLng() ];
+                    var markerBounds = L.latLngBounds(latLngs);
+                    map.flyToBounds(markerBounds, { duration: 10 });
 
-            }, function (erro){
-                console.log(erro)
-            })
-        } else{
-            console.log('Não foi possível buscar sua localização')
-        }
+                }, function (erro){
+                    console.log(erro)
+                })
+            } else{
+                console.log('Não foi possível buscar sua localização')
+            }
+        {% endif %}
 
     </script>
+
 {% endblock java_script %}

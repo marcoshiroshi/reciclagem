@@ -33,3 +33,9 @@ class Morador(models.Model):
 
     def localizacao(self):
         return [str(self.latitude), str(self.longitude)]
+
+    def lixo_total(self):
+        total = 0
+        for servico in self.ordem_servico_morador.all():
+            total += float(servico.peso_total_servico())
+        return total

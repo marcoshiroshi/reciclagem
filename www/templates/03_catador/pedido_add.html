@@ -5,8 +5,6 @@
 <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.css" />
 <script src="https://cdn.jsdelivr.net/npm/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.js"></script>
-
-
 <style>
     #map-container {
         height: 600px;
@@ -20,6 +18,7 @@
         height: 100%;
     }
 </style>
+<link rel="stylesheet" href="{% static 'css/custom_marker.css' %}">
 {% endblock extra_css %}
 {% block main %}
     <div class="row">
@@ -90,27 +89,32 @@
 
 {% endblock main %}
 {% block java_script %}
+<script src="{% static 'assets/js/custom_marker.js' %}"></script>
 <script>
     const latitudePedido = parseFloat({{ object.morador.localizacao.0 }});
     const longitudePedido = parseFloat({{ object.morador.localizacao.1}});
 
+    const map = L.map('map').setView([latitudePedido, longitudePedido], 5);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
     if ('geolocation' in navigator){
         navigator.geolocation.getCurrentPosition( function (position){
-
-
-            const map = L.map('map').setView([latitudePedido, longitudePedido], 5);
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            }).addTo(map);
 
             var origem = L.latLng(position.coords.latitude, position.coords.longitude);
             var destino = L.latLng(latitudePedido, longitudePedido);
 
-            L.marker(origem).addTo(map).bindPopup('Origem');
-            L.marker(destino).addTo(map).bindPopup('Destino');
+            L.marker(origem).addTo(map).bindTooltip('Você', { permanent: true, className: 'custom-tooltip' });
+            L.marker(destino).addTo(map).bindTooltip('Destino', { permanent: true, className: 'custom-tooltip' });
 
             var router = L.Routing.control({
-                waypoints: [origem, destino]
+                waypoints: [origem, destino],
+                lineOptions: {
+                    styles: [{ color: 'blue', opacity: 0.6, weight: 6 }]
+                },
+                addWaypoints: false,
+                draggableWaypoints: false,
             }).addTo(map)
 
         }, function (erro){

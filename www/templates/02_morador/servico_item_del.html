@@ -38,8 +38,14 @@
                             </div>
                         </div>
                         <div class="row mt-4">
-                            <div class="col-md-10">
+                            <div class="col-md-8">
                                 <p class="text-danger mb-0">Tem certeza que deseja excluír o item {{ object.item }}?</p>
+                            </div>
+                            <div class="col-md-2">
+                                <a class="btn btn-primary btn-block float-right" href="{% url 'morador_servico_item_add' object.ordem.id %}">
+                                    Cancelar
+                                    <span class="fa fa-ban mr-2"></span>
+                                </a>
                             </div>
                             <div class="col-md-2">
                                 <button class="btn btn-danger btn-block float-right" type="submit">

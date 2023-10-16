@@ -2,7 +2,7 @@ from django import forms
 from django.core.exceptions import ValidationError
 from datetime import datetime
 from core.utils import tools
-from core.models import Estado
+from core.models import Estado, OrdemServico, ItemServico
 from catador.models import Catador
 
 
@@ -75,5 +75,20 @@ class CatadorDadosForm(forms.ModelForm):
         empty_label='Selecione uma opção',
         widget=forms.Select(
             attrs={'class': 'form-control'}
+        )
+    )
+
+
+class CatadorPedidoReceberForm(forms.Form):
+
+    def __init__(self, *args, ordem_servico=None, **kwargs):
+        super(CatadorPedidoReceberForm, self).__init__(*args, **kwargs)
+        self.fields['itens'].queryset = ItemServico.objects.filter(ordem_id=ordem_servico).order_by('id')
+
+    itens = forms.ModelChoiceField(
+        queryset=ItemServico.objects.all(),
+        required=False,
+        widget=forms.CheckboxSelectMultiple(
+            attrs={'class': 'form-custom-input'}
         )
     )

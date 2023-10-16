@@ -21,14 +21,9 @@
                                 <div class="col-8">
                                     <div class="d-none d-sm-block">
                                         <h2 class="h5">Lixo Reciclado</h2>
-                                        <h3 class="mb-1">345k</h3>
+                                        <h3 class="mb-1">{{ user.catador_usuario.lixo_total }} kg</h3>
                                     </div>
-                                    <small>{{ user.morador_usuario.date_create|date:"M Y" }}
-                                        - {% now "M Y" %}</small>
-                                    <div class="small mt-2">
-                                        <span class="fas fa-angle-up text-success"></span>
-                                        <span class="text-success font-weight-bold">18.2%</span> Desde o início
-                                    </div>
+                                    <small>{{ user.catador_usuario.date_create|date:"M Y" }} - {% now "M Y" %}</small>
                                 </div>
                             </div>
                         </div>
@@ -47,14 +42,9 @@
                                 <div class="col-8">
                                     <div class="d-none d-sm-block">
                                         <h2 class="h5">Pedidos</h2>
-                                        <h3 class="mb-1">345k</h3>
+                                        <h3 class="mb-1">{{ user.catador_usuario.ordem_servico_catador.count }}</h3>
                                     </div>
-                                    <small>{{ user.morador_usuario.date_create|date:"M Y" }}
-                                        - {% now "M Y" %}</small>
-                                    <div class="small mt-2">
-                                        <span class="fas fa-angle-up text-success"></span>
-                                        <span class="text-success font-weight-bold">18.2%</span> Desde o início
-                                    </div>
+                                    <small>{{ user.catador_usuario.date_create|date:"M Y" }} - {% now "M Y" %}</small>
                                 </div>
                             </div>
                         </div>
@@ -75,12 +65,7 @@
                                         <h2 class="h5">Reputação</h2>
                                         <h3 class="mb-1">345k</h3>
                                     </div>
-                                    <small>{{ user.morador_usuario.date_create|date:"M Y" }}
-                                        - {% now "M Y" %}</small>
-                                    <div class="small mt-2">
-                                        <span class="fas fa-angle-up text-success"></span>
-                                        <span class="text-success font-weight-bold">18.2%</span> Desde o início
-                                    </div>
+                                    <small>{{ user.catador_usuario.date_create|date:"M Y" }} - {% now "M Y" %}</small>
                                 </div>
                             </div>
                         </div>

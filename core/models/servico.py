@@ -54,5 +54,8 @@ class ItemServico(models.Model):
     item = models.ForeignKey(Item, models.DO_NOTHING, related_name='ordem_servico_item', verbose_name='Item para ser reciclado')
     qtd = models.PositiveIntegerField(verbose_name='Quantidade do mesmo item')
 
+    class Meta:
+        ordering = ['id']
+
     def peso_total(self):
         return (self.item.peso * self.qtd)/1000

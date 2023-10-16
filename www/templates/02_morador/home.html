@@ -15,6 +15,7 @@
             height: 100%;
         }
     </style>
+    <link rel="stylesheet" href="{% static 'css/custom_marker.css' %}">
 {% endblock extra_css %}
 {% block main %}
     <div class="row">
@@ -43,7 +44,6 @@
                             </div>
                         </div>
                     </div>
-
 
                     <div class="row">
                         <div class="col-12">
@@ -90,9 +90,9 @@
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script src="{% static 'assets/js/plugins/jquery-mask/jquery.mask.min.js' %}"></script>
     <script src="{% static 'assets/js/mask.js' %}"></script>
+    <script src="{% static 'assets/js/custom_marker.js' %}"></script>
 
     <script>
-
         var map = L.map('map').setView([-15.793981618599044, -47.882763814475666], 13);
         L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 19,
@@ -108,9 +108,14 @@
             if ('geolocation' in navigator){
                 navigator.geolocation.getCurrentPosition( function (position){
                     var voce = L.latLng(position.coords.latitude, position.coords.longitude);
+                    var casa = L.latLng(latitudeCasa, longitudeCasa);
 
-                    L.marker(casa).addTo(map).bindPopup('Sua Residência');
-                    L.marker(voce).addTo(map).bindPopup('Você');
+                    L.marker(casa, {icon: iconHome}).addTo(map).bindPopup('Sua Residência');
+                    var markervoce = L.marker(voce, {icon: iconVoce}).addTo(map).bindPopup('Você');
+
+                    var latLngs = [ markervoce.getLatLng() ];
+                    var markerBounds = L.latLngBounds(latLngs);
+                    map.flyToBounds(markerBounds, { duration: 10 });
 
                 }, function (erro){
                     console.log(erro)
