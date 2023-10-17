@@ -26,13 +26,24 @@
         <div class="col-md-12">
             <div class="card border-light shadow-sm">
                 <div class="card-body">
+                    {% if object.status.nome == 'BUSCANDO PEDIDO' %}
                     <div class="row">
                         <div class="col">
                             <a href="{% url 'catador_pedido_receber' object.id %}" class="btn btn-primary float-right">
-                                <span class="fa fa-check-circle"></span> Receber Pedido
+                                <span class="fa fa-truck-loading"></span> Receber Pedido
                             </a>
                         </div>
                     </div>
+                    {% elif object.status.nome == 'PEDIDO ACEITO' %}
+                    <div class="row">
+                        <div class="col">
+                            <a href="" class="btn btn-primary float-right">
+                                <span class="fa fa-check-circle"></span> Entregar Pedido
+                            </a>
+                        </div>
+                    </div>
+                    {% endif %}
+
                     {% include '02_morador/partials/dados_pedido.html' with pedido=object %}
                     <div class="row mt-4">
                         <div class="col-md-12">
@@ -47,6 +58,7 @@
                         </div>
                     </div>
 
+                    {% if object.status.nome == 'BUSCANDO PEDIDO' %}
                     <div class="modal fade" id="modal-notification" tabindex="-1" role="dialog" aria-labelledby="modal-notification" aria-hidden="true">
                         <div class="modal-dialog modal-info modal-dialog-centered" role="document">
                             <div class="modal-content bg-gradient-soft-green">
@@ -59,7 +71,7 @@
                                 <div class="modal-body">
                                     <div class="py-3 text-center text-white">
                                         <span class="modal-icon display-1-lg"><span class="far fa-check-circle"></span></span>
-                                        <h2 class="h4 modal-title my-3">O pedido foi aceito</h2>
+                                        <h2 class="h4 modal-title my-3">O pedido foi registrado</h2>
                                         <p class="text-white">
                                             Dirija-se a residência do morador para recolher os itens recicláveis.
                                         </p>
@@ -68,6 +80,29 @@
                             </div>
                         </div>
                     </div>
+                    {% elif object.status.nome == 'PEDIDO ACEITO' %}
+                    <div class="modal fade" id="modal-notification" tabindex="-1" role="dialog" aria-labelledby="modal-notification" aria-hidden="true">
+                        <div class="modal-dialog modal-info modal-dialog-centered" role="document">
+                            <div class="modal-content bg-gradient-cyan">
+                                <div class="modal-header">
+                                    <p class="modal-title text-white" id="modal-title-notification">Pedido Aceito</p>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">×</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="py-3 text-center text-white">
+                                        <span class="modal-icon display-1-lg"><span class="far fa-check-circle"></span></span>
+                                        <h2 class="h4 modal-title my-3">O pedido foi aceito</h2>
+                                        <p class="text-white">
+                                            Entregue os itens no centro de coleta mais próximo.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
 
                 </div>
             </div>
@@ -80,36 +115,33 @@
     const latitudePedido = parseFloat({{ object.morador.localizacao.0 }});
     const longitudePedido = parseFloat({{ object.morador.localizacao.1}});
 
-
-    function atualiza_posicao() {
-        var url = $("#js-ajax-municipio").attr("data-municipio-url");
-        $.ajax({
-            url: url,
-            data: {
-                'estados': estados
-            },
-            beforeSend: function () {
-                municipio.prop('disabled', true);
-            },
-            success: function (data) {
-                municipio.html(data);
-                municipio.prop('disabled', false);
-                municipio.removeAttr('readonly');
-                callback();
-            }
-        });
-    }
+    const map = L.map('map').setView([latitudePedido, longitudePedido], 5);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
 
 
-
+    {#function atualiza_posicao() {#}
+    {#    var url = $("#js-ajax-municipio").attr("data-municipio-url");#}
+    {#    $.ajax({#}
+    {#        url: url,#}
+    {#        data: {#}
+    {#            'estados': estados#}
+    {#        },#}
+    {#        beforeSend: function () {#}
+    {#            municipio.prop('disabled', true);#}
+    {#        },#}
+    {#        success: function (data) {#}
+    {#            municipio.html(data);#}
+    {#            municipio.prop('disabled', false);#}
+    {#            municipio.removeAttr('readonly');#}
+    {#            callback();#}
+    {#        }#}
+    {#    });#}
+    {#}#}
 
     if ('geolocation' in navigator){
         navigator.geolocation.getCurrentPosition( function (position){
-
-            const map = L.map('map').setView([latitudePedido, longitudePedido], 5);
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            }).addTo(map);
 
             var voce = L.latLng(position.coords.latitude, position.coords.longitude);
             var destino = L.latLng(latitudePedido, longitudePedido);

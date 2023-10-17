@@ -1,0 +1,45 @@
+<div class="table-responsive">
+    <table class="table table-centered table-nowrap m-0 rounded">
+        <thead class="thead-light">
+            <tr>
+                <th class="border-0">#</th>
+                <th class="border-0">Item</th>
+                <th class="border-0">Tipo</th>
+                <th class="border-0 text-center">Quantidade</th>
+                <th class="border-0">Peso Por Und</th>
+                <th class="border-0">Peso Total</th>
+                <th class="border-0 text-center">Ação</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in ordem.itens_ordem_servico.all %}
+                <tr {% if item.id == object.id %} class="table-secondary" {% endif %}>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ item.item.nome }}</td>
+                    <td>{{ item.item.tipo.nome }}</td>
+                    <td class="text-center">{{ item.qtd }}</td>
+                    <td>{{ item.item.peso }} g</td>
+                    <td>{{ item.peso_total }} Kg</td>
+                    <td class="text-center">
+                        {% if item.status.nome == 'CADASTRADO' %}
+                        <a class="btn btn-sm btn-primary" href="{% url 'catador_pedido_receber_item' ordem.id item.id %}">
+                            Aceitar
+                        </a>
+                        <a class="btn btn-sm btn-secondary" href="{% url 'catador_pedido_nao_receber_item' ordem.id item.id %}">
+                            Não Aceitar
+                        </a>
+                        {% elif item.status.nome == 'ACEITO' %}
+                        <button class="btn btn-sm btn-success disabled" type="button">
+                            Aceito
+                        </button>
+                        {% elif item.status.nome == 'NÃO ACEITO' %}
+                        <button class="btn btn-sm btn-danger disabled" type="button">
+                            Não Aceito
+                        </button>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>

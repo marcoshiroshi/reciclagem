@@ -21,9 +21,21 @@ class Empresa(models.Model):
     def __str__(self):
         return self.nome
 
+    def localizacao(self):
+        return [str(self.latitude), str(self.longitude)]
+
 
 class PontoColeta(models.Model):
-    empresa = models.ForeignKey(Empresa, models.DO_NOTHING)
+    empresa = models.ForeignKey(Empresa, models.DO_NOTHING, related_name='ponto_coleta_empresa')
     tipo_aceito = models.ManyToManyField(Tipo, verbose_name="Tipos de Itens Aceitos")
     longitude = models.DecimalField(max_length=255, max_digits=20, decimal_places=18, verbose_name='longitude', help_text='Coordenada geográfica do ponto de coleta')
     latitude = models.DecimalField(max_length=255, max_digits=20, decimal_places=18, verbose_name='latitude', help_text='Coordenada geográfica do ponto de coleta')
+
+    def localizacao(self):
+        return [str(self.latitude), str(self.longitude)]
+
+    def numero(self):
+        return '{:0>5}'.format(self.id)
+
+    def peso_total_recolhido(self):
+        return 0

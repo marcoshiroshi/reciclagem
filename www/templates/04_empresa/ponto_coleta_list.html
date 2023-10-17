@@ -1,0 +1,140 @@
+{% extends '04_empresa/base.html' %}
+{% load static %}
+
+{% block extra_css %}
+{% endblock extra_css %}
+
+{% block main %}
+    <div class="row">
+    <div class="col-md-12">
+        <div class="card border-light shadow-sm">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="card border-light shadow-sm">
+                            <div class="card-body">
+                                <div class="row align-items-center">
+                                    <div class="col-4 text-center">
+                                        <div class="icon icon-shape icon-md icon-shape-blue rounded">
+                                            <span class="fas fa-chart-line"></span>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-8">
+                                        <div class="d-none d-sm-block">
+                                            <h2 class="h5">Lixo Reciclado</h2>
+                                            <h3 class="mb-1">0 kg</h3>
+                                        </div>
+                                        <small>{{ user.empresa_usuario.date_create|date:"M Y" }}
+                                            - {% now "M Y" %}</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card border-light shadow-sm">
+                            <div class="card-body">
+                                <div class="row align-items-center">
+                                    <div class="col-4 text-center">
+                                        <div class="icon icon-shape icon-md icon-shape-blue rounded">
+                                            <span class="fas fa-chart-line"></span>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-8">
+                                        <div class="d-none d-sm-block">
+                                            <h2 class="h5">Pedidos</h2>
+                                            <h3 class="mb-1"> 0</h3>
+                                        </div>
+                                        <small>{{ user.empresa_usuario.date_create|date:"M Y" }}
+                                            - {% now "M Y" %}</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card border-light shadow-sm">
+                            <div class="card-body">
+                                <div class="row align-items-center">
+                                    <div class="col-4 text-center">
+                                        <div class="icon icon-shape icon-md icon-shape-blue rounded">
+                                            <span class="fas fa-map-marked-alt"></span>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-8">
+                                        <div class="d-none d-sm-block">
+                                            <h2 class="h5">Pontos de Coleta</h2>
+                                            <h3 class="mb-1">{{ user.empresa_usuario.ponto_coleta_empresa.count }}</h3>
+                                        </div>
+                                        <small>{{ user.empresa_usuario.date_create|date:"M Y" }}
+                                            - {% now "M Y" %}</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-4">
+                    <div class="col-md-12">
+                        <a class="btn btn-primary pb-2 pt-2" href="{% url 'empresa_ponto_coleta_list' %}">
+                            Meus Pontos de Coleta ({{ user.empresa_usuario.ponto_coleta_empresa.count }})
+                        </a>
+                        <a class="btn btn-secondary pb-2 pt-2" href="{% url 'empresa_ponto_coleta_add' %}">
+                            Cadastrar Ponto de Coleta <span class="fa fa-plus"></span>
+                        </a>
+                        <div class="table-responsive mt-4">
+                            <table class="table table-hover table-striped table-sm">
+                                <thead>
+                                <tr>
+                                    <th>Nº</th>
+                                    <th>Peso (Kg)</th>
+                                    <th>Materiais</th>
+                                    <th class="text-center">Ver Mais</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for ponto in user.empresa_usuario.ponto_coleta_empresa.all %}
+                                    <tr>
+                                        <td>{{ ponto.numero }}</td>
+                                        <td>{{ ponto.peso_total_recolhido }} Kg</td>
+                                        <td>{% for tipo in ponto.tipo_aceito.all %}
+                                            <span class="badge badge-md bg-primary">{{ tipo }}</span> {% empty %}
+                                            SEM INFORMAÇÃO {% endfor %}</td>
+                                        <td class="text-center">
+                                            <a href="{% url 'empresa_ponto_coleta_ver' ponto.id %}"
+                                               class="btn btn-sm btn-primary">
+                                                <span class="fa fa-eye"></span> Ver Mais
+                                            </a>
+                                            <a href="{% url 'empresa_ponto_coleta_att' ponto.id %}"
+                                               class="btn btn-sm btn-secondary">
+                                                <span class="fa fa-edit"></span> Editar
+                                            </a>
+                                            <a href="{% url 'empresa_ponto_coleta_del' ponto.id %}"
+                                               class="btn btn-sm btn-danger">
+                                                <span class="fa fa-trash-alt"></span> Excluír
+                                            </a>
+                                        </td>
+                                    </tr>
+                                {% empty %}
+                                    <tr>
+                                        <td colspan="6" class="table-secondary">
+                                            <h4 class="text-center text-uppercase text-muted pt-2">NENHUM PONTO DE COLETA</h4>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock main %}
+
+{% block java_script %}
+{% endblock java_script %}

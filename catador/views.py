@@ -1,3 +1,4 @@
+from datetime import datetime
 from django.http import HttpResponseRedirect
 from django.views.generic import TemplateView, RedirectView, UpdateView, CreateView, ListView, DetailView, FormView
 from django.contrib.auth.mixins import UserPassesTestMixin, PermissionRequiredMixin
@@ -107,13 +108,27 @@ class CatadorPedidoVerView(PermissionRequiredMixin, UserPassesTestMixin, DetailV
         return True if self.request.user.is_authenticated and self.request.user.profile_active.name == 'CATADOR' else False
 
 
-class CatadorPedidoReceberView(PermissionRequiredMixin, UserPassesTestMixin, DetailView):
+class CatadorPedidoReceberView(PermissionRequiredMixin, UserPassesTestMixin, UpdateView):
     model = OrdemServico
     template_name = '03_catador/pedido_receber.html'
+    fields = ['status']
     permission_required = 'catador.view_catador'
 
     def test_func(self):
         return True if self.request.user.is_authenticated and self.request.user.profile_active.name == 'CATADOR' else False
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.status = StatusServico.objects.filter(nome='PEDIDO ACEITO').first()
+        self.object.data_buscada = datetime.now()
+        self.object.save()
+        return HttpResponseRedirect(reverse('catador_pedido_ver', args=[self.object.id]))
+
+    def get_context_data(self, **kwargs):
+        return dict(
+            super().get_context_data(**kwargs),
+            btn_finalizar=False if self.object.itens_ordem_servico.filter(status__nome='CADASTRADO').exists() else True
+        )
 
 
 class CatadorPedidoReceberItemView(PermissionRequiredMixin, UserPassesTestMixin, UpdateView):
@@ -133,4 +148,24 @@ class CatadorPedidoReceberItemView(PermissionRequiredMixin, UserPassesTestMixin,
         return HttpResponseRedirect(self.get_success_url())
 
     def get_success_url(self):
-        return reverse('catador_pedido_receber', args=[self.kwargs.get('pk')])
+        return reverse('catador_pedido_receber', args=[self.object.ordem.id])
+
+
+class CatadorPedidoNaoReceberItemView(PermissionRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = ItemServico
+    template_name = '03_catador/pedido_nao_receber_item.html'
+    fields = ['id']
+    permission_required = 'catador.view_catador'
+    pk_url_kwarg = 'pk_item'
+
+    def test_func(self):
+        return True if self.request.user.is_authenticated and self.request.user.profile_active.name == 'CATADOR' else False
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.status = StatusItem.objects.filter(nome='NÃO ACEITO').first()
+        self.object.save()
+        return HttpResponseRedirect(self.get_success_url())
+
+    def get_success_url(self):
+        return reverse('catador_pedido_receber', args=[self.object.ordem.id])

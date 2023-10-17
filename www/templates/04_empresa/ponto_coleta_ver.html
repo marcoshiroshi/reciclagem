@@ -1,0 +1,172 @@
+{% extends '04_empresa/base.html' %}
+{% load static %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <style>
+        #map-container {
+            height: 400px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-top: 20px;
+        }
+
+        #map {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+{% endblock extra_css %}
+
+{% block main %}
+    <div class="row">
+    <div class="col-md-12">
+        <div class="card border-light shadow-sm">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="card border-light shadow-sm">
+                            <div class="card-body">
+                                <div class="row align-items-center">
+                                    <div class="col-4 text-center">
+                                        <div class="icon icon-shape icon-md icon-shape-blue rounded">
+                                            <span class="fas fa-chart-line"></span>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-8">
+                                        <div class="d-none d-sm-block">
+                                            <h2 class="h5">Lixo Reciclado</h2>
+                                            <h3 class="mb-1">0 kg</h3>
+                                        </div>
+                                        <small>{{ user.empresa_usuario.date_create|date:"M Y" }}
+                                            - {% now "M Y" %}</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card border-light shadow-sm">
+                            <div class="card-body">
+                                <div class="row align-items-center">
+                                    <div class="col-4 text-center">
+                                        <div class="icon icon-shape icon-md icon-shape-blue rounded">
+                                            <span class="fas fa-chart-line"></span>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-8">
+                                        <div class="d-none d-sm-block">
+                                            <h2 class="h5">Pedidos</h2>
+                                            <h3 class="mb-1"> 0</h3>
+                                        </div>
+                                        <small>{{ user.empresa_usuario.date_create|date:"M Y" }}
+                                            - {% now "M Y" %}</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card border-light shadow-sm">
+                            <div class="card-body">
+                                <div class="row align-items-center">
+                                    <div class="col-4 text-center">
+                                        <div class="icon icon-shape icon-md icon-shape-blue rounded">
+                                            <span class="fas fa-map-marked-alt"></span>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-8">
+                                        <div class="d-none d-sm-block">
+                                            <h2 class="h5">Pontos de Coleta</h2>
+                                            <h3 class="mb-1">{{ user.empresa_usuario.ponto_coleta_empresa.count }}</h3>
+                                        </div>
+                                        <small>{{ user.empresa_usuario.date_create|date:"M Y" }}
+                                            - {% now "M Y" %}</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-4">
+                    <div class="col-md-12">
+                        <a class="btn btn-primary pb-2 pt-2" href="{% url 'empresa_ponto_coleta_list' %}">
+                            Meus Pontos de Coleta ({{ user.empresa_usuario.ponto_coleta_empresa.count }})
+                        </a>
+                        <a class="btn btn-secondary pb-2 pt-2" href="{% url 'empresa_ponto_coleta_add' %}">
+                            Cadastrar Ponto de Coleta <span class="fa fa-plus"></span>
+                        </a>
+                    </div>
+                </div>
+                <hr>
+                <fieldset disabled>
+                    <div class="row mt-4">
+                        <div class="col">
+                            <div class="row mt-4">
+                                <p>Selecione os tipos de materiais que são aceitos neste ponto de coleta</p>
+                                {% for choice in form_ponto.tipo_aceito %}
+                                    <div class="col-md-3">
+                                        <input
+                                                type="{{ choice.data.type }}"
+                                                name="{{ choice.data.name }}"
+                                                value="{{ choice.data.value }}"
+                                                class="form-check-input"
+                                                id="{{ choice.data.attrs.id }}"
+                                                {% if choice.data.attrs.required %}required{% endif %}
+                                                {% if choice.data.attrs.checked %}checked{% endif %}
+                                        >
+                                        <label for="{{ choice.data.attrs.id }}">{{ choice.data.label }}</label>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                            <div class="row mt-4">
+                                <p>Selecione a localização deste ponto de coleta clicando no mapa abaixo</p>
+                                <div class="col-md-6">
+                                    <label for="{{ form_ponto.latitude.id_for_label }}">{{ form_ponto.latitude.label }}</label>
+                                    {{ form_ponto.latitude }}
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="{{ form_ponto.longitude.id_for_label }}">{{ form_ponto.longitude.label }}</label>
+                                    {{ form_ponto.longitude }}
+                                </div>
+                            </div>
+                            <div class="row mt-4">
+                                <div class="col-12">
+                                    <div id="map-container">
+                                        <div id="map"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+        </div>
+    </div>
+
+{% endblock main %}
+
+{% block java_script %}
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+<script>
+    const map = L.map('map').setView([-15.770581215880800000, -47.783767163645700000], 5);
+    const latitudeInput = document.getElementById('latitude');
+    const longitudeInput = document.getElementById('longitude');// Define a visão inicial do mapa e o nível de zoom
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    let marker;
+
+    if (latitudeInput.value && longitudeInput.value) {
+        const initialLat = parseFloat(latitudeInput.value);
+        const initialLng = parseFloat(longitudeInput.value);
+        map.setView([initialLat, initialLng], 13); // Define o centro do mapa com base nos valores iniciais
+        marker = L.marker([initialLat, initialLng]).addTo(map);
+    }
+</script>
+{% endblock java_script %}

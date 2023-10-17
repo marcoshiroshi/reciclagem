@@ -42,8 +42,8 @@
             </li>
             <li class="nav-item">
                 {%  if user.empresa_usuario %}
-                <a href="" class="nav-link disabled">
-                    <span class="sidebar-icon"><span class="fa fa-map-pin"></span></span>
+                <a href="{% url 'empresa_ponto_coleta_list' %}" class="nav-link">
+                    <span class="sidebar-icon"><span class="fa fa-map-marked-alt"></span></span>
                     <span>Pontos de Coleta</span>
                 </a>
                 {% endif %}

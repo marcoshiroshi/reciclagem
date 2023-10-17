@@ -52,6 +52,24 @@
                     <div class="modal fade" id="modal-notification" tabindex="-1" role="dialog" aria-labelledby="modal-notification" aria-hidden="true">
                         <div class="modal-dialog modal-info modal-dialog-centered" role="document">
                             {% if object.status.nome == 'PEDIDO ACEITO' %}
+                            <div class="modal-content bg-gradient-cyan">
+                                <div class="modal-header">
+                                    <p class="modal-title text-white" id="modal-title-notification">Pedido Aceito</p>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">×</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="py-3 text-center text-white">
+                                        <span class="modal-icon display-1-lg"><span class="fa fa-compass"></span></span>
+                                        <h2 class="h4 modal-title my-3">Seu pedido foi recebido pelo Catador</h2>
+                                        <p class="text-white">
+                                            O seu pedido foi aceito e recebido pelo Catador! Agora ele vai entregar o seus itens em um centro de coleta.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            {% elif object.status.nome == 'BUSCANDO PEDIDO' %}
                             <div class="modal-content bg-gradient-soft-green">
                                 <div class="modal-header">
                                     <p class="modal-title text-white" id="modal-title-notification">Pedido Aceito</p>
@@ -62,7 +80,7 @@
                                 <div class="modal-body">
                                     <div class="py-3 text-center text-white">
                                         <span class="modal-icon display-1-lg"><span class="far fa-check-circle"></span></span>
-                                        <h2 class="h4 modal-title my-3">Seu pedido foi aceito </h2>
+                                        <h2 class="h4 modal-title my-3">Seu pedido foi aceito pelo Catador</h2>
                                         <p class="text-white">
                                             O seu pedido foi aceito pelo Catador! Espere na sua residência até ele chegar e entregue os itens combinados.
                                         </p>

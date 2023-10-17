@@ -28,5 +28,7 @@ class Catador(models.Model):
     def lixo_total(self):
         total = 0
         for servico in self.ordem_servico_catador.all():
+            # total += float(servico.peso_total_servico()) if servico.status.nome in ['ACEITO', 'ENTREGUE'] else 0
             total += float(servico.peso_total_servico())
         return total
+

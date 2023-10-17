@@ -2,7 +2,7 @@ from django import forms
 from django.core.exceptions import ValidationError
 from core.utils import tools
 from core.models import Estado
-from empresa.models import Empresa
+from empresa.models import Empresa, PontoColeta
 
 
 class EmpresaDadosForm(forms.ModelForm):
@@ -67,3 +67,21 @@ class EmpresaDadosForm(forms.ModelForm):
             attrs={'class': 'form-control'}
         )
     )
+
+
+class PontoColetaForm(forms.ModelForm):
+
+    class Meta:
+        model = PontoColeta
+
+        widgets = {
+            'tipo_aceito': forms.CheckboxSelectMultiple(attrs={'class': 'form-check-input'}),
+            'latitude': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': '-00,000000000000000', 'id': 'latitude'}),
+            'longitude': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': '-00,000000000000000', 'id': 'longitude'}),
+        }
+
+        fields = [
+            'tipo_aceito',
+            'longitude',
+            'latitude',
+        ]
