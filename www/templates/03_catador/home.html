@@ -150,68 +150,7 @@
 {% endblock main %}
 {% block java_script %}
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
-{#    <script>#}
-{#        const latitudeCasa = parseFloat({{ user.catador_usuario.localizacao.0 }});#}
-{#        const longitudeCasa = parseFloat({{ user.catador_usuario.localizacao.1}});#}
-{##}
-{#        if ('geolocation' in navigator){#}
-{#            navigator.geolocation.getCurrentPosition( function (position){#}
-{##}
-{#                const map = L.map('map').setView([position.coords.latitude, position.coords.longitude], 15);#}
-{#                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {#}
-{#                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'#}
-{#                }).addTo(map);#}
-{##}
-{#                var casa = L.latLng(latitudeCasa, longitudeCasa);#}
-{#                var voce = L.latLng(position.coords.latitude, position.coords.longitude);#}
-{##}
-{#                L.marker(casa).addTo(map).bindPopup('Sua Residência');#}
-{#                L.marker(voce).addTo(map).bindPopup('Você');#}
-{##}
-{#            }, function (erro){#}
-{#                console.log(erro)#}
-{#            })#}
-{#        } else{#}
-{#            console.log('Não foi possível buscar sua localização')#}
-{#        }#}
-{##}
-{#    </script>#}
-
     <script src="{% static 'assets/js/custom_marker.js' %}"></script>
 
-    <script>
-        var map = L.map('map').setView([-15.793981618599044, -47.882763814475666], 13);
-        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            maxZoom: 19,
-            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-        }).addTo(map);
-
-        {% if not possui_catador %}
-            $('#modal-notification-catador').modal('show');
-        {% else %}
-            const latitudeCasa = parseFloat({{ user.catador_usuario.localizacao.0 }});
-            const longitudeCasa = parseFloat({{ user.catador_usuario.localizacao.1}});
-
-            if ('geolocation' in navigator){
-                navigator.geolocation.getCurrentPosition( function (position){
-                    var voce = L.latLng(position.coords.latitude, position.coords.longitude);
-                    var casa = L.latLng(latitudeCasa, longitudeCasa);
-
-                    L.marker(casa, {icon: iconHome}).addTo(map).bindPopup('Sua Residência');
-                    var markervoce = L.marker(voce, {icon: iconVoce}).addTo(map).bindPopup('Você');
-
-                    var latLngs = [ markervoce.getLatLng() ];
-                    var markerBounds = L.latLngBounds(latLngs);
-                    map.flyToBounds(markerBounds, { duration: 10 });
-
-                }, function (erro){
-                    console.log(erro)
-                })
-            } else{
-                console.log('Não foi possível buscar sua localização')
-            }
-        {% endif %}
-
-    </script>
-
+    {% include '01_base/partials/mapa.html' with possui_usuario=possui_catador usuario=user.catador_usuario %}
 {% endblock java_script %}

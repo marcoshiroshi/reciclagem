@@ -19,7 +19,10 @@ class EmpresaHomeView(UserPassesTestMixin, TemplateView):
         if hasattr(self.request.user, 'empresa_usuario'):
             possui_empresa = True
         kwargs = {}
-        kwargs.update({'possui_empresa': possui_empresa})
+        kwargs.update({
+            'possui_empresa': possui_empresa,
+            'pontos_coleta': PontoColeta.objects.all()
+        })
         return kwargs
 
 

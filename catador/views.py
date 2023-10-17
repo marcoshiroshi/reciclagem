@@ -7,6 +7,7 @@ from django.contrib.auth.models import Group
 from catador.models import Catador
 from catador.forms import CatadorDadosForm, CatadorPedidoReceberForm
 from core.models import OrdemServico, StatusServico, ItemServico, StatusItem
+from empresa.models import PontoColeta
 
 
 class CatadorHomeView(UserPassesTestMixin, TemplateView):
@@ -23,7 +24,7 @@ class CatadorHomeView(UserPassesTestMixin, TemplateView):
             catador = True
 
         kwargs.setdefault("view", self)
-        kwargs.update({'possui_catador': catador})
+        kwargs.update({'possui_catador': catador, 'pontos_coleta': PontoColeta.objects.all()})
         return kwargs
 
 

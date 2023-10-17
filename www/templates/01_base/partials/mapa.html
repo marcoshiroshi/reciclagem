@@ -1,0 +1,48 @@
+<script>
+    var map = L.map('map').setView([-15.793981618599044, -47.882763814475666], 13);
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    }).addTo(map);
+
+    {% for ponto in pontos_coleta %}
+        L.marker(
+            L.latLng(
+                parseFloat({{ ponto.localizacao.0 }}),
+                parseFloat({{ ponto.localizacao.1 }})
+            ), {icon: iconPontoColeta}).addTo(map).bindPopup('Ponto De Coleta');
+    {% endfor %}
+
+    {% if not possui_usuario %}
+        $('#modal-notification-catador').modal('show');
+    {% else %}
+
+        const latitudeCasa = parseFloat({{ usuario.localizacao.0 }});
+        const longitudeCasa = parseFloat({{ usuario.localizacao.1}});
+
+        if ('geolocation' in navigator){
+            navigator.geolocation.getCurrentPosition( function (position){
+                var voce = L.latLng(position.coords.latitude, position.coords.longitude);
+                var casa = L.latLng(latitudeCasa, longitudeCasa);
+
+                {% if usuario.cnpj %}
+                    L.marker(casa, {icon: iconEmpresa}).addTo(map).bindPopup('Sua Empresa');
+                {% else %}
+                    L.marker(casa, {icon: iconHome}).addTo(map).bindPopup('Sua Residência');
+                {% endif %}
+
+                var markervoce = L.marker(voce, {icon: iconVoce}).addTo(map).bindPopup('Você');
+
+                var latLngs = [ markervoce.getLatLng() ];
+                var markerBounds = L.latLngBounds(latLngs);
+                map.flyToBounds(markerBounds, { duration: 10 });
+
+            }, function (erro){
+                console.log(erro)
+            })
+        } else{
+            console.log('Não foi possível buscar sua localização')
+        }
+    {% endif %}
+
+</script>

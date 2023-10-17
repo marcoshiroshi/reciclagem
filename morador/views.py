@@ -1,5 +1,4 @@
 import datetime
-
 from django.http import HttpResponseRedirect
 from django.views.generic import TemplateView, RedirectView, UpdateView, CreateView, ListView, DetailView, DeleteView
 from django.contrib.auth.mixins import UserPassesTestMixin, PermissionRequiredMixin
@@ -8,6 +7,7 @@ from django.contrib.auth.models import Group
 from morador.models import Morador
 from morador.forms import MoradorDadosForm, MoradorItemServicoForm
 from core.models import OrdemServico, ItemServico
+from empresa.models import PontoColeta
 
 
 class MoradorHomeView(UserPassesTestMixin, TemplateView):
@@ -29,8 +29,11 @@ class MoradorHomeView(UserPassesTestMixin, TemplateView):
             botao_cadastro = False
 
         kwargs.setdefault("view", self)
-        kwargs.update({'botao_cadastro': botao_cadastro})
-        kwargs.update({'possui_morador': morador})
+        kwargs.update({
+            'botao_cadastro': botao_cadastro,
+            'possui_morador': morador,
+            'pontos_coleta': PontoColeta.objects.all()
+        })
         return kwargs
 
 

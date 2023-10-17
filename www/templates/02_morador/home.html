@@ -92,38 +92,5 @@
     <script src="{% static 'assets/js/mask.js' %}"></script>
     <script src="{% static 'assets/js/custom_marker.js' %}"></script>
 
-    <script>
-        var map = L.map('map').setView([-15.793981618599044, -47.882763814475666], 13);
-        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            maxZoom: 19,
-            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-        }).addTo(map);
-
-        {% if not possui_morador %}
-            $('#modal-notification-morador').modal('show');
-        {% else %}
-            const latitudeCasa = parseFloat({{ user.morador_usuario.localizacao.0 }});
-            const longitudeCasa = parseFloat({{ user.morador_usuario.localizacao.1}});
-
-            if ('geolocation' in navigator){
-                navigator.geolocation.getCurrentPosition( function (position){
-                    var voce = L.latLng(position.coords.latitude, position.coords.longitude);
-                    var casa = L.latLng(latitudeCasa, longitudeCasa);
-
-                    L.marker(casa, {icon: iconHome}).addTo(map).bindPopup('Sua Residência');
-                    var markervoce = L.marker(voce, {icon: iconVoce}).addTo(map).bindPopup('Você');
-
-                    var latLngs = [ markervoce.getLatLng() ];
-                    var markerBounds = L.latLngBounds(latLngs);
-                    map.flyToBounds(markerBounds, { duration: 10 });
-
-                }, function (erro){
-                    console.log(erro)
-                })
-            } else{
-                console.log('Não foi possível buscar sua localização')
-            }
-        {% endif %}
-
-    </script>
+    {% include '01_base/partials/mapa.html' with possui_usuario=possui_morador usuario=user.morador_usuario %}
 {% endblock java_script %}

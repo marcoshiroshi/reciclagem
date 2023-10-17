@@ -8,6 +8,8 @@
                     <li>Morador: {{ pedido.morador }}</li>
                     <li>Endereço: {{ pedido.morador.endereco }}</li>
                     <li>Peso Total: {{ pedido.peso_total_servico }} Kg</li>
+                    <li>Peso Real: {{ pedido.peso_real }} Kg</li>
+                    <li>Peso Descartado: {{ pedido.peso_descartado }} Kg</li>
                     <li>Tipos de Materiais: {% for tipo in pedido.materiais_servico %}<span class="badge badge-md bg-primary">{{ tipo }}</span> {% empty %} SEM INFORMAÇÃO {% endfor %}</li>
                 </ul>
             </div>

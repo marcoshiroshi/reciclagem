@@ -44,35 +44,6 @@
                             </div>
                         </div>
                     </div>
-
-{#                    <div class="row">#}
-{#                        <div class="col-12">#}
-{#                            <div class="btn-group float-right">#}
-{##}
-{#                                {% if user.morador_usuario %}#}
-{#                                    {% if botao_cadastro %}#}
-{#                                        <a href="{% url 'morador_servico_add' %}" type="button" class="btn btn-primary btn-sm">#}
-{#                                            <span class="fa fa-plus mr-2"></span> Novo Pedido#}
-{#                                        </a>#}
-{#                                    {% else %}#}
-{#                                        <a class="btn btn-secondary btn-sm me-2" type="button" data-bs-toggle="tooltip" data-placement="left" title="Você já tem um pedido em andamento. Espere o pedido ser finalizado para iniciar um novo.">#}
-{#                                            <span class="fa fa-ban mr-2"></span> Novo Pedido#}
-{#                                        </a>#}
-{#                                    {% endif %}#}
-{#                                {% else %}#}
-{#                                    <a class="btn btn-secondary btn-sm me-2" type="button" data-bs-toggle="tooltip" data-placement="left" title="Faça o cadastro dos seus dados primeiro.">#}
-{#                                        <span class="fa fa-ban mr-2"></span> Novo Pedido#}
-{#                                    </a>#}
-{#                                    <a class="btn btn-outline-primary btn-sm me-2" type="button" data-bs-toggle="tooltip" data-placement="left" title="Faça o cadastro dos seus dados primeiro.">#}
-{#                                        <span class="fa fa-ban mr-2"></span> Meus Pedidos#}
-{#                                    </a>#}
-{#                                {% endif %}#}
-{#                            </div>#}
-{#                        </div>#}
-{#                    </div>#}
-{#                    <div class="row mt-4">#}
-{#                        {% include '02_morador/partials/card_lixo.html' %}#}
-{#                    </div>#}
                     <div class="row">
                         <div class="col-12">
                             <div id="map-container">
@@ -88,43 +59,7 @@
 {% endblock main %}
 {% block java_script %}
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
-    <script src="{% static 'assets/js/plugins/jquery-mask/jquery.mask.min.js' %}"></script>
-    <script src="{% static 'assets/js/mask.js' %}"></script>
     <script src="{% static 'assets/js/custom_marker.js' %}"></script>
 
-    <script>
-        var map = L.map('map').setView([-15.793981618599044, -47.882763814475666], 13);
-        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            maxZoom: 19,
-            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-        }).addTo(map);
-
-        {% if not possui_empresa %}
-            $('#modal-notification-empresa').modal('show');
-        {% else %}
-
-            const latitudeEmpresa = parseFloat({{ user.empresa_usuario.localizacao.0 }});
-            const longitudeEmpresa = parseFloat({{ user.empresa_usuario.localizacao.1}});
-
-            if ('geolocation' in navigator){
-                navigator.geolocation.getCurrentPosition( function (position){
-                    var voce = L.latLng(position.coords.latitude, position.coords.longitude);
-                    var empresa = L.latLng(latitudeEmpresa, longitudeEmpresa);
-
-                    L.marker(empresa, {icon: iconEmpresa}).addTo(map).bindPopup('Sua Empresa');
-                    var markervoce = L.marker(voce, {icon: iconVoce}).addTo(map).bindPopup('Você');
-
-                    var latLngs = [ markervoce.getLatLng() ];
-                    var markerBounds = L.latLngBounds(latLngs);
-                    map.flyToBounds(markerBounds, { duration: 10 });
-
-                }, function (erro){
-                    console.log(erro)
-                })
-            } else{
-                console.log('Não foi possível buscar sua localização')
-            }
-        {% endif %}
-
-    </script>
+    {% include '01_base/partials/mapa.html' with possui_usuario=possui_empresa usuario=user.empresa_usuario %}
 {% endblock java_script %}

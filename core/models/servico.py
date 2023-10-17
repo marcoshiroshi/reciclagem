@@ -36,6 +36,20 @@ class OrdemServico(models.Model):
                 total += item.peso_total()
         return '%.2f' % total
 
+    def peso_real(self):
+        total = 0
+        if hasattr(self, 'itens_ordem_servico'):
+            for item in self.itens_ordem_servico.all():
+                total += item.peso_total() if item.status.nome in ['ACEITO', 'ENTREGUE'] else 0
+        return '%.2f' % total
+
+    def peso_descartado(self):
+        total = 0
+        if hasattr(self, 'itens_ordem_servico'):
+            for item in self.itens_ordem_servico.all():
+                total += item.peso_total() if item.status.nome == 'NÃO ACEITO' else 0
+        return '%.2f' % total
+
     def materiais_servico(self):
         lista = []
         if hasattr(self, 'itens_ordem_servico'):

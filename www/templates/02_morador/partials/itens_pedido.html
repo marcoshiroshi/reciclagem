@@ -13,7 +13,7 @@
         </thead>
         <tbody>
             {% for item in itens %}
-                <tr>
+                <tr {% if item.status.nome == 'NÃO ACEITO' %}class="table-danger" {% endif %}>
                     <td>{{ forloop.counter }}</td>
                     <td>{{ item.item.nome }}</td>
                     <td>{{ item.item.tipo.nome }}</td>

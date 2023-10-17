@@ -121,33 +121,34 @@
     }).addTo(map);
 
 
-    {#function atualiza_posicao() {#}
-    {#    var url = $("#js-ajax-municipio").attr("data-municipio-url");#}
-    {#    $.ajax({#}
-    {#        url: url,#}
-    {#        data: {#}
-    {#            'estados': estados#}
-    {#        },#}
-    {#        beforeSend: function () {#}
-    {#            municipio.prop('disabled', true);#}
-    {#        },#}
-    {#        success: function (data) {#}
-    {#            municipio.html(data);#}
-    {#            municipio.prop('disabled', false);#}
-    {#            municipio.removeAttr('readonly');#}
-    {#            callback();#}
-    {#        }#}
-    {#    });#}
-    {#}#}
+    function atualiza_posicao(latitude, longitude) {
+        $.ajax({
+            url: '{% url 'ajax_calcula_rota' %}',
+            data: {
+                'latitude': latitude,
+                'longitude': longitude,
+            },
+            beforeSend: function () {
+                console.log('buscando posicao');
+            },
+            success: function (data) {
+                console.log('posicao ok');
+                console.log(data);
+                {#municipio.html(data);#}
+                {#callback();#}
+            }
+        });
+    }
 
     if ('geolocation' in navigator){
         navigator.geolocation.getCurrentPosition( function (position){
 
             var voce = L.latLng(position.coords.latitude, position.coords.longitude);
-            var destino = L.latLng(latitudePedido, longitudePedido);
-
             L.marker(voce).addTo(map).bindTooltip('Você', { permanent: true, className: 'custom-tooltip' });
-            L.marker(destino).addTo(map).bindTooltip('Morador', { permanent: true, className: 'custom-tooltip' });
+
+            atualiza_posicao(position.coords.latitude, position.coords.longitude)
+            {#var destino = L.latLng(latitudePedido, longitudePedido);#}
+            {#L.marker(destino).addTo(map).bindTooltip('Morador', { permanent: true, className: 'custom-tooltip' });#}
 
             var router = L.Routing.control({
                 waypoints: [voce, destino],
