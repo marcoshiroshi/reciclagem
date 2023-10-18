@@ -45,7 +45,7 @@
                                     <div class="col-8">
                                         <div class="d-none d-sm-block">
                                             <h2 class="h5">Pedidos</h2>
-                                            <h3 class="mb-1"> 0</h3>
+                                            <h3 class="mb-1">{{ user.empresa_usuario.total_pedidos }}</h3>
                                         </div>
                                         <small>{{ user.empresa_usuario.date_create|date:"M Y" }}
                                             - {% now "M Y" %}</small>

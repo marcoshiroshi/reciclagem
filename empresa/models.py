@@ -30,11 +30,12 @@ class Empresa(models.Model):
             total += float(ponto.peso_total_recolhido())
         return '%.2f' % total
 
-    # def total_pedidos(self):
-    #     total = 0
-    #     for ponto in self.ponto_coleta_empresa.all():
-    #         ponto.
-
+    def total_pedidos(self):
+        # total = 0
+        # for ponto in self.ponto_coleta_empresa.all():
+        #     for item in ponto.itens_ponto_coleta.all():
+        #         if item.
+        return 0
 
 class PontoColeta(models.Model):
     empresa = models.ForeignKey(Empresa, models.DO_NOTHING, related_name='ponto_coleta_empresa')
@@ -58,8 +59,9 @@ class PontoColeta(models.Model):
         return '%.2f' % total
 
     def total_depositos(self):
-        # total = 0
+        # lista = []
         # for item in self.itens_ponto_coleta.all():
-        #     if item.ponto_coleta
-
+        #     if item.ponto_coleta.id not in lista:
+        #         lista.append(item.ponto_coleta.id)
+        # return len(lista)
         return 0
