@@ -1,0 +1,71 @@
+{% extends '03_catador/base.html' %}
+{% load static %}
+{% block extra_css %}
+
+{% endblock extra_css %}
+{% block main %}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card border-light shadow-sm">
+                <div class="card-body">
+                    {% include '02_morador/partials/dados_pedido.html' with pedido=object.ordem %}
+                    <div class="row mt-4">
+                        <div class="col-md-12">
+                            <div class="table-responsive">
+                                <table class="table table-centered table-nowrap m-0 rounded">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th class="border-0">#</th>
+                                            <th class="border-0">Item</th>
+                                            <th class="border-0">Tipo</th>
+                                            <th class="border-0 text-center">Quantidade</th>
+                                            <th class="border-0">Peso Por Und</th>
+                                            <th class="border-0">Peso Total</th>
+                                            <th class="border-0 text-center">Ação</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for item in lst_itens %}
+                                            <tr {% if item.id == object.id %} class="table-secondary" {% endif %}>
+                                                <td>{{ forloop.counter }}</td>
+                                                <td>{{ item.item.nome }}</td>
+                                                <td>{{ item.item.tipo.nome }}</td>
+                                                <td class="text-center">{{ item.qtd }}</td>
+                                                <td>{{ item.item.peso }} g</td>
+                                                <td>{{ item.peso_total }} Kg</td>
+                                                <td class="text-center">
+                                                       <a href="{% url 'catador_pedido_entregar_item' item.ordem.id item.id %}" class="btn btn-sm btn-primary">
+                                                        Entregar
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <p>Informe o Número do Ponto de Coleta em que o item está sendo entregue</p>
+                    <form method="POST">
+                        {% csrf_token %}
+                        <div class="row mt-4">
+                            <div class="col">
+                                {{ form }}
+                            </div>
+                            <div class="col">
+                                <button class="btn btn-success btn-block mt-4">
+                                    <i class="fas fa-truck-loading"></i> Entregar Item
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock main %}
+{% block java_script %}
+
+{% endblock java_script %}

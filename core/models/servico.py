@@ -2,7 +2,7 @@ from django.db import models
 from core.models import Item
 from morador.models import Morador
 from catador.models import Catador
-from empresa.models import Empresa
+from empresa.models import Empresa, PontoColeta
 
 
 class StatusServico(models.Model):
@@ -65,6 +65,7 @@ class OrdemServico(models.Model):
 class ItemServico(models.Model):
     ordem = models.ForeignKey(OrdemServico, models.DO_NOTHING, related_name='itens_ordem_servico')
     status = models.ForeignKey(StatusItem, models.DO_NOTHING, related_name='itens_status', default=1)
+    ponto_coleta = models.ForeignKey(PontoColeta, models.DO_NOTHING, related_name='itens_ponto_coleta', blank=True, null=True)
     item = models.ForeignKey(Item, models.DO_NOTHING, related_name='ordem_servico_item', verbose_name='Item para ser reciclado')
     qtd = models.PositiveIntegerField(verbose_name='Quantidade do mesmo item')
 

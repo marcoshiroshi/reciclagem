@@ -16,5 +16,6 @@ urlpatterns = [
     path('pedido/<int:pk>/receber/<int:pk_item>/item/', CatadorPedidoReceberItemView.as_view(), name='catador_pedido_receber_item'),
     path('pedido/<int:pk>/nao_receber/<int:pk_item>/item/', CatadorPedidoNaoReceberItemView.as_view(), name='catador_pedido_nao_receber_item'),
 
-
+    path('pedido/<int:pk>/entregar/', CatadorPedidoEntregarView.as_view(), name='catador_pedido_entregar'),
+    path('pedido/<int:pk>/entregar/<int:pk_item>/item/', CatadorPedidoEntregarItemView.as_view(), name='catador_pedido_entregar_item'),
 ]

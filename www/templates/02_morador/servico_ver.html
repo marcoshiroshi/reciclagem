@@ -105,6 +105,25 @@
                                     </div>
                                 </div>
                             </div>
+                            {% elif object.status.nome == 'ENTREGUE NO CENTRO DE COLETA' %}
+                            <div class="modal-content bg-success">
+                                <div class="modal-header">
+                                    <p class="modal-title text-white" id="modal-title-notification">Lixo Entregue</p>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">×</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="py-3 text-center text-white">
+                                        <span class="modal-icon display-1-lg"><span class="fas fa-handshake"></span></span>
+                                        <h2 class="h4 modal-title my-3">Lixo Entregue com Sucesso</h2>
+                                        <p class="text-white">
+                                            Parabéns. O seu lixo foi entregue com sucesso!<br>
+                                            Continue separando e reciclando. O meio ambiente agradeçe!
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
                             {% endif %}
                         </div>
                     </div>

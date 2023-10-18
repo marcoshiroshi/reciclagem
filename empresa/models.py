@@ -31,6 +31,9 @@ class PontoColeta(models.Model):
     longitude = models.DecimalField(max_length=255, max_digits=20, decimal_places=18, verbose_name='longitude', help_text='Coordenada geográfica do ponto de coleta')
     latitude = models.DecimalField(max_length=255, max_digits=20, decimal_places=18, verbose_name='latitude', help_text='Coordenada geográfica do ponto de coleta')
 
+    def __str__(self):
+        return '%s - %s' % (self.empresa.nome, self.numero())
+
     def localizacao(self):
         return [str(self.latitude), str(self.longitude)]
 

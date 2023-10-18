@@ -3,134 +3,100 @@
 {% block extra_css %}
 {% endblock extra_css %}
 {% block main %}
-    <div class="row">
+<div class="row">
     <div class="col-md-12">
-    <div class="card border-light shadow-sm">
-        <div class="card-body">
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="card border-light shadow-sm">
-                        <div class="card-body">
-                            <div class="row align-items-center">
-                                <div class="col-4 text-center">
-                                    <div class="icon icon-shape icon-md icon-shape-blue rounded">
-                                        <span class="fas fa-chart-line"></span>
+        <div class="card border-light shadow-sm">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="card border-light shadow-sm">
+                            <div class="card-body">
+                                <div class="row align-items-center">
+                                    <div class="col-4 text-center">
+                                        <div class="icon icon-shape icon-md icon-shape-blue rounded">
+                                            <span class="fas fa-chart-line"></span>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-8">
+                                        <div class="d-none d-sm-block">
+                                            <h2 class="h5">Lixo Reciclado</h2>
+                                            <h3 class="mb-1">{{ user.catador_usuario.lixo_total }} kg</h3>
+                                        </div>
+                                        <small>{{ user.catador_usuario.date_create|date:"M Y" }} - {% now "M Y" %}</small>
                                     </div>
                                 </div>
-
-                                <div class="col-8">
-                                    <div class="d-none d-sm-block">
-                                        <h2 class="h5">Lixo Reciclado</h2>
-                                        <h3 class="mb-1">{{ user.catador_usuario.lixo_total }} kg</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card border-light shadow-sm">
+                            <div class="card-body">
+                                <div class="row align-items-center">
+                                    <div class="col-4 text-center">
+                                        <div class="icon icon-shape icon-md icon-shape-blue rounded">
+                                            <span class="fas fa-chart-line"></span>
+                                        </div>
                                     </div>
-                                    <small>{{ user.catador_usuario.date_create|date:"M Y" }} - {% now "M Y" %}</small>
+
+                                    <div class="col-8">
+                                        <div class="d-none d-sm-block">
+                                            <h2 class="h5">Pedidos</h2>
+                                            <h3 class="mb-1">{{ user.catador_usuario.ordem_servico_catador.count }}</h3>
+                                        </div>
+                                        <small>{{ user.catador_usuario.date_create|date:"M Y" }} - {% now "M Y" %}</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card border-light shadow-sm">
+                            <div class="card-body">
+                                <div class="row align-items-center">
+                                    <div class="col-4 text-center">
+                                        <div class="icon icon-shape icon-md icon-shape-blue rounded">
+                                            <span class="fas fa-chart-line"></span>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-8">
+                                        <div class="d-none d-sm-block">
+                                            <h2 class="h5">Reputação</h2>
+                                            <h3 class="mb-1">345k</h3>
+                                        </div>
+                                        <small>{{ user.catador_usuario.date_create|date:"M Y" }} - {% now "M Y" %}</small>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4">
-                    <div class="card border-light shadow-sm">
-                        <div class="card-body">
-                            <div class="row align-items-center">
-                                <div class="col-4 text-center">
-                                    <div class="icon icon-shape icon-md icon-shape-blue rounded">
-                                        <span class="fas fa-chart-line"></span>
-                                    </div>
-                                </div>
-
-                                <div class="col-8">
-                                    <div class="d-none d-sm-block">
-                                        <h2 class="h5">Pedidos</h2>
-                                        <h3 class="mb-1">{{ user.catador_usuario.ordem_servico_catador.count }}</h3>
-                                    </div>
-                                    <small>{{ user.catador_usuario.date_create|date:"M Y" }} - {% now "M Y" %}</small>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card border-light shadow-sm">
-                        <div class="card-body">
-                            <div class="row align-items-center">
-                                <div class="col-4 text-center">
-                                    <div class="icon icon-shape icon-md icon-shape-blue rounded">
-                                        <span class="fas fa-chart-line"></span>
-                                    </div>
-                                </div>
-
-                                <div class="col-8">
-                                    <div class="d-none d-sm-block">
-                                        <h2 class="h5">Reputação</h2>
-                                        <h3 class="mb-1">345k</h3>
-                                    </div>
-                                    <small>{{ user.catador_usuario.date_create|date:"M Y" }} - {% now "M Y" %}</small>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row mt-4">
-                <div class="col-md-12">
-                    <ul class="nav nav-tabs mb-4" id="myTab" role="tablist">
-                        <li class="nav-item">
-                            <a class="nav-link active pb-2 pt-2" id="meus-pedidos-tab" data-toggle="tab" href="#meus-pedidos" role="tab" aria-controls="meus-pedidos" aria-selected="true">
-                                Meus Pedidos ({{ meus_pedidos.count }})
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link pb-2 pt-2" id="novos-pedidos-tab" data-toggle="tab" href="#novos-pedidos" role="tab" aria-controls="novos-pedidos" aria-selected="false">
-                                Novos Pedidos ({{ novos_pedidos.count }})
-                            </a>
-                        </li>
-                    </ul>
-                    <div class="tab-content" id="myTabContent">
-                        <div class="tab-pane fade active show" id="meus-pedidos" role="tabpanel" aria-labelledby="meus-pedidos-tab">
-                            <div class="table-responsive">
-                                <table class="table table-hover table-striped table-sm">
-                                    <thead>
-                                    <tr>
-                                        <th>Nº</th>
-                                        <th>Endereço</th>
-                                        <th>Peso (Kg)</th>
-                                        <th>Materiais</th>
-                                        <th>Distância (km)</th>
-                                        <th>Ver Mais</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    {% for pedido in meus_pedidos %}
-                                        <tr>
-                                            <td>{{ pedido.numero }}</td>
-                                            <td>{{ pedido.morador.endereco|truncatechars:'50' }}</td>
-                                            <td>{{ pedido.peso_total_servico }} Kg</td>
-                                            <td>{% for tipo in pedido.materiais_servico %}<span class="badge badge-md bg-primary">{{ tipo }}</span> {% empty %} SEM INFORMAÇÃO {% endfor %}</td>
-                                            <td>34 km</td>
-                                            <td>
-                                                <a href="{% url 'catador_pedido_ver' pedido.id %}" class="btn btn-sm btn-primary">
-                                                    <span class="fa fa-eye"></span> Ver Mais
-                                                </a>
-                                            </td>
-                                        </tr>
-                                    {% empty %}
-                                        <tr>
-                                            <td colspan="6" class="table-secondary">
-                                                <h4 class="text-center text-uppercase text-muted pt-2">NENHUM PEDIDO</h4>
-                                            </td>
-                                        </tr>
-                                    {% endfor %}
-                                    </tbody>
-                                </table>
-                            </div>
-
-                            </div>
-                            <div class="tab-pane fade" id="novos-pedidos" role="tabpanel" aria-labelledby="novos-pedidos-tab">
+                <div class="row mt-4">
+                    <div class="col-md-12">
+                        <ul class="nav nav-tabs mb-4" id="myTab" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active pb-2 pt-2" id="meus-pedidos-tab" data-toggle="tab" href="#meus-pedidos" role="tab" aria-controls="meus-pedidos" aria-selected="true">
+                                    Meus Pedidos ({{ meus_pedidos.count }})
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link pb-2 pt-2" id="novos-pedidos-tab" data-toggle="tab" href="#novos-pedidos" role="tab" aria-controls="novos-pedidos" aria-selected="false">
+                                    Novos Pedidos ({{ novos_pedidos.count }})
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link pb-2 pt-2" id="pedidos-finalizados-tab" data-toggle="tab" href="#pedidos-finalizados" role="tab" aria-controls="pedidos-finalizados" aria-selected="false">
+                                    Pedidos Finalizados ({{ pedidos_finalizados.count }})
+                                </a>
+                            </li>
+                        </ul>
+                        <div class="tab-content" id="myTabContent">
+                            <div class="tab-pane fade active show" id="meus-pedidos" role="tabpanel" aria-labelledby="meus-pedidos-tab">
                                 <div class="table-responsive">
-                                    <table class="table table-hover table-striped table-sm" id="myTable">
+                                    <table class="table table-hover table-striped table-sm">
                                         <thead>
-                                            <tr>
+                                        <tr>
                                             <th>Nº</th>
                                             <th>Endereço</th>
                                             <th>Peso (Kg)</th>
@@ -138,6 +104,44 @@
                                             <th>Distância (km)</th>
                                             <th>Ver Mais</th>
                                         </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for pedido in meus_pedidos %}
+                                            <tr>
+                                                <td>{{ pedido.numero }}</td>
+                                                <td>{{ pedido.morador.endereco|truncatechars:'50' }}</td>
+                                                <td>{{ pedido.peso_total_servico }} Kg</td>
+                                                <td>{% for tipo in pedido.materiais_servico %}<span class="badge badge-md bg-primary">{{ tipo }}</span> {% empty %} SEM INFORMAÇÃO {% endfor %}</td>
+                                                <td>34 km</td>
+                                                <td>
+                                                    <a href="{% url 'catador_pedido_ver' pedido.id %}" class="btn btn-sm btn-primary">
+                                                        <span class="fa fa-eye"></span> Ver Mais
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        {% empty %}
+                                            <tr>
+                                                <td colspan="6" class="table-secondary">
+                                                    <h4 class="text-center text-uppercase text-muted pt-2">NENHUM PEDIDO</h4>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="novos-pedidos" role="tabpanel" aria-labelledby="novos-pedidos-tab">
+                                <div class="table-responsive">
+                                    <table class="table table-hover table-striped table-sm" id="myTable">
+                                        <thead>
+                                            <tr>
+                                                <th>Nº</th>
+                                                <th>Endereço</th>
+                                                <th>Peso (Kg)</th>
+                                                <th>Materiais</th>
+                                                <th>Distância (km)</th>
+                                                <th>Ver Mais</th>
+                                            </tr>
                                         </thead>
                                         <tbody>
                                         {% for pedido in novos_pedidos %}
@@ -164,12 +168,51 @@
                                     </table>
                                 </div>
                             </div>
+                            <div class="tab-pane fade" id="pedidos-finalizados" role="tabpanel" aria-labelledby="pedidos-finalizados-tab">
+                                <div class="table-responsive">
+                                    <table class="table table-hover table-striped table-sm" id="myTable">
+                                        <thead>
+                                            <tr>
+                                                <th>Nº</th>
+                                                <th>Endereço</th>
+                                                <th>Peso (Kg)</th>
+                                                <th>Materiais</th>
+                                                <th>Distância (km)</th>
+                                                <th>Ver Mais</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for pedido in pedidos_finalizados %}
+                                            <tr>
+                                                <td>{{ pedido.numero }}</td>
+                                                <td>{{ pedido.morador.endereco|truncatechars:'50' }}</td>
+                                                <td>{{ pedido.peso_total_servico }} Kg</td>
+                                                <td>{% for tipo in pedido.materiais_servico %}<span class="badge badge-md bg-primary">{{ tipo }}</span> {% empty %} SEM INFORMAÇÃO {% endfor %}</td>
+                                                <td>34 km</td>
+                                                <td>
+                                                    <a href="{% url 'catador_pedido_add' pedido.id %}" class="btn btn-sm btn-primary">
+                                                        <span class="fa fa-eye"></span> Ver Mais
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        {% empty %}
+                                            <tr>
+                                                <td colspan="6" class="table-secondary">
+                                                    <h4 class="text-center text-uppercase text-muted pt-2">NENHUM PEDIDO FINALIZADO</h4>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
 {% endblock main %}
 

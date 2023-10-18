@@ -7,8 +7,21 @@
                     <li>Pedido Nº: {{ pedido.numero }}</li>
                     <li>Morador: {{ pedido.morador }}</li>
                     <li>Endereço: {{ pedido.morador.endereco }}</li>
+                    <li>Telefone: {{ pedido.morador.telefone_1 }}{% if pedido.morador.telefone_2 %}/{{ pedido.morador.telefone_2 }}{% endif %}</li>
+                </ul>
+            </div>
+            <div class="col">
+                <ul>
+                    <li>Catador: {{ pedido.catador|default_if_none:'Sem Informação' }}</li>
+                    <li>Telefone: {{ pedido.catador.telefone_1|default:'Sem Informação' }}{% if pedido.catador.telefone_2 %}/{{ pedido.catador.telefone_2 }}{% endif %}</li>
+                </ul>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <ul>
                     <li>Peso Total: {{ pedido.peso_total_servico }} Kg</li>
-                    <li>Peso Real: {{ pedido.peso_real }} Kg</li>
+                    <li>Peso Aproveitado: {{ pedido.peso_real }} Kg</li>
                     <li>Peso Descartado: {{ pedido.peso_descartado }} Kg</li>
                     <li>Tipos de Materiais: {% for tipo in pedido.materiais_servico %}<span class="badge badge-md bg-primary">{{ tipo }}</span> {% empty %} SEM INFORMAÇÃO {% endfor %}</li>
                 </ul>

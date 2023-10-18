@@ -7,7 +7,7 @@ from usuario.models import User
 from core.models import Municipio
 from empresa.models import PontoColeta
 from math import sqrt
-import json
+from django.http import JsonResponse
 
 
 class ProfileRedirect(RedirectView):
@@ -59,13 +59,14 @@ def municipios_data_todos(request):
 
 
 def calcula_rota(request):
-
     distancias = {}
-    # print('')
     for ponto in PontoColeta.objects.all():
         distancia = sqrt(((float(ponto.latitude) - float(request.GET.get('latitude')))**2) + ((float(ponto.longitude) - float(request.GET.get('longitude')))**2))
         distancias[ponto.id] = distancia
-
-    # print('')
-    return render(request, '01_base/ajax/municipios_dropdown_list_options.html', {'lista': 'oi'})
-
+    menor_dist_ponto = PontoColeta.objects.filter(id=int(sorted(distancias.items(), key=lambda x: x[1])[0][0])).first()
+    return JsonResponse(
+        {
+            'latitude': menor_dist_ponto.latitude,
+            'longitude': menor_dist_ponto.longitude,
+        }
+    )

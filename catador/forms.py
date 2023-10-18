@@ -79,16 +79,11 @@ class CatadorDadosForm(forms.ModelForm):
     )
 
 
-class CatadorPedidoReceberForm(forms.Form):
+class CatadorPedidoEntregarForm(forms.ModelForm):
 
-    def __init__(self, *args, ordem_servico=None, **kwargs):
-        super(CatadorPedidoReceberForm, self).__init__(*args, **kwargs)
-        self.fields['itens'].queryset = ItemServico.objects.filter(ordem_id=ordem_servico).order_by('id')
-
-    itens = forms.ModelChoiceField(
-        queryset=ItemServico.objects.all(),
-        required=False,
-        widget=forms.CheckboxSelectMultiple(
-            attrs={'class': 'form-custom-input'}
-        )
-    )
+    class Meta:
+        model = ItemServico
+        widgets = {
+            'ponto_coleta': forms.Select(attrs={'class': 'form-control', 'placeholder': 'Nº Ponto'}),
+        }
+        fields = ['ponto_coleta']

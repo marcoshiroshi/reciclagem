@@ -5,7 +5,7 @@ from django.contrib.auth.mixins import UserPassesTestMixin, PermissionRequiredMi
 from django.urls import reverse_lazy, reverse
 from django.contrib.auth.models import Group
 from catador.models import Catador
-from catador.forms import CatadorDadosForm, CatadorPedidoReceberForm
+from catador.forms import CatadorDadosForm, CatadorPedidoEntregarForm
 from core.models import OrdemServico, StatusServico, ItemServico, StatusItem
 from empresa.models import PontoColeta
 
@@ -77,10 +77,12 @@ class CatadorPedidosListView(PermissionRequiredMixin, UserPassesTestMixin, ListV
         return True if self.request.user.is_authenticated and self.request.user.profile_active.name == 'CATADOR' else False
 
     def get_context_data(self, *, object_list=None, **kwargs):
+        meus_pedidos = self.object_list.filter(catador=self.request.user.catador_usuario)
         return dict(
             super().get_context_data(**kwargs),
-            meus_pedidos=self.object_list.filter(catador=self.request.user.catador_usuario),
-            novos_pedidos=self.object_list.filter(catador=None)
+            meus_pedidos=meus_pedidos.filter(status__nome__in=['BUSCANDO PEDIDO', 'PEDIDO ACEITO']),
+            novos_pedidos=self.object_list.filter(catador=None),
+            pedidos_finalizados=meus_pedidos.filter(status__nome='ENTREGUE NO CENTRO DE COLETA')
         )
 
 
@@ -107,6 +109,12 @@ class CatadorPedidoVerView(PermissionRequiredMixin, UserPassesTestMixin, DetailV
 
     def test_func(self):
         return True if self.request.user.is_authenticated and self.request.user.profile_active.name == 'CATADOR' else False
+
+    def get_context_data(self, **kwargs):
+        return dict(
+            super().get_context_data(**kwargs),
+            list_finalizado=self.object.itens_ordem_servico.filter(status__nome='ENTREGUE') if self.object.status.nome == 'ENTREGUE NO CENTRO DE COLETA' else False
+        )
 
 
 class CatadorPedidoReceberView(PermissionRequiredMixin, UserPassesTestMixin, UpdateView):
@@ -170,3 +178,51 @@ class CatadorPedidoNaoReceberItemView(PermissionRequiredMixin, UserPassesTestMix
 
     def get_success_url(self):
         return reverse('catador_pedido_receber', args=[self.object.ordem.id])
+
+
+class CatadorPedidoEntregarView(PermissionRequiredMixin, UserPassesTestMixin, DetailView):
+    model = OrdemServico
+    template_name = '03_catador/pedido_entregar.html'
+    permission_required = 'catador.view_catador'
+
+    def test_func(self):
+        return True if self.request.user.is_authenticated and self.request.user.profile_active.name == 'CATADOR' else False
+
+    def get_context_data(self, **kwargs):
+        return dict(
+            super().get_context_data(**kwargs),
+            lst_itens=self.object.itens_ordem_servico.filter(status__nome='ACEITO')
+        )
+
+
+class CatadorPedidoEntregarItemView(PermissionRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = ItemServico
+    template_name = '03_catador/pedido_entregar_item.html'
+    form_class = CatadorPedidoEntregarForm
+    permission_required = 'catador.view_catador'
+    pk_url_kwarg = 'pk_item'
+
+    def test_func(self):
+        return True if self.request.user.is_authenticated and self.request.user.profile_active.name == 'CATADOR' else False
+
+    def get_context_data(self, **kwargs):
+        return dict(
+            super().get_context_data(**kwargs),
+            lst_itens=self.object.ordem.itens_ordem_servico.filter(status__nome='ACEITO')
+        )
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.status = StatusItem.objects.filter(nome='ENTREGUE').first()
+        self.object.save()
+        if not self.object.ordem.itens_ordem_servico.filter(status__nome='ACEITO').exists():
+            self.object.ordem.status = StatusServico.objects.filter(nome='ENTREGUE NO CENTRO DE COLETA').first()
+            self.object.ordem.data_entregue = datetime.now()
+            self.object.ordem.save()
+        return HttpResponseRedirect(self.get_success_url())
+
+    def get_success_url(self):
+        url = reverse('catador_pedido_entregar', args=[self.object.ordem.id])
+        if not self.object.ordem.itens_ordem_servico.filter(status__nome='ACEITO').exists():
+            url = reverse('catador_pedido_ver', args=[self.object.ordem.id])
+        return url

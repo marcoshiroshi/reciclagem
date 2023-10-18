@@ -20,7 +20,7 @@ class Catador(models.Model):
     latitude = models.DecimalField(max_length=255, max_digits=20, decimal_places=18, verbose_name='latitude', help_text='Coordenada geográfica da sua residência')
 
     def __str__(self):
-        return self.user.get_full_name()
+        return self.user.get_full_name().title()
 
     def localizacao(self):
         return [str(self.latitude), str(self.longitude)]
@@ -28,7 +28,6 @@ class Catador(models.Model):
     def lixo_total(self):
         total = 0
         for servico in self.ordem_servico_catador.all():
-            # total += float(servico.peso_total_servico()) if servico.status.nome in ['ACEITO', 'ENTREGUE'] else 0
             total += float(servico.peso_total_servico())
         return total
 

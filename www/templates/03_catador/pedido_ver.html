@@ -37,7 +37,7 @@
                     {% elif object.status.nome == 'PEDIDO ACEITO' %}
                     <div class="row">
                         <div class="col">
-                            <a href="" class="btn btn-primary float-right">
+                            <a href="{% url 'catador_pedido_entregar' object.id %}" class="btn btn-primary float-right">
                                 <span class="fa fa-check-circle"></span> Entregar Pedido
                             </a>
                         </div>
@@ -45,11 +45,58 @@
                     {% endif %}
 
                     {% include '02_morador/partials/dados_pedido.html' with pedido=object %}
+
                     <div class="row mt-4">
                         <div class="col-md-12">
-                            {% include '02_morador/partials/itens_pedido.html' with itens=object.itens_ordem_servico.all %}
+                            <div class="table-responsive">
+                                <table class="table table-centered table-nowrap m-0 rounded">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th class="border-0">#</th>
+                                            <th class="border-0">Item</th>
+                                            <th class="border-0">Tipo</th>
+                                            <th class="border-0 text-center">Quantidade</th>
+                                            <th class="border-0">Peso Por Und</th>
+                                            <th class="border-0">Peso Total</th>
+                                            <th class="border-0 text-center">Ação</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for item in object.itens_ordem_servico.all %}
+                                            <tr {% if item.id == object.id %} class="table-secondary" {% endif %}>
+                                                <td>{{ forloop.counter }}</td>
+                                                <td>{{ item.item.nome }}</td>
+                                                <td>{{ item.item.tipo.nome }}</td>
+                                                <td class="text-center">{{ item.qtd }}</td>
+                                                <td>{{ item.item.peso }} g</td>
+                                                <td>{{ item.peso_total }} Kg</td>
+                                                <td class="text-center">
+                                                    {% if item.status.nome == 'CADASTRADO' %}
+                                                    <button class="btn btn-sm btn-info disabled" type="button">
+                                                        Cadastrado
+                                                    </button>
+                                                    {% elif item.status.nome == 'ACEITO' %}
+                                                    <button class="btn btn-sm btn-success disabled" type="button">
+                                                        Aceito
+                                                    </button>
+                                                    {% elif item.status.nome == 'NÃO ACEITO' %}
+                                                    <button class="btn btn-sm btn-danger disabled" type="button">
+                                                        Não Aceito
+                                                    </button>
+                                                    {% else %}
+                                                    <button class="btn btn-sm btn-light disabled" type="button">
+                                                        Entregue
+                                                    </button>
+                                                    {% endif %}
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
+
                     <div class="row mt-4">
                         <div class="col-md-12">
                             <div id="map-container">
@@ -103,7 +150,6 @@
                         </div>
                     </div>
                     {% endif %}
-
                 </div>
             </div>
         </div>
@@ -120,8 +166,16 @@
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(map);
 
+    var voce;
+    var ponto;
+    var morador;
 
-    function atualiza_posicao(latitude, longitude) {
+    morador = L.latLng(latitudePedido, longitudePedido);
+    L.marker(morador).addTo(map).bindTooltip('Morador', { permanent: true, className: 'custom-tooltip' });
+
+
+    function atualiza_posicao(latitude, longitude, callback) {
+
         $.ajax({
             url: '{% url 'ajax_calcula_rota' %}',
             data: {
@@ -129,35 +183,54 @@
                 'longitude': longitude,
             },
             beforeSend: function () {
-                console.log('buscando posicao');
             },
             success: function (data) {
-                console.log('posicao ok');
-                console.log(data);
-                {#municipio.html(data);#}
-                {#callback();#}
+                callback(data);
             }
         });
     }
 
+    function atualiza_marcador(data) {
+        ponto = L.latLng(parseFloat(data.latitude), parseFloat(data.longitude));
+        L.marker(ponto).addTo(map).bindTooltip('Ponto de Coleta', { permanent: true, className: 'custom-tooltip' });
+    }
+
+    function insere_rota(origem, destino){
+        var router = L.Routing.control({
+            waypoints: [origem, destino],
+            lineOptions: {
+                styles: [{ color: 'blue', opacity: 0.6, weight: 6 }]
+            },
+            addWaypoints: false,
+            draggableWaypoints: false,
+        }).addTo(map)
+
+    }
+
     if ('geolocation' in navigator){
         navigator.geolocation.getCurrentPosition( function (position){
-
-            var voce = L.latLng(position.coords.latitude, position.coords.longitude);
+            voce = L.latLng(position.coords.latitude, position.coords.longitude);
             L.marker(voce).addTo(map).bindTooltip('Você', { permanent: true, className: 'custom-tooltip' });
 
-            atualiza_posicao(position.coords.latitude, position.coords.longitude)
-            {#var destino = L.latLng(latitudePedido, longitudePedido);#}
-            {#L.marker(destino).addTo(map).bindTooltip('Morador', { permanent: true, className: 'custom-tooltip' });#}
+            {% if object.status.nome == 'PEDIDO ACEITO' %}
+                atualiza_posicao(position.coords.latitude, position.coords.longitude, atualiza_marcador)
+                setTimeout(() => {
+                    insere_rota(voce, ponto)
+                }, 5000);
+            {% elif object.status.nome == 'BUSCANDO PEDIDO' %}
+                    insere_rota(voce, morador)
+            {% elif object.status.nome == 'ENTREGUE NO CENTRO DE COLETA' %}
+                {% for ponto in list_finalizado %}
+                    L.marker(
+                        L.latLng(
+                            {{ ponto.ponto_coleta.localizacao.0 }},
+                            {{ ponto.ponto_coleta.localizacao.1 }}
+                        )
+                    ).addTo(map).bindTooltip('Ponto Coleta Entregue', { permanent: true, className: 'custom-tooltip' });
+                    console.log('marcador adicionado')
+                {% endfor %}
+            {% endif %}
 
-            var router = L.Routing.control({
-                waypoints: [voce, destino],
-                lineOptions: {
-                    styles: [{ color: 'blue', opacity: 0.6, weight: 6 }]
-                },
-                addWaypoints: false,
-                draggableWaypoints: false,
-            }).addTo(map)
 
         }, function (erro){
             console.log(erro)
@@ -166,9 +239,9 @@
         console.log('Não foi possível buscar sua localização')
     }
 
-    {% if object.status.nome == 'PEDIDO ACEITO' %}
+{#    {% if object.status.nome == 'PEDIDO ACEITO' %}#}
         $('#modal-notification').modal('show');
-    {% endif %}
+{#    {% endif %}#}
 
 </script>
 {% endblock java_script %}
