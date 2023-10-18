@@ -23,7 +23,7 @@
                                     <div class="col-8">
                                         <div class="d-none d-sm-block">
                                             <h2 class="h5">Lixo Reciclado</h2>
-                                            <h3 class="mb-1">0 kg</h3>
+                                            <h3 class="mb-1">{{ user.empresa_usuario.total_lixo }} kg</h3>
                                         </div>
                                         <small>{{ user.empresa_usuario.date_create|date:"M Y" }}
                                             - {% now "M Y" %}</small>
@@ -91,6 +91,7 @@
                                 <tr>
                                     <th>Nº</th>
                                     <th>Peso (Kg)</th>
+                                    <th>Nº Depósitos</th>
                                     <th>Materiais</th>
                                     <th class="text-center">Ver Mais</th>
                                 </tr>
@@ -100,6 +101,7 @@
                                     <tr>
                                         <td>{{ ponto.numero }}</td>
                                         <td>{{ ponto.peso_total_recolhido }} Kg</td>
+                                        <td>{{ ponto.total_depositos }}</td>
                                         <td>{% for tipo in ponto.tipo_aceito.all %}
                                             <span class="badge badge-md bg-primary">{{ tipo }}</span> {% empty %}
                                             SEM INFORMAÇÃO {% endfor %}</td>

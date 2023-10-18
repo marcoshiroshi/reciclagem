@@ -24,6 +24,17 @@ class Empresa(models.Model):
     def localizacao(self):
         return [str(self.latitude), str(self.longitude)]
 
+    def total_lixo(self):
+        total = 0
+        for ponto in self.ponto_coleta_empresa.all():
+            total += float(ponto.peso_total_recolhido())
+        return '%.2f' % total
+
+    # def total_pedidos(self):
+    #     total = 0
+    #     for ponto in self.ponto_coleta_empresa.all():
+    #         ponto.
+
 
 class PontoColeta(models.Model):
     empresa = models.ForeignKey(Empresa, models.DO_NOTHING, related_name='ponto_coleta_empresa')
@@ -41,4 +52,14 @@ class PontoColeta(models.Model):
         return '{:0>5}'.format(self.id)
 
     def peso_total_recolhido(self):
+        total = 0
+        for item in self.itens_ponto_coleta.all():
+            total += item.peso_total()
+        return '%.2f' % total
+
+    def total_depositos(self):
+        # total = 0
+        # for item in self.itens_ponto_coleta.all():
+        #     if item.ponto_coleta
+
         return 0
