@@ -37,6 +37,7 @@ class Empresa(models.Model):
         #         if item.
         return 0
 
+
 class PontoColeta(models.Model):
     empresa = models.ForeignKey(Empresa, models.DO_NOTHING, related_name='ponto_coleta_empresa')
     tipo_aceito = models.ManyToManyField(Tipo, verbose_name="Tipos de Itens Aceitos")

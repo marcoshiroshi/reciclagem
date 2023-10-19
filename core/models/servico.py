@@ -23,7 +23,6 @@ class OrdemServico(models.Model):
     status = models.ForeignKey(StatusServico, models.DO_NOTHING, related_name='ordem_servico_status')
     morador = models.ForeignKey(Morador, models.DO_NOTHING, related_name='ordem_servico_morador')
     catador = models.ForeignKey(Catador, models.DO_NOTHING, related_name='ordem_servico_catador', blank=True, null=True)
-    empresa = models.ForeignKey(Empresa, models.DO_NOTHING, related_name='ordem_servico_empresa', blank=True, null=True)
     data_criada = models.DateTimeField(auto_now_add=True)
     data_solicitada = models.DateTimeField(blank=True, null=True)
     data_buscada = models.DateTimeField(blank=True, null=True)
