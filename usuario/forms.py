@@ -10,7 +10,7 @@ class SignUpForm(BaseUserCreationForm):
         widgets = {
             'email': forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'exemplo@exemplo.com'}),
             'first_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Seu nome'}),
-            'last_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Seu email'}),
+            'last_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Seu sobrenome'}),
         }
         fields = ('email', 'first_name', 'last_name')
 

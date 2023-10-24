@@ -7,13 +7,13 @@
                     <li>Pedido Nº: {{ pedido.numero }}</li>
                     <li>Morador: {{ pedido.morador }}</li>
                     <li>Endereço: {{ pedido.morador.endereco }}</li>
-                    <li>Telefone: {{ pedido.morador.telefone_1 }}{% if pedido.morador.telefone_2 %}/{{ pedido.morador.telefone_2 }}{% endif %}</li>
-                </ul>
+                    <li>Telefone: {{ pedido.morador.telefone_1 }}{% if pedido.morador.telefone_2 %} / {{ pedido.morador.telefone_2 }}{% endif %}</li>
+                </ul>m
             </div>
             <div class="col">
                 <ul>
                     <li>Catador: {{ pedido.catador|default_if_none:'Sem Informação' }}</li>
-                    <li>Telefone: {{ pedido.catador.telefone_1|default:'Sem Informação' }}{% if pedido.catador.telefone_2 %}/{{ pedido.catador.telefone_2 }}{% endif %}</li>
+                    <li>Telefone: {{ pedido.catador.telefone_1|default:'Sem Informação' }}{% if pedido.catador.telefone_2 %} / {{ pedido.catador.telefone_2 }}{% endif %}</li>
                 </ul>
             </div>
         </div>
