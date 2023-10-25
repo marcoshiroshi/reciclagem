@@ -28,4 +28,4 @@ urlpatterns = [
     path('morador/', include('morador.urls')),
     path('catador/', include('catador.urls')),
     path('empresa/', include('empresa.urls')),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
