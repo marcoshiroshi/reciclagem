@@ -26,3 +26,5 @@ latest.*
 *.sh
 
 db.sqlite3
+
+/static
