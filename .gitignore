@@ -25,6 +25,6 @@ workspace.code-workspace
 latest.*
 *.sh
 
-db.sqlite3
+.sqlite3
 
 /static
