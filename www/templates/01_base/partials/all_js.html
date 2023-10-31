@@ -48,48 +48,18 @@
 
 
 <script>
-    {# for lineChart #}
-    {# https://themesberg.com/docs/volt-bootstrap-5-dashboard/plugins/apexcharts/ for more charts #}
-    {# https://themesberg.com/docs/volt-bootstrap-5-dashboard/getting-started/overview/ #}
-
     var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
     var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-      return new bootstrap.Tooltip(tooltipTriggerEl)
+        return new bootstrap.Tooltip(tooltipTriggerEl)
     })
 
-    var optionsLineChart = {
-        series: [{
-            name: 'Clients',
-            data: [120, 160, 200, 470, 420, 150, 470, 750, 650, 190, 140]
-        }],
-        labels: ['01 Feb', '02 Feb', '03 Feb', '04 Feb', '05 Feb', '06 Feb', '07 Feb', '08 Feb', '09 Feb', '10 Feb', '11 Feb'],
-        chart: {
-            type: 'area',
-            width: "100%",
-            height: 360
-        },
-        theme: {
-            monochrome: {
-                enabled: true,
-                color: '#31316A',
-            }
-        },
-        tooltip: {
-            fillSeriesColor: false,
-            onDatasetHover: {
-                highlightDataSeries: false,
-            },
-            theme: 'light',
-            style: {
-                fontSize: '12px',
-                fontFamily: 'Inter',
-            },
-        },
-    };
-
-    var lineChartEl = document.getElementById('line-chart-apex');
-    if (lineChartEl) {
-        var lineChart = new ApexCharts(lineChartEl, optionsLineChart);
-        lineChart.render();
+    function myFunction() {
+        var x = document.getElementById("map");
+        if (x.style.display === "none") {
+            x.style.display = "block";
+        } else {
+            x.style.display = "none";
+        }
     }
+
 </script>
