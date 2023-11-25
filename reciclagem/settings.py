@@ -125,7 +125,7 @@ USE_I18N = True
 
 USE_TZ = True
 
-LOGIN_URL = 'login'
+LOGIN_URL = 'signup'
 LOGIN_REDIRECT_URL = 'redirect_profile'
 LOGOUT_REDIRECT_URL = 'redirect_profile'
 

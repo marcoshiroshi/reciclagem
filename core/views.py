@@ -1,5 +1,5 @@
 from django.http import HttpResponseRedirect
-from django.views.generic import RedirectView, UpdateView
+from django.views.generic import RedirectView, UpdateView, TemplateView
 from django.shortcuts import render
 from django.contrib.auth.mixins import UserPassesTestMixin
 from django.urls import reverse_lazy
@@ -70,3 +70,7 @@ def calcula_rota(request):
             'longitude': menor_dist_ponto.longitude,
         }
     )
+
+
+class AboutPage(TemplateView):
+    template_name = '01_base/about.html'

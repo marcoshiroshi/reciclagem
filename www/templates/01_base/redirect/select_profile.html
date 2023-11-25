@@ -31,13 +31,16 @@
                             <div class="alert alert-info text-white mt-4" role="alert">
                                 Caso você ainda não esteja cadastrado como o perfil seleconado, basta fazer o cadastro das informações complementa para ter acesso as funcionalidades
                             </div>
+                            <div class="alert alert-warning text-white mt-4" role="alert">
+                                <strong>Etapa de testes: </strong>Somente a etapa dos moradores estará disponível para testes
+                            </div>
                         </div>
                         {{ form.errors }}
                         <form method="POST" class="mt-4">
                             {% csrf_token %}
                             <div class="row">
                                 <div class="col-md-4">
-                                    <button class="btn btn-pill btn-outline-primary btn-block mt-2" value="1" name="profile_active" type="submit">
+                                    <button class="btn btn-pill btn-outline-primary btn-block mt-2" value="1" name="profile_active" type="submit" disabled>
                                         <div class="row">
                                             <div class="col text-right">
                                                 <i class="fa fa-info-circle" data-toggle="tooltip" data-placement="top" title="Perfil destinado para empresas que queiram participar do projeto como centro de coleta de materiais recicáveis"></i>
@@ -52,7 +55,7 @@
                                     </button>
                                 </div>
                                 <div class="col-md-4">
-                                    <button class="btn btn-pill btn-outline-primary btn-block mt-2" value="2" name="profile_active" type="submit">
+                                    <button class="btn btn-pill btn-outline-primary btn-block mt-2" value="2" name="profile_active" type="submit" disabled>
                                         <div class="row">
                                             <div class="col text-right">
                                                 <i class="fa fa-info-circle" data-toggle="tooltip" data-placement="top" title="Perfil destinado para catadores que queiram trabalhar no projeto"></i>
