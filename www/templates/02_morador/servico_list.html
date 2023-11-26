@@ -135,6 +135,28 @@
                             </div>
                         </div>
                     </div>
+                    <div class="modal fade" id="modal-notification-morador-teste" tabindex="-1" role="dialog" aria-labelledby="modal-notification-morador-teste" aria-hidden="true">
+                        <div class="modal-dialog modal-primary modal-dialog-centered" role="document">
+                            <div class="modal-content bg-primary">
+                                <div class="modal-header">
+                                    <p class="modal-title text-white" id="modal-title-notification">Etapa de testes finalizada</p>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">×</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="py-3 text-center text-white">
+                                        <i class="fa fa-exclamation-circle"></i> <strong>Etapa de testes. Agora as próximas etapas dependem de um catador. O seu papel no sistema chegou ao fim.
+                                        <br> Agradecemos a contribuição e se possível responda o nosso questionário. =)</strong>
+                                        <br>
+                                        <a href="https://forms.gle/v9VaaRS626rFUN3G8" class="btn btn-sm btn-success">Responda o qustionário aqui</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
                 </div>
             </div>
         </div>
@@ -142,4 +164,11 @@
 
 {% endblock main %}
 {% block java_script %}
+    <script>
+        $(document).ready(function() {
+            {% if teste_fim %}
+                $("#modal-notification-morador-teste").modal('show');
+            {% endif %}
+        });
+    </script>
 {% endblock java_script %}

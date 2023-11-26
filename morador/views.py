@@ -120,7 +120,8 @@ class MoradorServicoListView(PermissionRequiredMixin, UserPassesTestMixin, ListV
                 botao_cadastro = False
         return dict(
             super().get_context_data(**kwargs),
-            botao_cadastro=botao_cadastro
+            botao_cadastro=botao_cadastro,
+            teste_fim=self.object_list.filter(status__nome='SOLICITANDO CATADOR').exists()
         )
 
 
