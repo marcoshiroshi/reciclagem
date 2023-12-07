@@ -31,11 +31,12 @@ class Empresa(models.Model):
         return '%.2f' % total
 
     def total_pedidos(self):
-        # total = 0
-        # for ponto in self.ponto_coleta_empresa.all():
-        #     for item in ponto.itens_ponto_coleta.all():
-        #         if item.
-        return 0
+        pedidos = []
+        for ponto in self.ponto_coleta_empresa.all():
+            for item in ponto.itens_ponto_coleta.all():
+                if item.ordem.id not in pedidos:
+                    pedidos.append(item.ordem.id)
+        return len(pedidos)
 
 
 class PontoColeta(models.Model):
