@@ -61,9 +61,8 @@ class PontoColeta(models.Model):
         return '%.2f' % total
 
     def total_depositos(self):
-        # lista = []
-        # for item in self.itens_ponto_coleta.all():
-        #     if item.ponto_coleta.id not in lista:
-        #         lista.append(item.ponto_coleta.id)
-        # return len(lista)
-        return 0
+        lista = []
+        for item in self.itens_ponto_coleta.all():
+            if item.id not in lista:
+                lista.append(item.id)
+        return len(lista)
