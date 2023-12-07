@@ -1,85 +1,49 @@
 <div class="col-md-2" id="col-lixo">
     <button class="btn btn-lg btn-light btn-block p-4 card-lift-hover" type="button" data-toggle="modal" data-target="#modal-papel">
-{#        <div class="row align-items-center">#}
-{#            <div id="icon-lixo" class="col-4 text-center">#}
-                <div class="icon icon-shape icon-md icon-shape-blue rounded">
-                    <span class="fas fa-file"></span>
-                </div>
-{#            </div>#}
-{#            <div class="col-8">#}
-                <h5 class="text-center" id="text-lixo">Papel</h5>
-{#            </div>#}
-{#        </div>#}
+        <div class="icon icon-shape icon-md icon-shape-blue rounded">
+            <span class="fas fa-file"></span>
+        </div>
+        <h5 class="text-center" id="text-lixo">Papel</h5>
     </button>
 </div>
 <div class="col-md-2" id="col-lixo">
     <button class="btn btn-lg btn-light btn-block p-4 card-lift-hover" type="button" data-toggle="modal" data-target="#modal-vidro">
-{#        <div class="row align-items-center">#}
-{#            <div id="icon-lixo" class="col-4 text-center">#}
-                <div class="icon icon-shape icon-md icon-shape-soft-green rounded">
-                    <span class="fas fa-glass-martini-alt"></span>
-                </div>
-{#            </div>#}
-{#            <div class="col-8">#}
-                <h5 class="text-center" id="text-lixo">Vidro</h5>
-{#            </div>#}
-{#        </div>#}
+        <div class="icon icon-shape icon-md icon-shape-soft-green rounded">
+            <span class="fas fa-glass-martini-alt"></span>
+        </div>
+        <h5 class="text-center" id="text-lixo">Vidro</h5>
     </button>
 </div>
 <div class="col-md-2" id="col-lixo">
     <button class="btn btn-lg btn-light btn-block p-4 card-lift-hover" type="button" data-toggle="modal" data-target="#modal-organico">
-{#        <div class="row align-items-center">#}
-{#            <div id="icon-lixo" class="col-4 text-center">#}
-                <div class="icon icon-shape icon-md icon-shape-primary rounded" style="background-color: #C4A484">
-                    <span class="fas fa-apple-alt" style="color: #664141"></span>
-                </div>
-{#            </div>#}
-{#            <div class="col-8">#}
-                <h5 class="text-center" id="text-lixo">Orgânico</h5>
-{#            </div>#}
-{#        </div>#}
+        <div class="icon icon-shape icon-md icon-shape-primary rounded" style="background-color: #C4A484">
+            <span class="fas fa-apple-alt" style="color: #664141"></span>
+        </div>
+        <h5 class="text-center" id="text-lixo">Orgânico</h5>
     </button>
 </div>
 <div class="col-md-2" id="col-lixo">
     <button class="btn btn-lg btn-light btn-block p-4 card-lift-hover" type="button" data-toggle="modal" data-target="#modal-madeira">
-{#        <div class="row align-items-center">#}
-{#            <div id="icon-lixo" class="col-4 text-center">#}
-                <div class="icon icon-shape icon-md icon-shape-black rounded">
-                    <span class="fas fa-tree"></span>
-                </div>
-{#            </div>#}
-{#            <div class="col-8">#}
-                <h5 class="text-center" id="text-lixo">Madeira</h5>
-{#            </div>#}
-{#        </div>#}
+        <div class="icon icon-shape icon-md icon-shape-black rounded">
+            <span class="fas fa-tree"></span>
+        </div>
+        <h5 class="text-center" id="text-lixo">Madeira</h5>
     </button>
 </div>
 <div class="col-md-2" id="col-lixo">
     <button class="btn btn-lg btn-light btn-block p-4 card-lift-hover" type="button" data-toggle="modal" data-target="#modal-plastico">
-{#        <div class="row align-items-center">#}
-{#            <div id="icon-lixo" class="col-4 text-center">#}
-                <div class="icon icon-shape icon-md icon-shape-danger rounded">
-                    <span class="fas fa-wine-bottle"></span>
-                </div>
-{#            </div>#}
-{#            <div class="col-8">#}
-                <h5 class="text-center" id="text-lixo">Plástico</h5>
-{#            </div>#}
-{#        </div>#}
+        <div class="icon icon-shape icon-md icon-shape-danger rounded">
+            <span class="fas fa-wine-bottle"></span>
+        </div>
+        <h5 class="text-center" id="text-lixo">Plástico</h5>
     </button>
 </div>
 <div class="col-md-2" id="col-lixo">
     <button class="btn btn-lg btn-light btn-block p-4 card-lift-hover" type="button" data-toggle="modal" data-target="#modal-metal">
-{#        <div class="row align-items-center">#}
-{#            <div id="icon-lixo" class="col-4 text-center">#}
-                <div class="icon icon-shape icon-md icon-shape-secondary rounded">
-                    <span class="fas fa-wrench"></span>
-                </div>
-{#            </div>#}
-{#            <div class="col-8">#}
-                <h5 class="text-center" id="text-lixo">Metal</h5>
-{#            </div>#}
-{#        </div>#}
+        <div class="icon icon-shape icon-md icon-shape-secondary rounded">
+            <span class="fas fa-wrench"></span>
+        </div>
+        <h5 class="text-center" id="text-lixo">Metal</h5>
     </button>
 </div>
 
@@ -100,6 +64,7 @@
                         NÃO pode ser jogado aqui <br>
                         <span class="font-weight-bolder">papel higiênico, extratos bancários, guardanapos e lenços sujos, fotografias, etiquetas e fitas adesivas, papéis com parafina, revestido com cera e silicone, papel vegetal, celofane e carbono.</span>
                     </p>
+                    <a href="{% url 'papel' %}" class="btn btn-secondary">Veja mais informações aqui</a>
                 </div>
             </div>
         </div>

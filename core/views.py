@@ -74,3 +74,7 @@ def calcula_rota(request):
 
 class AboutPage(TemplateView):
     template_name = '01_base/about.html'
+
+
+class Papel(TemplateView):
+    template_name = '01_base/papel.html'

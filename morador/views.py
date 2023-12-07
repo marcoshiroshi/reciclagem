@@ -28,16 +28,16 @@ class MoradorHomeView(UserPassesTestMixin, TemplateView):
         else:
             botao_cadastro = False
 
-        tem_pedido = False
-        if morador:
-            tem_pedido = True if self.request.user.morador_usuario.ordem_servico_morador.filter(status__nome='SOLICITANDO CATADOR').exists() else False
+        # tem_pedido = False
+        # if morador:
+        #     tem_pedido = True if self.request.user.morador_usuario.ordem_servico_morador.filter(status__nome='SOLICITANDO CATADOR').exists() else False
 
         kwargs.setdefault("view", self)
         kwargs.update({
             'botao_cadastro': botao_cadastro,
             'possui_morador': morador,
             'pontos_coleta': PontoColeta.objects.all(),
-            'teste_fim': tem_pedido,
+            # 'teste_fim': tem_pedido,
         })
         return kwargs
 
